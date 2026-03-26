@@ -28,7 +28,7 @@
       --gold-dim2:    rgba(200,169,110,0.06);
       --teal:         #4ecdc4;
       --teal-dim:     rgba(78,205,196,0.1);
-      --nav-h:        72px;
+      --nav-h:        64px;
       --ff-display:   'Playfair Display', Georgia, serif;
       --ff-body:      'DM Sans', system-ui, sans-serif;
       --ff-mono:      'DM Mono', monospace;
@@ -135,11 +135,12 @@
 
     .nav-logo {
       font-family: var(--ff-display);
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       font-style: italic;
       color: var(--text);
       text-decoration: none;
       letter-spacing: 0.01em;
+      flex-shrink: 0;
     }
     .nav-logo span { color: var(--gold); font-style: normal; }
 
@@ -157,18 +158,18 @@
       letter-spacing: 0.12em;
       text-transform: uppercase;
       color: var(--text-2);
-      padding: 7px 16px;
+      padding: 7px 14px;
       border-radius: 4px;
       transition: color 0.2s, background 0.2s;
     }
 
     .nav-links a:hover { color: var(--gold); background: var(--gold-dim); }
 
-    .nav-right { display: flex; align-items: center; gap: 16px; }
+    .nav-right { display: flex; align-items: center; gap: 12px; }
 
     /* theme toggle */
     .toggle-btn {
-      width: 38px; height: 38px;
+      width: 36px; height: 36px;
       border-radius: 8px;
       border: 1px solid var(--border-mid);
       background: var(--bg-card);
@@ -177,6 +178,7 @@
       color: var(--text-2);
       transition: all 0.25s;
       font-size: 15px;
+      flex-shrink: 0;
     }
     .toggle-btn:hover { border-color: var(--gold); color: var(--gold); background: var(--gold-dim); }
 
@@ -184,11 +186,14 @@
     .hero {
       min-height: calc(100vh - var(--nav-h));
       display: grid;
-      grid-template-columns: 1fr 340px;
+      grid-template-columns: 1fr 320px;
       gap: 0;
       align-items: stretch;
       position: relative;
       overflow: hidden;
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 40px;
     }
 
     .hero-left {
@@ -202,8 +207,9 @@
     .hero-eyebrow {
       display: flex;
       align-items: center;
-      gap: 12px;
-      margin-bottom: 36px;
+      gap: 10px;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
     }
 
     .eyebrow-pulse {
@@ -219,21 +225,22 @@
     }
 
     .eyebrow-text {
-      font-size: 0.72rem;
-      letter-spacing: 0.2em;
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
       color: var(--text-3);
       font-weight: 500;
+      line-height: 1.4;
     }
 
     .hero h1 {
       font-family: var(--ff-display);
-      font-size: clamp(4rem, 8vw, 7.5rem);
+      font-size: clamp(3.5rem, 7vw, 7.5rem);
       font-weight: 900;
       line-height: 0.92;
       letter-spacing: -0.03em;
       color: var(--text);
-      margin-bottom: 40px;
+      margin-bottom: 36px;
     }
 
     .hero h1 .line-italic {
@@ -244,17 +251,17 @@
     }
 
     .hero-desc {
-      font-size: 1rem;
+      font-size: 0.97rem;
       color: var(--text-2);
       max-width: 480px;
       line-height: 1.8;
-      margin-bottom: 48px;
+      margin-bottom: 44px;
       font-weight: 300;
     }
 
     .hero-actions {
       display: flex;
-      gap: 14px;
+      gap: 12px;
       align-items: center;
       flex-wrap: wrap;
     }
@@ -264,10 +271,10 @@
       align-items: center;
       gap: 10px;
       text-decoration: none;
-      padding: 14px 28px;
+      padding: 13px 26px;
       background: var(--gold);
       color: #0a0806;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       font-weight: 500;
       letter-spacing: 0.1em;
       text-transform: uppercase;
@@ -286,10 +293,10 @@
       align-items: center;
       gap: 10px;
       text-decoration: none;
-      padding: 13px 28px;
+      padding: 12px 26px;
       background: transparent;
       color: var(--text-2);
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       font-weight: 400;
       letter-spacing: 0.1em;
       text-transform: uppercase;
@@ -307,13 +314,13 @@
     .hero-right {
       display: flex;
       flex-direction: column;
-      padding: 60px 0 60px 50px;
+      padding: 50px 0 50px 44px;
       gap: 0;
     }
 
     .hero-photo-wrap {
       position: relative;
-      margin-bottom: 32px;
+      margin-bottom: 28px;
     }
 
     .hero-photo {
@@ -339,22 +346,22 @@
 
     .hero-photo-label {
       position: absolute;
-      bottom: 16px;
-      left: 16px;
-      background: rgba(8,8,16,0.85);
+      bottom: 14px;
+      left: 14px;
+      background: rgba(8,8,16,0.88);
       backdrop-filter: blur(8px);
       border: 1px solid var(--border-mid);
-      padding: 8px 14px;
+      padding: 7px 12px;
       border-radius: 3px;
     }
     .hero-photo-label .lbl-name {
       font-family: var(--ff-display);
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       font-weight: 700;
       color: var(--text);
     }
     .hero-photo-label .lbl-role {
-      font-size: 0.67rem;
+      font-size: 0.65rem;
       letter-spacing: 0.12em;
       text-transform: uppercase;
       color: var(--gold);
@@ -370,20 +377,20 @@
 
     .hero-stat {
       background: var(--bg-card);
-      padding: 20px 22px;
+      padding: 18px 20px;
       transition: background 0.25s;
     }
     .hero-stat:hover { background: var(--bg-card-2); }
     .hero-stat-num {
       font-family: var(--ff-display);
-      font-size: 2rem;
+      font-size: 1.8rem;
       font-weight: 900;
       color: var(--gold);
       line-height: 1;
       margin-bottom: 4px;
     }
     .hero-stat-lbl {
-      font-size: 0.67rem;
+      font-size: 0.65rem;
       letter-spacing: 0.12em;
       text-transform: uppercase;
       color: var(--text-3);
@@ -396,7 +403,7 @@
     }
 
     /* ── SECTION BASE ── */
-    section { padding: 120px 0; position: relative; z-index: 1; }
+    section { padding: 100px 0; position: relative; z-index: 1; }
 
     .section-label {
       font-size: 0.68rem;
@@ -418,12 +425,12 @@
 
     .section-title {
       font-family: var(--ff-display);
-      font-size: clamp(2.2rem, 4vw, 3.4rem);
+      font-size: clamp(2rem, 4vw, 3.4rem);
       font-weight: 900;
       line-height: 1.05;
       letter-spacing: -0.03em;
       color: var(--text);
-      margin-bottom: 64px;
+      margin-bottom: 56px;
     }
 
     .section-title em {
@@ -435,7 +442,7 @@
     .about-layout {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 80px;
+      gap: 72px;
       align-items: start;
     }
 
@@ -464,10 +471,10 @@
     .meta-row:last-child { border-bottom: 1px solid var(--border); }
 
     .meta-key {
-      width: 120px;
-      min-width: 120px;
-      padding: 14px 16px;
-      font-size: 0.65rem;
+      width: 110px;
+      min-width: 110px;
+      padding: 13px 14px;
+      font-size: 0.64rem;
       font-weight: 500;
       letter-spacing: 0.18em;
       text-transform: uppercase;
@@ -479,8 +486,8 @@
     }
 
     .meta-val {
-      padding: 14px 20px;
-      font-size: 0.87rem;
+      padding: 13px 18px;
+      font-size: 0.85rem;
       color: var(--text);
       display: flex;
       align-items: center;
@@ -502,7 +509,7 @@
 
     .skill-card {
       background: var(--bg-card);
-      padding: 36px 40px;
+      padding: 32px 36px;
       transition: background 0.3s;
       position: relative;
       overflow: hidden;
@@ -532,18 +539,18 @@
 
     .skill-card-title {
       font-family: var(--ff-display);
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       font-weight: 700;
       color: var(--text);
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
 
     .tag-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
 
     .tag {
       font-family: var(--ff-mono);
-      font-size: 0.72rem;
-      padding: 5px 12px;
+      font-size: 0.7rem;
+      padding: 4px 10px;
       border-radius: 2px;
       color: var(--text-2);
       border: 1px solid var(--border-mid);
@@ -562,10 +569,10 @@
 
     .project-card {
       background: var(--bg-card);
-      padding: 44px 50px;
+      padding: 40px 46px;
       display: grid;
-      grid-template-columns: 80px 1fr auto;
-      gap: 40px;
+      grid-template-columns: 70px 1fr auto;
+      gap: 36px;
       align-items: start;
       transition: background 0.3s;
       cursor: default;
@@ -588,7 +595,7 @@
 
     .project-num {
       font-family: var(--ff-display);
-      font-size: 3rem;
+      font-size: 2.8rem;
       font-weight: 900;
       color: var(--border-hi);
       line-height: 1;
@@ -601,15 +608,15 @@
     .project-tags-row {
       display: flex;
       align-items: center;
-      gap: 8px;
-      margin-bottom: 14px;
+      gap: 6px;
+      margin-bottom: 12px;
       flex-wrap: wrap;
     }
 
     .proj-badge {
       font-family: var(--ff-mono);
-      font-size: 0.66rem;
-      padding: 3px 10px;
+      font-size: 0.64rem;
+      padding: 3px 8px;
       border-radius: 2px;
     }
     .proj-badge-tech { color: var(--text-3); border: 1px solid var(--border); }
@@ -617,15 +624,15 @@
 
     .project-title {
       font-family: var(--ff-display);
-      font-size: 1.5rem;
+      font-size: 1.4rem;
       font-weight: 700;
       color: var(--text);
-      margin-bottom: 14px;
+      margin-bottom: 12px;
       letter-spacing: -0.02em;
     }
 
     .project-desc {
-      font-size: 0.88rem;
+      font-size: 0.87rem;
       color: var(--text-2);
       line-height: 1.75;
       font-weight: 300;
@@ -636,7 +643,7 @@
       display: flex;
       flex-direction: column;
       gap: 7px;
-      margin-top: 18px;
+      margin-top: 16px;
     }
     .project-features li {
       font-size: 0.83rem;
@@ -667,17 +674,18 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       font-weight: 400;
       letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--text-3);
       text-decoration: none;
       border: 1px solid var(--border);
-      padding: 8px 14px;
+      padding: 7px 12px;
       border-radius: 3px;
       transition: all 0.25s;
       background: var(--bg);
+      white-space: nowrap;
     }
     .project-gh-btn:hover { border-color: var(--gold); color: var(--gold); background: var(--gold-dim); }
 
@@ -685,14 +693,14 @@
       display: flex;
       flex-direction: column;
       gap: 6px;
-      min-width: 190px;
+      min-width: 175px;
     }
     .module-tag {
-      font-size: 0.75rem;
+      font-size: 0.73rem;
       color: var(--text-2);
       background: var(--bg);
       border: 1px solid var(--border);
-      padding: 6px 12px;
+      padding: 6px 11px;
       border-radius: 2px;
       text-align: right;
       transition: all 0.2s;
@@ -703,15 +711,15 @@
     .contact-layout {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 80px;
+      gap: 72px;
       align-items: start;
     }
 
     .contact-intro {
-      font-size: 1rem;
+      font-size: 0.97rem;
       color: var(--text-2);
       line-height: 1.85;
-      margin-bottom: 40px;
+      margin-bottom: 36px;
       font-weight: 300;
     }
 
@@ -720,21 +728,20 @@
     .contact-item {
       display: flex;
       align-items: center;
-      gap: 20px;
-      padding: 18px 22px;
+      gap: 18px;
+      padding: 16px 20px;
       text-decoration: none;
       border: 1px solid var(--border);
       border-bottom: none;
       color: var(--text);
       background: var(--bg-card);
       transition: all 0.25s;
-      group: contact;
     }
     .contact-item:last-child { border-bottom: 1px solid var(--border); }
     .contact-item:hover { border-color: var(--gold); background: var(--gold-dim2); color: var(--gold); }
 
     .contact-icon {
-      width: 38px; height: 38px;
+      width: 36px; height: 36px;
       border: 1px solid var(--border);
       border-radius: 3px;
       display: flex; align-items: center; justify-content: center;
@@ -744,21 +751,22 @@
     }
 
     .contact-lbl {
-      font-size: 0.64rem;
+      font-size: 0.63rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
       color: var(--text-3);
     }
     .contact-val {
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       font-weight: 400;
+      word-break: break-all;
     }
     .contact-item:hover .contact-val { color: var(--gold); }
 
-    .contact-right { display: flex; flex-direction: column; gap: 14px; }
+    .contact-right { display: flex; flex-direction: column; gap: 12px; }
 
     .avail-card {
-      padding: 22px 26px;
+      padding: 20px 24px;
       border: 1px solid rgba(16,201,128,0.25);
       background: rgba(16,201,128,0.04);
       border-radius: 3px;
@@ -782,8 +790,8 @@
     .social-card {
       display: flex;
       align-items: center;
-      gap: 18px;
-      padding: 22px 26px;
+      gap: 16px;
+      padding: 20px 24px;
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: 3px;
@@ -798,7 +806,7 @@
     }
 
     .social-icon {
-      width: 44px; height: 44px;
+      width: 42px; height: 42px;
       border-radius: 4px;
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
@@ -808,23 +816,24 @@
 
     .social-name {
       font-family: var(--ff-display);
-      font-size: 1rem;
+      font-size: 0.97rem;
       font-weight: 700;
       color: var(--text);
     }
-    .social-handle { font-size: 0.78rem; color: var(--text-3); }
+    .social-handle { font-size: 0.76rem; color: var(--text-3); }
 
     .social-arrow {
       margin-left: auto;
       color: var(--text-3);
       transition: transform 0.25s, color 0.25s;
+      flex-shrink: 0;
     }
     .social-card:hover .social-arrow { transform: translateX(5px); color: var(--gold); }
 
     /* ── FOOTER ── */
     footer {
       border-top: 1px solid var(--border);
-      padding: 40px 0;
+      padding: 36px 0;
       position: relative;
       z-index: 1;
     }
@@ -884,33 +893,6 @@
       animation: fadeUp 0.7s ease 0.3s both;
     }
 
-    /* ── RESPONSIVE ── */
-    @media (max-width: 960px) {
-      .hero { grid-template-columns: 1fr; min-height: auto; }
-      .hero-left { padding: 60px 0 40px; border-right: none; border-bottom: 1px solid var(--border); }
-      .hero-right { padding: 40px 0 60px; }
-      .hero-photo { max-height: 380px; width: 280px; }
-      .about-layout { grid-template-columns: 1fr; gap: 48px; }
-      .skills-grid { grid-template-columns: 1fr; }
-      .contact-layout { grid-template-columns: 1fr; gap: 48px; }
-      .project-card { grid-template-columns: 60px 1fr; gap: 24px; }
-      .project-side { grid-column: 2; flex-direction: row; flex-wrap: wrap; align-items: flex-start; }
-      .modules-list { min-width: unset; }
-      .module-tag { text-align: left; }
-    }
-
-    @media (max-width: 640px) {
-      .container { padding: 0 20px; }
-      .nav-inner { padding: 0 20px; }
-      .nav-links { display: none; }
-      section { padding: 80px 0; }
-      .hero h1 { font-size: 3.5rem; }
-      .project-card { grid-template-columns: 1fr; padding: 30px 24px; gap: 16px; }
-      .project-num { font-size: 2rem; }
-      .skill-card { padding: 28px 24px; }
-      .footer-inner { flex-direction: column; text-align: center; }
-    }
-
     /* scroll reveal */
     .reveal {
       opacity: 0;
@@ -920,6 +902,159 @@
     .reveal.visible {
       opacity: 1;
       transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE — TABLET (960px) ── */
+    @media (max-width: 960px) {
+      .container { padding: 0 28px; }
+      .nav-inner { padding: 0 28px; }
+      .footer-inner { padding: 0 28px; }
+
+      /* Hero: stack vertically */
+      .hero {
+        grid-template-columns: 1fr;
+        min-height: auto;
+        padding: 0 28px;
+      }
+      .hero-left {
+        padding: 56px 0 40px;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+      .hero-right {
+        padding: 36px 0 56px;
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 28px;
+      }
+      .hero-photo-wrap {
+        width: 200px;
+        flex-shrink: 0;
+        margin-bottom: 0;
+      }
+      .hero-stats {
+        flex: 1;
+      }
+
+      /* About */
+      .about-layout { grid-template-columns: 1fr; gap: 40px; }
+
+      /* Skills */
+      .skills-grid { grid-template-columns: 1fr; }
+
+      /* Projects */
+      .project-card { grid-template-columns: 56px 1fr; gap: 20px; padding: 30px 28px; }
+      .project-side { grid-column: 2; flex-direction: row; flex-wrap: wrap; align-items: flex-start; }
+      .modules-list { min-width: unset; }
+      .module-tag { text-align: left; }
+
+      /* Contact */
+      .contact-layout { grid-template-columns: 1fr; gap: 40px; }
+    }
+
+    /* ── RESPONSIVE — MOBILE (640px) ── */
+    @media (max-width: 640px) {
+      :root { --nav-h: 56px; }
+      .container { padding: 0 16px; }
+      .nav-inner { padding: 0 16px; }
+      .footer-inner { padding: 0 16px; }
+
+      /* Nav: hide links, keep logo + toggle */
+      .nav-links { display: none; }
+      .nav-logo { font-size: 1rem; }
+
+      section { padding: 64px 0; }
+
+      /* Hero */
+      .hero {
+        grid-template-columns: 1fr;
+        min-height: auto;
+        padding: 0 16px;
+      }
+      .hero-left {
+        padding: 40px 0 32px;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+      .hero-eyebrow { margin-bottom: 24px; }
+      .hero h1 {
+        font-size: clamp(3rem, 14vw, 4.2rem);
+        margin-bottom: 24px;
+      }
+      .hero-desc { font-size: 0.92rem; margin-bottom: 32px; }
+      .hero-actions { gap: 10px; }
+      .btn-primary, .btn-ghost { padding: 11px 20px; font-size: 0.76rem; }
+
+      /* Hero right: photo strip + stats stacked */
+      .hero-right {
+        padding: 28px 0 48px;
+        flex-direction: column;
+        gap: 20px;
+      }
+      .hero-photo-wrap {
+        width: 100%;
+        max-width: 260px;
+        margin: 0 auto;
+      }
+      .hero-photo { aspect-ratio: 4/5; }
+      .hero-stats { grid-template-columns: 1fr 1fr; }
+      .hero-stat-num { font-size: 1.5rem; }
+
+      /* Section titles */
+      .section-title { margin-bottom: 36px; }
+
+      /* About sidebar: shrink key column */
+      .meta-key { width: 82px; min-width: 82px; font-size: 0.58rem; padding: 11px 10px; }
+      .meta-val { font-size: 0.8rem; padding: 11px 12px; }
+
+      /* Skills */
+      .skills-grid { grid-template-columns: 1fr; }
+      .skill-card { padding: 24px 20px; }
+
+      /* Projects: single column, no side-by-side */
+      .project-card {
+        grid-template-columns: 1fr;
+        padding: 24px 20px;
+        gap: 14px;
+      }
+      .project-num { font-size: 2rem; }
+      .project-title { font-size: 1.2rem; }
+      .project-side {
+        grid-column: 1;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        gap: 8px;
+      }
+      .modules-list {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 6px;
+        min-width: unset;
+        width: 100%;
+      }
+      .module-tag { text-align: left; font-size: 0.7rem; padding: 5px 10px; }
+
+      /* Contact */
+      .contact-intro { font-size: 0.92rem; }
+      .contact-item { gap: 14px; padding: 14px 16px; }
+      .contact-val { font-size: 0.82rem; }
+      .social-card { padding: 16px 18px; gap: 14px; }
+      .avail-card { padding: 16px 18px; }
+      .avail-text { font-size: 0.8rem; }
+
+      /* Footer */
+      .footer-inner { flex-direction: column; text-align: center; gap: 12px; }
+      .footer-links { justify-content: center; }
+    }
+
+    /* ── VERY SMALL (400px) ── */
+    @media (max-width: 400px) {
+      .hero h1 { font-size: 2.8rem; }
+      .hero-stats { grid-template-columns: 1fr; }
+      .meta-key { width: 72px; min-width: 72px; }
+      .btn-primary, .btn-ghost { padding: 10px 16px; font-size: 0.72rem; }
     }
   </style>
 </head>
@@ -946,72 +1081,68 @@
   </nav>
 
   <!-- HERO -->
-  <div class="container" style="display:contents">
-    <header class="hero" style="padding: 0 40px; max-width: 1140px; margin: 0 auto; display: grid; grid-template-columns: 1fr 340px; position: relative; z-index:1;">
+  <header class="hero">
+    <div class="hero-left">
+      <div class="hero-eyebrow">
+        <span class="eyebrow-pulse"></span>
+        <span class="eyebrow-text">Currently Interning · Laravel + Vue.js + Inertia.js</span>
+      </div>
 
-      <div class="hero-left">
-        <div class="hero-eyebrow">
-          <span class="eyebrow-pulse"></span>
-          <span class="eyebrow-text">Currently Interning · Laravel + Vue.js + Inertia.js</span>
-        </div>
+      <h1>
+        Full<br/>
+        Stack<br/>
+        <span class="line-italic">Developer.</span>
+      </h1>
 
-        <h1>
-          Full<br/>
-          Stack<br/>
-          <span class="line-italic">Developer.</span>
-        </h1>
+      <p class="hero-desc">
+        I build clean, scalable web applications with modern technologies — crafting seamless experiences that live at the intersection of elegant code and thoughtful design.
+      </p>
 
-        <p class="hero-desc">
-          I build clean, scalable web applications with modern technologies — crafting seamless experiences that live at the intersection of elegant code and thoughtful design.
-        </p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn-primary">
+          View Projects
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#contact" class="btn-ghost">Get in Touch</a>
+      </div>
+    </div>
 
-        <div class="hero-actions">
-          <a href="#projects" class="btn-primary">
-            View Projects
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </a>
-          <a href="#contact" class="btn-ghost">Get in Touch</a>
+    <div class="hero-right">
+      <div class="hero-photo-wrap">
+        <img src="images/profile.jpg" alt="Prajwal Sainju" class="hero-photo" loading="eager" />
+        <div class="hero-photo-frame"></div>
+        <div class="hero-photo-label">
+          <div class="lbl-name">Prajwal Sainju</div>
+          <div class="lbl-role">Full Stack Developer</div>
         </div>
       </div>
 
-      <div class="hero-right">
-        <div class="hero-photo-wrap">
-          <img src="images/profile.jpg" alt="Prajwal Sainju" class="hero-photo" loading="eager" />
-          <div class="hero-photo-frame"></div>
-          <div class="hero-photo-label">
-            <div class="lbl-name">Prajwal Sainju</div>
-            <div class="lbl-role">Full Stack Developer</div>
-          </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-num">4+</div>
+          <div class="hero-stat-lbl">Projects</div>
         </div>
-
-        <div class="hero-stats">
-          <div class="hero-stat">
-            <div class="hero-stat-num">4+</div>
-            <div class="hero-stat-lbl">Projects</div>
-          </div>
-          <div class="hero-stat">
-            <div class="hero-stat-num">1</div>
-            <div class="hero-stat-lbl">Live in Production</div>
-          </div>
-          <div class="hero-stat" style="grid-column: 1/-1;">
-            <div class="hero-stat-lbl" style="margin-bottom:10px">Primary Stack</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap">
-              <span class="tag hi">Vue.js</span>
-              <span class="tag hi">Inertia.js</span>
-              <span class="tag hi">Laravel</span>
-              <span class="tag hi">MySQL</span>
-            </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">1</div>
+          <div class="hero-stat-lbl">Live in Production</div>
+        </div>
+        <div class="hero-stat" style="grid-column: 1/-1;">
+          <div class="hero-stat-lbl" style="margin-bottom:10px">Primary Stack</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <span class="tag hi">Vue.js</span>
+            <span class="tag hi">Inertia.js</span>
+            <span class="tag hi">Laravel</span>
+            <span class="tag hi">MySQL</span>
           </div>
         </div>
       </div>
-
-    </header>
-  </div>
+    </div>
+  </header>
 
   <div class="divider"></div>
 
   <!-- ABOUT -->
-  <section id="about" style="z-index:1; position:relative;">
+  <section id="about">
     <div class="container">
       <p class="section-label reveal">Who I Am</p>
       <h2 class="section-title reveal">About <em>Me</em></h2>
@@ -1028,7 +1159,7 @@
           </div>
           <div class="meta-row">
             <div class="meta-key">Email</div>
-            <div class="meta-val" style="font-size:0.82rem">Sainjoprajol12@gmail.com</div>
+            <div class="meta-val" style="font-size:0.8rem;word-break:break-all;">Sainjoprajol12@gmail.com</div>
           </div>
           <div class="meta-row">
             <div class="meta-key">Phone</div>
@@ -1050,7 +1181,7 @@
   <div class="divider"></div>
 
   <!-- SKILLS -->
-  <section id="skills" style="z-index:1; position:relative;">
+  <section id="skills">
     <div class="container">
       <p class="section-label reveal">What I Work With</p>
       <h2 class="section-title reveal">Skills &amp; <em>Technologies</em></h2>
@@ -1106,7 +1237,7 @@
   <div class="divider"></div>
 
   <!-- PROJECTS -->
-  <section id="projects" style="z-index:1; position:relative;">
+  <section id="projects">
     <div class="container">
       <p class="section-label reveal">What I've Built</p>
       <h2 class="section-title reveal">Featured <em>Projects</em></h2>
@@ -1214,7 +1345,7 @@
   <div class="divider"></div>
 
   <!-- CONTACT -->
-  <section id="contact" style="z-index:1; position:relative;">
+  <section id="contact">
     <div class="container">
       <p class="section-label reveal">Get In Touch</p>
       <div class="contact-layout">
