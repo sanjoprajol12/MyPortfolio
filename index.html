@@ -621,6 +621,7 @@
     }
     .proj-badge-tech { color: var(--text-3); border: 1px solid var(--border); }
     .proj-badge-live { color: #10c980; border: 1px solid rgba(16,201,128,0.3); background: rgba(16,201,128,0.07); }
+    .proj-badge-pair { color: var(--teal); border: 1px solid rgba(78,205,196,0.3); background: var(--teal-dim); }
 
     .project-title {
       font-family: var(--ff-display);
@@ -1085,7 +1086,7 @@
     <div class="hero-left">
       <div class="hero-eyebrow">
         <span class="eyebrow-pulse"></span>
-        <span class="eyebrow-text">Currently Interning · Laravel + Vue.js + Inertia.js</span>
+        <span class="eyebrow-text">Currently Interning · Laravel + Vue.js + TypeScript</span>
       </div>
 
       <h1>
@@ -1095,7 +1096,7 @@
       </h1>
 
       <p class="hero-desc">
-        I build clean, scalable web applications with modern technologies — crafting seamless experiences that live at the intersection of elegant code and thoughtful design.
+        I build clean, scalable web applications end-to-end — from Laravel APIs and Blade-powered monoliths to reactive Vue + TypeScript front ends. Comfortable across the stack, focused on maintainable code and reusable components.
       </p>
 
       <div class="hero-actions">
@@ -1119,7 +1120,7 @@
 
       <div class="hero-stats">
         <div class="hero-stat">
-          <div class="hero-stat-num">4+</div>
+          <div class="hero-stat-num">8+</div>
           <div class="hero-stat-lbl">Projects</div>
         </div>
         <div class="hero-stat">
@@ -1129,9 +1130,10 @@
         <div class="hero-stat" style="grid-column: 1/-1;">
           <div class="hero-stat-lbl" style="margin-bottom:10px">Primary Stack</div>
           <div style="display:flex;gap:8px;flex-wrap:wrap">
-            <span class="tag hi">Vue.js</span>
-            <span class="tag hi">Inertia.js</span>
             <span class="tag hi">Laravel</span>
+            <span class="tag hi">Vue.js</span>
+            <span class="tag hi">TypeScript</span>
+            <span class="tag hi">SCSS</span>
             <span class="tag hi">MySQL</span>
           </div>
         </div>
@@ -1148,9 +1150,9 @@
       <h2 class="section-title reveal">About <em>Me</em></h2>
       <div class="about-layout reveal">
         <div class="about-text">
-          <p>I'm a passionate Full Stack Developer based in <strong>Kathmandu, Nepal</strong>, focused on building clean, performant, and maintainable web applications that deliver excellent user experiences from the ground up.</p>
-          <p>Currently interning as a Full Stack Developer, where I work daily with <strong>Laravel</strong>, <strong>Vue.js</strong>, and <strong>Inertia.js</strong> — crafting SPA-like interfaces backed by robust server-side logic. This hands-on experience has deepened my understanding of professional development workflows, real-world architecture decisions, and production-level code quality.</p>
-          <p>I'm driven by a commitment to writing readable, scalable code and solving real-world problems with elegant, well-considered solutions.</p>
+          <p>I'm a Full Stack Developer based in <strong>Kathmandu, Nepal</strong>, building production web applications that are clean, performant, and maintainable — across both the server and the client.</p>
+          <p>Currently interning as a Full Stack Developer, where I ship features daily in <strong>Laravel</strong>, <strong>Vue.js</strong>, <strong>TypeScript</strong>, and <strong>SCSS</strong>. I work comfortably in both patterns: decoupled Vue SPA + Laravel API setups, and classic Laravel + Blade + Vue monoliths — choosing the right tool for each project.</p>
+          <p>I care about <strong>reusable components</strong>, <strong>type-safe code</strong>, and <strong>architectural clarity</strong> — the kind of groundwork that makes future features painless rather than painful. I also use <strong>Docker</strong> for consistent environments and follow professional Git workflows.</p>
         </div>
         <div class="about-sidebar">
           <div class="meta-row">
@@ -1167,7 +1169,7 @@
           </div>
           <div class="meta-row">
             <div class="meta-key">Focus</div>
-            <div class="meta-val">Vue.js & Inertia.js</div>
+            <div class="meta-val">Vue + TypeScript & Laravel</div>
           </div>
           <div class="meta-row meta-row--highlight">
             <div class="meta-key">Status</div>
@@ -1190,11 +1192,13 @@
           <div class="skill-num">01</div>
           <h3 class="skill-card-title">Languages</h3>
           <div class="tag-cloud">
-            <span class="tag">PHP</span>
+            <span class="tag hi">TypeScript</span>
+            <span class="tag hi">PHP</span>
             <span class="tag">JavaScript</span>
+            <span class="tag">SQL</span>
             <span class="tag">HTML5</span>
             <span class="tag">CSS3</span>
-            <span class="tag">SQL</span>
+            <span class="tag">SCSS</span>
           </div>
         </div>
         <div class="skill-card">
@@ -1202,8 +1206,11 @@
           <h3 class="skill-card-title">Frameworks &amp; Libraries</h3>
           <div class="tag-cloud">
             <span class="tag hi">Vue.js</span>
-            <span class="tag hi">Inertia.js</span>
-            <span class="tag">Laravel</span>
+            <span class="tag hi">Laravel</span>
+            <span class="tag hi">Blade</span>
+            <span class="tag">Inertia.js</span>
+            <span class="tag">Node.js</span>
+            <span class="tag">Express.js</span>
             <span class="tag">Bootstrap</span>
             <span class="tag">Tailwind CSS</span>
           </div>
@@ -1220,14 +1227,16 @@
         </div>
         <div class="skill-card">
           <div class="skill-num">04</div>
-          <h3 class="skill-card-title">Tools &amp; Workflow</h3>
+          <h3 class="skill-card-title">DevOps &amp; Tooling</h3>
           <div class="tag-cloud">
+            <span class="tag hi">Docker</span>
             <span class="tag">Git</span>
             <span class="tag">GitHub</span>
-            <span class="tag">VS Code</span>
+            <span class="tag">GitLab</span>
             <span class="tag">Composer</span>
             <span class="tag">npm</span>
             <span class="tag">Vite</span>
+            <span class="tag">Jira</span>
           </div>
         </div>
       </div>
@@ -1249,26 +1258,24 @@
           <div class="project-body">
             <div class="project-tags-row">
               <span class="proj-badge proj-badge-live">● Live</span>
-              <span class="proj-badge proj-badge-tech">Vue.js</span>
-              <span class="proj-badge proj-badge-tech">Inertia.js</span>
               <span class="proj-badge proj-badge-tech">Laravel</span>
+              <span class="proj-badge proj-badge-tech">Blade</span>
+              <span class="proj-badge proj-badge-tech">Vue.js</span>
               <span class="proj-badge proj-badge-tech">MySQL</span>
             </div>
-            <h3 class="project-title">Immigration Consultancy Admin Portal</h3>
-            <p class="project-desc">A comprehensive, production-grade admin portal for a live immigration consultancy business. Built the entire frontend with Vue.js and Inertia.js, delivering a seamless SPA experience inside a Laravel monolith — complete with complex workflows across multiple management modules.</p>
+            <h3 class="project-title">Consultancy Web — Full-Stack Website</h3>
+            <p class="project-desc">A public-facing consultancy website combining server-rendered Blade pages for SEO with Vue components for interactive sections. A hybrid approach that balances fast, crawlable content with a modern interactive feel.</p>
+            <ul class="project-features">
+              <li>Server-rendered Blade templates for SEO-friendly content</li>
+              <li>Vue components for interactive pages and forms</li>
+              <li>Services, contact, and marketing content with responsive layouts</li>
+            </ul>
           </div>
           <div class="project-side">
             <a href="https://github.com/anilshr25/consultancy-web" target="_blank" rel="noopener noreferrer" class="project-gh-btn">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
               GitHub
             </a>
-            <div class="modules-list">
-              <div class="module-tag">PR User Management</div>
-              <div class="module-tag">Consultant Management</div>
-              <div class="module-tag">Visa & Immigration</div>
-              <div class="module-tag">Educational Institutions</div>
-              <div class="module-tag">CMS & Content Control</div>
-            </div>
           </div>
         </article>
 
@@ -1277,29 +1284,98 @@
           <div class="project-num">02</div>
           <div class="project-body">
             <div class="project-tags-row">
+              <span class="proj-badge proj-badge-tech">Vue.js</span>
+              <span class="proj-badge proj-badge-tech">TypeScript</span>
+              <span class="proj-badge proj-badge-tech">SCSS</span>
+            </div>
+            <h3 class="project-title">Consultancy Admin — Dashboard</h3>
+            <p class="project-desc">An internal admin panel for managing the consultancy's content, users, and records. Built with Vue + TypeScript for a scalable, type-safe codebase and SCSS for structured, maintainable styling.</p>
+            <ul class="project-features">
+              <li>Component-driven UI with reusable building blocks</li>
+              <li>TypeScript throughout for safer refactors and clearer contracts</li>
+              <li>SCSS architecture designed to scale with features</li>
+              <li>Responsive layouts tuned for admin workflows</li>
+            </ul>
+          </div>
+          <div class="project-side"></div>
+        </article>
+
+        <!-- Project 3 — Futech pair -->
+        <article class="project-card">
+          <div class="project-num">03</div>
+          <div class="project-body">
+            <div class="project-tags-row">
+              <span class="proj-badge proj-badge-pair">◆ Paired Project</span>
               <span class="proj-badge proj-badge-tech">Laravel</span>
               <span class="proj-badge proj-badge-tech">Vue.js</span>
-              <span class="proj-badge proj-badge-tech">Inertia.js</span>
+              <span class="proj-badge proj-badge-tech">TypeScript</span>
+              <span class="proj-badge proj-badge-tech">MySQL</span>
             </div>
-            <h3 class="project-title">CMS Template</h3>
+            <h3 class="project-title">Futech — Decoupled Full-Stack System</h3>
+            <p class="project-desc">A full system built as two separate applications — a Laravel API backend and a Vue + TypeScript frontend SPA. This separation makes the UI faster to iterate on and the backend easier to reason about and scale.</p>
             <ul class="project-features">
-              <li>Reusable full-stack CMS with reactive Vue.js admin UI</li>
-              <li>Inertia.js-powered SPA experience inside a Laravel monolith</li>
-              <li>Authentication, role-based permissions &amp; user management</li>
-              <li>CRUD for pages, posts, and media with real-time feedback</li>
+              <li><strong>Backend:</strong> Laravel handles business logic, auth, database operations, and API endpoints</li>
+              <li><strong>Frontend:</strong> Vue + TypeScript SPA consumes the API and renders screens, forms, and dashboards</li>
+              <li>Clean separation of concerns between client and server</li>
+              <li>Reusable components and clear folder structure throughout the frontend</li>
             </ul>
           </div>
           <div class="project-side">
-            <a href="https://github.com/anilshr25/cms-template" target="_blank" rel="noopener noreferrer" class="project-gh-btn">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-              GitHub
-            </a>
+            <div class="modules-list">
+              <div class="module-tag">Backend · Laravel</div>
+              <div class="module-tag">Frontend · Vue + TS</div>
+              <div class="module-tag">REST API</div>
+              <div class="module-tag">Auth & Sessions</div>
+            </div>
           </div>
         </article>
 
-        <!-- Project 3 -->
+        <!-- Project 4 -->
         <article class="project-card">
-          <div class="project-num">03</div>
+          <div class="project-num">04</div>
+          <div class="project-body">
+            <div class="project-tags-row">
+              <span class="proj-badge proj-badge-tech">Vue.js</span>
+              <span class="proj-badge proj-badge-tech">TypeScript</span>
+              <span class="proj-badge proj-badge-tech">SCSS</span>
+            </div>
+            <h3 class="project-title">CMS Template — Reusable Admin Starter</h3>
+            <p class="project-desc">A reusable admin/CMS template built to accelerate future dashboard projects. Packages a consistent layout, shared component library, and SCSS theming system so new builds can start with a solid, opinionated foundation.</p>
+            <ul class="project-features">
+              <li>Pre-built layout shell with navigation and routing patterns</li>
+              <li>Shared component library — tables, forms, modals, cards</li>
+              <li>SCSS theming system for quick brand customization</li>
+              <li>Designed as a starting point for client work to reduce setup time</li>
+            </ul>
+          </div>
+          <div class="project-side"></div>
+        </article>
+
+        <!-- Project 5 -->
+        <article class="project-card">
+          <div class="project-num">05</div>
+          <div class="project-body">
+            <div class="project-tags-row">
+              <span class="proj-badge proj-badge-tech">Laravel</span>
+              <span class="proj-badge proj-badge-tech">Blade</span>
+              <span class="proj-badge proj-badge-tech">JavaScript</span>
+              <span class="proj-badge proj-badge-tech">Docker</span>
+            </div>
+            <h3 class="project-title">Appointment System — Booking Platform</h3>
+            <p class="project-desc">An appointment booking and management web app covering the full scheduling workflow — for both end users and admins. Containerized with Docker for consistent environments across local development and deployment.</p>
+            <ul class="project-features">
+              <li>Scheduling workflow with booking, editing, and cancellation</li>
+              <li>Authentication and separate admin/user views</li>
+              <li>Database design tailored to appointment logic</li>
+              <li>Dockerized setup for reproducible environments</li>
+            </ul>
+          </div>
+          <div class="project-side"></div>
+        </article>
+
+        <!-- Project 6 -->
+        <article class="project-card">
+          <div class="project-num">06</div>
           <div class="project-body">
             <div class="project-tags-row">
               <span class="proj-badge proj-badge-tech">PHP</span>
@@ -1318,9 +1394,9 @@
           <div class="project-side"></div>
         </article>
 
-        <!-- Project 4 -->
+        <!-- Project 7 -->
         <article class="project-card">
-          <div class="project-num">04</div>
+          <div class="project-num">07</div>
           <div class="project-body">
             <div class="project-tags-row">
               <span class="proj-badge proj-badge-tech">PHP</span>
