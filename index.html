@@ -84,16 +84,29 @@
       filter: blur(100px);
       pointer-events: none;
       z-index: 0;
+      will-change: transform;
     }
     .ambient-1 {
       width: 600px; height: 600px;
       background: radial-gradient(circle, rgba(200,169,110,0.06) 0%, transparent 70%);
       top: -200px; right: -100px;
+      animation: ambientFloat1 14s ease-in-out infinite;
     }
     .ambient-2 {
       width: 500px; height: 500px;
       background: radial-gradient(circle, rgba(78,205,196,0.05) 0%, transparent 70%);
       bottom: 20%; left: -150px;
+      animation: ambientFloat2 18s ease-in-out infinite;
+    }
+
+    @keyframes ambientFloat1 {
+      0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+      50%      { transform: translate3d(-22px, 18px, 0) scale(1.04); }
+    }
+
+    @keyframes ambientFloat2 {
+      0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+      50%      { transform: translate3d(18px, -22px, 0) scale(1.05); }
     }
 
     .container {
@@ -603,8 +616,6 @@
       padding-top: 4px;
     }
 
-    .project-body { }
-
     .project-tags-row {
       display: flex;
       align-items: center;
@@ -903,6 +914,15 @@
     .reveal.visible {
       opacity: 1;
       transform: translateY(0);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: 1ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 1ms !important;
+      }
     }
 
     /* ── RESPONSIVE — TABLET (960px) ── */
