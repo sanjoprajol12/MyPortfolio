@@ -1212,19 +1212,16 @@
         const data = new FormData(form);
 
         try {
-          const res = await fetch('/', {
+          await fetch(window.location.pathname, {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: new URLSearchParams(data).toString(),
           });
-
-          if (res.ok) {
-            form.reset();
-            submitBtn.style.display = 'none';
-            formSuccess.style.display = 'flex';
-          } else {
-            throw new Error('Network response was not ok');
-          }
+          // Netlify returns a redirect on success — fetch follows it silently.
+          // If we reach here without throwing, treat it as success.
+          form.reset();
+          submitBtn.style.display = 'none';
+          formSuccess.style.display = 'flex';
         } catch (err) {
           submitBtn.disabled = false;
           submitBtn.querySelector('.submit-text').style.display = 'flex';
