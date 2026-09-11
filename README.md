@@ -1,76 +1,43 @@
 # My Portfolio
 
-Welcome to my portfolio repository.
+Portfolio site with a MongoDB-backed admin portal. Edit hero, about, skills, experience, projects, and contact details in the browser. Visitor messages from the contact form show up in admin.
 
-## About Me
+## Run locally
 
-I am a web developer focused on building practical products with modern frontend tools and full-stack PHP workflows. I enjoy creating real-world systems such as appointment platforms, consultancy tools, dashboards, and developer utilities.
+1. Copy `.env.example` to `.env` and fill in your MongoDB Atlas URI, admin username, and admin password.
+2. Allow your current IP in Atlas: Network Access → Add IP Address.
+3. Install and start:
 
-## Projects
+```bash
+npm install
+npm start
+```
 
-### 1) consultancy-web
-- **Repository:** [anilshr25/consultancy-web](https://github.com/anilshr25/consultancy-web)
-- **Purpose:** Public-facing consultancy website/application.
-- **Stack:** PHP, Vue, Blade, TypeScript, SCSS, CSS
-- **My Contribution:** Worked on frontend components, backend-integrated pages, and business flow implementation.
-- **Where it works:** Service-company websites, inquiry and customer-facing workflows.
+- Site: http://localhost:3000
+- Admin: http://localhost:3000/admin
 
-### 2) consultancy-admin
-- **Repository:** [anilshr25/consultancy-admin](https://github.com/anilshr25/consultancy-admin)
-- **Purpose:** Admin dashboard for consultancy operations.
-- **Stack:** Vue, TypeScript, SCSS
-- **My Contribution:** Built/maintained admin interfaces and dashboard workflows.
-- **Where it works:** Internal management systems and operational back offices.
+Sign in with `ADMIN_USERNAME` and `ADMIN_PASSWORD` from `.env`.
 
-### 3) futech_project (Vue)
-- **Repository:** [sanjoprajol12/futech_project](https://github.com/sanjoprajol12/futech_project)
-- **Purpose:** Frontend-focused product/application project.
-- **Stack:** Vue, TypeScript
-- **My Contribution:** Developed UI components and frontend logic.
-- **Where it works:** Web app frontends for startups or internal tools.
+The first start seeds the database with your current portfolio content if it is empty. To reset content from the seed file:
 
-### 4) Apointment-System
-- **Repository:** [karkirajendra/Apointment-System](https://github.com/karkirajendra/Apointment-System)
-- **Purpose:** Appointment booking and schedule management platform.
-- **Stack:** PHP, Blade, JavaScript, Dockerfile, Shell, Vue
-- **My Contribution:** Implemented booking flows and scheduling-related features.
-- **Where it works:** Clinics, service businesses, and consultation-based operations.
+```bash
+npm run seed -- --force
+```
 
-### 5) Map-Dev-option
-- **Repository:** [sanjoprajol12/Map-Dev-option](https://github.com/sanjoprajol12/Map-Dev-option)
-- **Purpose:** World guesser dev-option/helper utility.
-- **Stack:** JavaScript, Vue, TypeScript, CSS, HTML
-- **My Contribution:** Built game utility logic and interactive features.
-- **Where it works:** Browser-based game helper and test tooling.
+## What you can change in admin
 
-### 6) Find-code-extension
-- **Repository:** [sanjoprajol12/Find-code-extension](https://github.com/sanjoprajol12/Find-code-extension)
-- **Purpose:** Utility project to identify or work with code-extension style functionality.
-- **Stack:** JavaScript, HTML, CSS
-- **My Contribution:** Implemented utility behavior and interface.
-- **Where it works:** Browser utility/extension-like workflows.
+- Hero, name, photo, stats, footer
+- About paragraphs and sidebar rows
+- Skill categories and tags
+- Work experience
+- Projects (add, edit, delete)
+- Contact email, phone, social links
+- Incoming contact messages (mark read, reply, delete)
 
-### 7) sixthsem_project
-- **Repository:** [sanjoprajol12/sixthsem_project](https://github.com/sanjoprajol12/sixthsem_project)
-- **Purpose:** Academic semester project.
-- **Stack:** JavaScript, CSS
-- **My Contribution:** Built core app features and frontend interactions.
-- **Where it works:** Academic/demo web environments.
+Saves update the live site immediately. You do not need to edit HTML to change copy.
 
-### 8) futech_project (PHP)
-- **Repository:** [karkirajendra/futech_project](https://github.com/karkirajendra/futech_project)
-- **Purpose:** PHP-based implementation/variant of the futech project.
-- **Stack:** PHP
-- **My Contribution:** Added server-side logic and feature contributions.
-- **Where it works:** PHP-hosted business web applications.
+## Deploy
 
-### 9) Bingo
-- **Repository:** [sanjoprajol12/Bingo](https://github.com/sanjoprajol12/Bingo)
-- **Purpose:** Interactive Bingo game/prototype.
-- **Stack:** (Repository metadata not fully specified)
-- **My Contribution:** Implemented gameplay-related structure and interactions.
-- **Where it works:** Browser-based game/demo usage.
+This app needs Node.js (not GitHub Pages). Host it on Render, Railway, or any VPS, set the same `.env` values there, and keep `/admin` private by using a strong password.
 
-## Contact
-
-- GitHub: [sanjoprajol12](https://github.com/sanjoprajol12)
+Never commit `.env`. If a database password was shared in chat or a screenshot, rotate it in Atlas.

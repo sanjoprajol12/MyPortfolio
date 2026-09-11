@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,900&family=DM+Sans:wght@400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #06060f; --bg-2: #0a0a16; --card: #0e0e1c; --border: rgba(255,255,255,.08);
+      --text: #ededf8; --muted: #9696b8; --dim: #5a5a7a; --gold: #d4a853; --teal: #38d9c8; --rose: #e87070;
+      --ff-d: 'Fraunces', Georgia, serif; --ff-b: 'DM Sans', system-ui, sans-serif; --ff-m: 'Fira Code', monospace;
+    }
+    body { font-family: var(--ff-b); background: var(--bg); color: var(--text); min-height: 100vh; }
+    button, input, textarea, select { font: inherit; color: inherit; }
+    .hidden { display: none !important; }
+
+    #login-screen {
+      min-height: 100vh; display: grid; place-items: center; padding: 24px;
+      background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(212,168,83,.12), transparent);
+    }
+    .login-card {
+      width: 100%; max-width: 400px; background: var(--card);
+      border: 1px solid var(--border); padding: 36px 32px;
+    }
+    .login-card h1 { font-family: var(--ff-d); font-size: 1.8rem; margin-bottom: 8px; }
+    .login-card p { color: var(--muted); font-size: .9rem; margin-bottom: 28px; }
+    .login-card h1 span { color: var(--gold); font-style: italic; }
+
+    label { display: block; font-family: var(--ff-m); font-size: .62rem; letter-spacing: .16em; text-transform: uppercase; color: var(--dim); margin-bottom: 8px; }
+    input, textarea, select {
+      width: 100%; background: var(--bg); border: 1px solid var(--border); padding: 11px 14px;
+      border-radius: 2px; margin-bottom: 16px; outline: none;
+    }
+    textarea { min-height: 90px; resize: vertical; line-height: 1.6; }
+    input:focus, textarea:focus, select:focus { border-color: var(--gold); }
+    .hint { font-size: .75rem; color: var(--dim); margin: -8px 0 16px; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--gold);
+      background: var(--gold); color: #080500; padding: 11px 18px; font-family: var(--ff-m);
+      font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; cursor: pointer;
+    }
+    .btn-ghost { background: transparent; color: var(--text); border-color: var(--border); }
+    .btn-danger { background: transparent; border-color: var(--rose); color: var(--rose); }
+    .btn:disabled { opacity: .55; cursor: not-allowed; }
+    .error { color: var(--rose); font-size: .85rem; margin-bottom: 12px; min-height: 1.2em; }
+    .toast {
+      position: fixed; bottom: 20px; right: 20px; background: #123c32; border: 1px solid rgba(56,217,200,.4);
+      color: var(--teal); padding: 12px 16px; font-size: .85rem; z-index: 50;
+    }
+
+    .shell { display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; }
+    aside {
+      border-right: 1px solid var(--border); padding: 28px 18px; background: var(--bg-2);
+      display: flex; flex-direction: column; gap: 6px; position: sticky; top: 0; height: 100vh;
+    }
+    .brand { font-family: var(--ff-d); font-size: 1.05rem; margin-bottom: 22px; padding: 0 8px; }
+    .brand span { color: var(--gold); font-style: italic; }
+    .nav-btn {
+      text-align: left; background: transparent; border: 0; color: var(--muted); padding: 10px 12px;
+      cursor: pointer; border-radius: 4px; font-size: .86rem;
+    }
+    .nav-btn.active, .nav-btn:hover { background: rgba(212,168,83,.08); color: var(--gold); }
+    .nav-spacer { flex: 1; }
+    .user-row { font-size: .78rem; color: var(--dim); padding: 8px 12px; }
+
+    main { padding: 36px 44px 80px; max-width: 980px; }
+    .page-title { font-family: var(--ff-d); font-size: 2rem; margin-bottom: 6px; }
+    .page-sub { color: var(--muted); margin-bottom: 28px; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 28px; }
+    .stat { background: var(--card); border: 1px solid var(--border); padding: 18px; }
+    .stat b { display: block; font-family: var(--ff-d); font-size: 1.8rem; color: var(--gold); }
+    .stat span { font-size: .75rem; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
+
+    .card { background: var(--card); border: 1px solid var(--border); padding: 22px; margin-bottom: 16px; }
+    .card h3 { font-size: 1.05rem; margin-bottom: 14px; }
+    .row-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+    .item-title { font-weight: 600; margin-bottom: 4px; }
+    .item-meta { font-size: .8rem; color: var(--muted); }
+    .unread { border-color: rgba(212,168,83,.45); }
+    .msg-body { white-space: pre-wrap; color: var(--muted); margin: 10px 0 14px; line-height: 1.6; }
+    .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; gap: 12px; }
+
+    @media (max-width: 860px) {
+      .shell { grid-template-columns: 1fr; }
+      aside { height: auto; position: static; flex-direction: row; flex-wrap: wrap; }
+      .nav-spacer, .user-row { display: none; }
+      main { padding: 24px 16px 60px; }
+      .grid-2, .stats { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div id="login-screen">
+    <form class="login-card" id="login-form">
+      <h1>Admin <span>Portal</span></h1>
+      <p>Sign in to edit your portfolio without touching code.</p>
+      <label for="username">Username</label>
+      <input id="username" name="username" autocomplete="username" required />
+      <label for="password">Password</label>
+      <input id="password" name="password" type="password" autocomplete="current-password" required />
+      <div class="error" id="login-error"></div>
+      <button class="btn" type="submit">Enter portal</button>
+    </form>
+  </div>
+
+  <div id="app" class="shell hidden">
+    <aside>
+      <div class="brand">Prajwal <span>Admin</span></div>
+      <button class="nav-btn active" data-page="overview">Overview</button>
+      <button class="nav-btn" data-page="site">Hero &amp; site</button>
+      <button class="nav-btn" data-page="about">About</button>
+      <button class="nav-btn" data-page="skills">Skills</button>
+      <button class="nav-btn" data-page="experience">Experience</button>
+      <button class="nav-btn" data-page="projects">Projects</button>
+      <button class="nav-btn" data-page="contact">Contact info</button>
+      <button class="nav-btn" data-page="messages">Messages</button>
+      <div class="nav-spacer"></div>
+      <div class="user-row" id="who"></div>
+      <button class="nav-btn" id="logout">Sign out</button>
+    </aside>
+    <main id="main"></main>
+  </div>
+  <div id="toast" class="toast hidden"></div>
+
+  <script>
+    const TOKEN_KEY = 'portfolio_admin_token';
+    const $ = (id) => document.getElementById(id);
+    let token = localStorage.getItem(TOKEN_KEY);
+    let page = 'overview';
+
+    function toast(msg) {
+      const el = $('toast');
+      el.textContent = msg;
+      el.classList.remove('hidden');
+      setTimeout(() => el.classList.add('hidden'), 2400);
+    }
+
+    async function api(path, opts = {}) {
+      const headers = Object.assign({ 'Content-Type': 'application/json' }, opts.headers || {});
+      if (token) headers.Authorization = 'Bearer ' + token;
+      const res = await fetch(path, Object.assign({}, opts, { headers }));
+      if (res.status === 401) {
+        logout(false);
+        throw new Error('Please sign in again');
+      }
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || 'Request failed');
+      return data;
+    }
+
+    function logout(clearUi = true) {
+      token = null;
+      localStorage.removeItem(TOKEN_KEY);
+      if (clearUi) {
+        $('app').classList.add('hidden');
+        $('login-screen').classList.remove('hidden');
+      }
+    }
+
+    function field(label, name, value = '', extra = '') {
+      return `<label>${label}</label><input name="${name}" value="${esc(value)}" ${extra} />`;
+    }
+    function area(label, name, value = '', hint = '') {
+      return `<label>${label}</label><textarea name="${name}">${esc(value)}</textarea>${hint ? `<div class="hint">${hint}</div>` : ''}`;
+    }
+    function esc(v) {
+      return String(v == null ? '' : v)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+    function lines(text) {
+      return String(text || '').split('\n').map((s) => s.trim()).filter(Boolean);
+    }
+    function csv(text) {
+      return String(text || '').split(',').map((s) => s.trim()).filter(Boolean);
+    }
+    function tagsFromText(text) {
+      return lines(text).map((line) => {
+        if (line.startsWith('*')) return { name: line.slice(1).trim(), highlight: true };
+        return { name: line, highlight: false };
+      });
+    }
+    function tagsToText(tags) {
+      return (tags || []).map((t) => (t.highlight ? '*' : '') + (t.name || '')).join('\n');
+    }
+
+    async function showApp(username) {
+      $('login-screen').classList.add('hidden');
+      $('app').classList.remove('hidden');
+      $('who').textContent = username || 'admin';
+      await render();
+    }
+
+    document.querySelectorAll('.nav-btn[data-page]').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        page = btn.dataset.page;
+        document.querySelectorAll('.nav-btn[data-page]').forEach((b) => b.classList.toggle('active', b === btn));
+        await render();
+      });
+    });
+    $('logout').addEventListener('click', () => logout());
+
+    $('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      $('login-error').textContent = '';
+      try {
+        const data = await api('/api/auth/login', {
+          method: 'POST',
+          body: JSON.stringify({
+            username: $('username').value,
+            password: $('password').value,
+          }),
+        });
+        token = data.token;
+        localStorage.setItem(TOKEN_KEY, token);
+        await showApp(data.username);
+      } catch (err) {
+        $('login-error').textContent = err.message;
+      }
+    });
+
+    async function render() {
+      const main = $('main');
+      main.innerHTML = '<p class="page-sub">Loading…</p>';
+      try {
+        if (page === 'overview') await renderOverview(main);
+        if (page === 'site') await renderSite(main);
+        if (page === 'about') await renderAbout(main);
+        if (page === 'skills') await renderSkills(main);
+        if (page === 'experience') await renderExperience(main);
+        if (page === 'projects') await renderProjects(main);
+        if (page === 'contact') await renderContact(main);
+        if (page === 'messages') await renderMessages(main);
+      } catch (err) {
+        main.innerHTML = `<p class="error">${esc(err.message)}</p>`;
+      }
+    }
+
+    async function renderOverview(main) {
+      const o = await api('/api/admin/overview');
+      main.innerHTML = `
+        <h1 class="page-title">Overview</h1>
+        <p class="page-sub">Your public site updates as soon as you save a form here.</p>
+        <div class="stats">
+          <div class="stat"><b>${o.unread}</b><span>Unread messages</span></div>
+          <div class="stat"><b>${o.totalMessages}</b><span>Total messages</span></div>
+          <div class="stat"><b>${o.projects}</b><span>Projects</span></div>
+          <div class="stat"><b>${o.experience}</b><span>Experience items</span></div>
+        </div>
+        <p class="page-sub">Open the live site in another tab after saving to confirm the change.</p>
+      `;
+    }
+
+    async function renderSite(main) {
+      const site = await api('/api/admin/site');
+      const h = site.hero || {};
+      main.innerHTML = `
+        <h1 class="page-title">Hero &amp; site</h1>
+        <p class="page-sub">Name, headline, photo, and hero stats.</p>
+        <form id="site-form" class="card">
+          <div class="grid-2">
+            ${field('First name', 'firstName', site.firstName)}
+            ${field('Last name', 'lastName', site.lastName)}
+          </div>
+          ${field('Browser tab title', 'pageTitle', site.pageTitle)}
+          ${field('Hero eyebrow', 'eyebrow', h.eyebrow)}
+          ${field('Eyebrow highlight', 'eyebrowHighlight', h.eyebrowHighlight)}
+          ${field('Headline line 1', 'headlineLine1', h.headlineLine1)}
+          ${field('Headline line 2', 'headlineLine2', h.headlineLine2)}
+          ${field('Headline line 3 (gold italic)', 'headlineLine3', h.headlineLine3)}
+          ${field('Location label', 'locationLabel', h.locationLabel)}
+          ${area('Hero description', 'description', h.description)}
+          ${field('Photo name overlay', 'photoName', h.photoName)}
+          ${field('Photo role overlay', 'photoRole', h.photoRole)}
+          ${area('Stats (one per line: number | label)', 'statsText', (h.stats || []).map((s) => `${s.num} | ${s.label}`).join('\n'), 'Example: 9+ | Projects')}
+          ${field('Primary stack (comma separated)', 'primaryStack', (h.primaryStack || []).join(', '))}
+          ${field('Footer text', 'footerCopy', site.footerCopy)}
+          <button class="btn" type="submit">Save site</button>
+        </form>
+        <form id="photo-form" class="card">
+          <h3>Profile photo</h3>
+          <p class="hint">Current: ${esc(h.photoUrl || 'none')}</p>
+          ${h.photoUrl ? `<img src="${esc(h.photoUrl)}" alt="" style="max-width:180px;margin-bottom:14px;border:1px solid var(--border)">` : ''}
+          <input type="file" name="photo" accept="image/*" />
+          <button class="btn" type="submit">Upload photo</button>
+        </form>
+      `;
+      $('site-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const f = e.target;
+        const stats = lines(f.statsText.value).map((line) => {
+          const [num, ...rest] = line.split('|');
+          return { num: (num || '').trim(), label: rest.join('|').trim(), fullWidth: false };
+        });
+        await api('/api/admin/site', {
+          method: 'PUT',
+          body: JSON.stringify({
+            firstName: f.firstName.value,
+            lastName: f.lastName.value,
+            pageTitle: f.pageTitle.value,
+            footerCopy: f.footerCopy.value,
+            hero: {
+              ...(site.hero || {}),
+              eyebrow: f.eyebrow.value,
+              eyebrowHighlight: f.eyebrowHighlight.value,
+              headlineLine1: f.headlineLine1.value,
+              headlineLine2: f.headlineLine2.value,
+              headlineLine3: f.headlineLine3.value,
+              locationLabel: f.locationLabel.value,
+              description: f.description.value,
+              photoName: f.photoName.value,
+              photoRole: f.photoRole.value,
+              stats,
+              primaryStack: csv(f.primaryStack.value),
+            },
+          }),
+        });
+        toast('Site saved');
+        render();
+      });
+      $('photo-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const file = e.target.photo.files[0];
+        if (!file) return toast('Choose an image first');
+        const fd = new FormData();
+        fd.append('photo', file);
+        const res = await fetch('/api/admin/upload', {
+          method: 'POST',
+          headers: { Authorization: 'Bearer ' + token },
+          body: fd,
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Upload failed');
+        toast('Photo uploaded');
+        render();
+      });
+    }
+
+    async function renderAbout(main) {
+      const site = await api('/api/admin/site');
+      const a = site.about || {};
+      main.innerHTML = `
+        <h1 class="page-title">About</h1>
+        <p class="page-sub">Wrap important words in **double asterisks** to make them bold on the site.</p>
+        <form id="about-form" class="card">
+          ${area('Paragraphs (separate with a blank line)', 'paragraphs', (a.paragraphs || []).join('\n\n'))}
+          ${area('Sidebar rows (one per line: Key | Value | highlight)', 'meta', (a.meta || []).map((m) => `${m.key} | ${m.value}${m.highlight ? ' | highlight' : ''}`).join('\n'), 'Add the word highlight at the end of a line to gold-style that row.')}
+          <button class="btn" type="submit">Save about</button>
+        </form>
+      `;
+      $('about-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const f = e.target;
+        const paragraphs = f.paragraphs.value.split(/\n\s*\n/).map((s) => s.trim()).filter(Boolean);
+        const meta = lines(f.meta.value).map((line) => {
+          const parts = line.split('|').map((s) => s.trim());
+          return { key: parts[0] || '', value: parts[1] || '', highlight: /highlight/i.test(parts[2] || '') };
+        });
+        await api('/api/admin/site', {
+          method: 'PUT',
+          body: JSON.stringify({ ...site, about: { paragraphs, meta } }),
+        });
+        toast('About saved');
+      });
+    }
+
+    async function renderSkills(main) {
+      const items = await api('/api/admin/skills');
+      main.innerHTML = `
+        <div class="toolbar">
+          <div>
+            <h1 class="page-title">Skills</h1>
+            <p class="page-sub">Prefix a tag with * to highlight it in gold.</p>
+          </div>
+          <button class="btn" id="add-skill">Add category</button>
+        </div>
+        <div id="skill-list"></div>
+      `;
+      const list = $('skill-list');
+      items.forEach((item) => list.appendChild(skillCard(item)));
+      $('add-skill').addEventListener('click', () => {
+        list.prepend(skillCard({ order: items.length + 1, title: '', subtitle: '', tags: [], fullWidth: false }));
+      });
+    }
+
+    function skillCard(item) {
+      const wrap = document.createElement('form');
+      wrap.className = 'card';
+      wrap.innerHTML = `
+        <div class="grid-2">
+          ${field('Order', 'order', item.order || 0, 'type="number"')}
+          ${field('Title', 'title', item.title || '')}
+        </div>
+        ${field('Subtitle', 'subtitle', item.subtitle || '')}
+        <label><input type="checkbox" name="fullWidth" ${item.fullWidth ? 'checked' : ''} style="width:auto;margin-right:8px"> Full width row</label>
+        ${area('Tags (one per line, * for highlight)', 'tags', tagsToText(item.tags))}
+        <div class="row-actions">
+          <button class="btn" type="submit">Save</button>
+          ${item._id ? '<button class="btn btn-danger" type="button" data-del>Delete</button>' : ''}
+        </div>
+      `;
+      wrap.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const body = {
+          order: Number(wrap.order.value),
+          title: wrap.title.value,
+          subtitle: wrap.subtitle.value,
+          fullWidth: wrap.fullWidth.checked,
+          tags: tagsFromText(wrap.tags.value),
+        };
+        if (item._id) await api('/api/admin/skills/' + item._id, { method: 'PUT', body: JSON.stringify(body) });
+        else await api('/api/admin/skills', { method: 'POST', body: JSON.stringify(body) });
+        toast('Skill saved');
+        render();
+      });
+      wrap.querySelector('[data-del]')?.addEventListener('click', async () => {
+        if (!confirm('Delete this skill category?')) return;
+        await api('/api/admin/skills/' + item._id, { method: 'DELETE' });
+        toast('Deleted');
+        render();
+      });
+      return wrap;
+    }
+
+    async function renderExperience(main) {
+      const items = await api('/api/admin/experience');
+      main.innerHTML = `
+        <div class="toolbar">
+          <div>
+            <h1 class="page-title">Experience</h1>
+            <p class="page-sub">Add jobs, internships, or freelance work.</p>
+          </div>
+          <button class="btn" id="add-exp">Add role</button>
+        </div>
+        <div id="exp-list"></div>
+      `;
+      const list = $('exp-list');
+      items.forEach((item) => list.appendChild(expCard(item)));
+      $('add-exp').addEventListener('click', () => list.prepend(expCard({ order: items.length + 1 })));
+    }
+
+    function expCard(item) {
+      const wrap = document.createElement('form');
+      wrap.className = 'card';
+      wrap.innerHTML = `
+        <div class="grid-2">
+          ${field('Order', 'order', item.order || 0, 'type="number"')}
+          ${field('Date', 'date', item.date || '')}
+        </div>
+        ${field('Role', 'role', item.role || '')}
+        ${field('Company / place', 'company', item.company || '')}
+        ${field('Stack (comma separated)', 'stack', (item.stack || []).join(', '))}
+        ${area('Bullets (one per line)', 'bullets', (item.bullets || []).join('\n'))}
+        <div class="row-actions">
+          <button class="btn" type="submit">Save</button>
+          ${item._id ? '<button class="btn btn-danger" type="button" data-del>Delete</button>' : ''}
+        </div>
+      `;
+      wrap.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const body = {
+          order: Number(wrap.order.value),
+          date: wrap.date.value,
+          role: wrap.role.value,
+          company: wrap.company.value,
+          stack: csv(wrap.stack.value),
+          bullets: lines(wrap.bullets.value),
+        };
+        if (item._id) await api('/api/admin/experience/' + item._id, { method: 'PUT', body: JSON.stringify(body) });
+        else await api('/api/admin/experience', { method: 'POST', body: JSON.stringify(body) });
+        toast('Experience saved');
+        render();
+      });
+      wrap.querySelector('[data-del]')?.addEventListener('click', async () => {
+        if (!confirm('Delete this role?')) return;
+        await api('/api/admin/experience/' + item._id, { method: 'DELETE' });
+        toast('Deleted');
+        render();
+      });
+      return wrap;
+    }
+
+    async function renderProjects(main) {
+      const items = await api('/api/admin/projects');
+      main.innerHTML = `
+        <div class="toolbar">
+          <div>
+            <h1 class="page-title">Projects</h1>
+            <p class="page-sub">Add, edit, or remove featured projects. Live URL makes the card clickable.</p>
+          </div>
+          <button class="btn" id="add-proj">Add project</button>
+        </div>
+        <div id="proj-list"></div>
+      `;
+      const list = $('proj-list');
+      items.forEach((item) => list.appendChild(projCard(item)));
+      $('add-proj').addEventListener('click', () => list.prepend(projCard({ order: items.length + 1, statusKind: 'none' })));
+    }
+
+    function projCard(item) {
+      const wrap = document.createElement('form');
+      wrap.className = 'card';
+      wrap.innerHTML = `
+        <div class="grid-2">
+          ${field('Order', 'order', item.order || 0, 'type="number"')}
+          ${field('Title', 'title', item.title || '')}
+        </div>
+        ${area('Description', 'description', item.description || '')}
+        ${field('Live URL (optional)', 'liveUrl', item.liveUrl || '')}
+        ${field('GitHub URL (optional)', 'githubUrl', item.githubUrl || '')}
+        <label>Badge type</label>
+        <select name="statusKind">
+          <option value="none" ${item.statusKind === 'none' ? 'selected' : ''}>None</option>
+          <option value="live" ${item.statusKind === 'live' ? 'selected' : ''}>Live (green)</option>
+          <option value="type" ${item.statusKind === 'type' ? 'selected' : ''}>Type (teal)</option>
+        </select>
+        ${field('Badge label', 'statusLabel', item.statusLabel || '')}
+        ${field('Techs (comma separated)', 'techs', (item.techs || []).join(', '))}
+        ${area('Features (one per line)', 'features', (item.features || []).join('\n'))}
+        <div class="row-actions">
+          <button class="btn" type="submit">Save</button>
+          ${item._id ? '<button class="btn btn-danger" type="button" data-del>Delete</button>' : ''}
+        </div>
+      `;
+      wrap.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const body = {
+          order: Number(wrap.order.value),
+          title: wrap.title.value,
+          description: wrap.description.value,
+          liveUrl: wrap.liveUrl.value,
+          githubUrl: wrap.githubUrl.value,
+          statusKind: wrap.statusKind.value,
+          statusLabel: wrap.statusLabel.value,
+          techs: csv(wrap.techs.value),
+          features: lines(wrap.features.value),
+        };
+        if (item._id) await api('/api/admin/projects/' + item._id, { method: 'PUT', body: JSON.stringify(body) });
+        else await api('/api/admin/projects', { method: 'POST', body: JSON.stringify(body) });
+        toast('Project saved');
+        render();
+      });
+      wrap.querySelector('[data-del]')?.addEventListener('click', async () => {
+        if (!confirm('Delete this project?')) return;
+        await api('/api/admin/projects/' + item._id, { method: 'DELETE' });
+        toast('Deleted');
+        render();
+      });
+      return wrap;
+    }
+
+    async function renderContact(main) {
+      const site = await api('/api/admin/site');
+      const c = site.contact || {};
+      main.innerHTML = `
+        <h1 class="page-title">Contact info</h1>
+        <p class="page-sub">These links and labels appear on the public contact section.</p>
+        <form id="contact-form" class="card">
+          ${area('Intro', 'intro', c.intro)}
+          ${field('Email', 'email', c.email)}
+          ${field('Phone', 'phone', c.phone)}
+          ${field('Availability text', 'availability', c.availability)}
+          ${field('LinkedIn URL', 'linkedinUrl', c.linkedinUrl)}
+          ${field('LinkedIn handle', 'linkedinHandle', c.linkedinHandle)}
+          ${field('GitHub URL', 'githubUrl', c.githubUrl)}
+          ${field('GitHub handle', 'githubHandle', c.githubHandle)}
+          <button class="btn" type="submit">Save contact</button>
+        </form>
+      `;
+      $('contact-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const f = e.target;
+        await api('/api/admin/site', {
+          method: 'PUT',
+          body: JSON.stringify({
+            ...site,
+            contact: {
+              intro: f.intro.value,
+              email: f.email.value,
+              phone: f.phone.value,
+              availability: f.availability.value,
+              linkedinUrl: f.linkedinUrl.value,
+              linkedinHandle: f.linkedinHandle.value,
+              githubUrl: f.githubUrl.value,
+              githubHandle: f.githubHandle.value,
+            },
+          }),
+        });
+        toast('Contact saved');
+      });
+    }
+
+    async function renderMessages(main) {
+      const items = await api('/api/admin/messages');
+      main.innerHTML = `
+        <h1 class="page-title">Messages</h1>
+        <p class="page-sub">${items.length ? 'Visitor messages from the contact form.' : 'No messages yet.'}</p>
+        <div id="msg-list">
+          ${items.map((m) => `
+            <div class="card ${m.read ? '' : 'unread'}">
+              <div class="item-title">${esc(m.name)} · ${esc(m.email)}</div>
+              <div class="item-meta">${new Date(m.createdAt).toLocaleString()}${m.read ? '' : ' · Unread'}</div>
+              <div class="msg-body">${esc(m.message)}</div>
+              <div class="row-actions">
+                ${m.read ? '' : `<button class="btn" data-read="${m._id}">Mark read</button>`}
+                <a class="btn btn-ghost" href="mailto:${esc(m.email)}">Reply</a>
+                <button class="btn btn-danger" data-del="${m._id}">Delete</button>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+      main.querySelectorAll('[data-read]').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          await api('/api/admin/messages/' + btn.dataset.read + '/read', { method: 'PATCH' });
+          render();
+        });
+      });
+      main.querySelectorAll('[data-del]').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          if (!confirm('Delete this message?')) return;
+          await api('/api/admin/messages/' + btn.dataset.del, { method: 'DELETE' });
+          toast('Deleted');
+          render();
+        });
+      });
+    }
+
+    (async function boot() {
+      if (!token) return;
+      try {
+        const me = await api('/api/auth/me');
+        await showApp(me.username);
+      } catch {
+        logout(false);
+      }
+    })();
+  </script>
+</body>
+</html>

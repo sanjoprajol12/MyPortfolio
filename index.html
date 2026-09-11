@@ -618,7 +618,7 @@
   <!-- NAV -->
   <nav>
     <div class="nav-inner">
-      <a href="#" class="nav-logo">Prajwal <span>Sainju</span></a>
+      <a href="#" class="nav-logo" data-full-name>Prajwal <span>Sainju</span></a>
       <div class="nav-right">
         <ul class="nav-links">
           <li><a href="#about">About</a></li>
@@ -637,10 +637,10 @@
     <div class="hero-left">
       <div class="hero-eyebrow">
         <span class="eyebrow-pulse"></span>
-        <span class="eyebrow-text">Interning @ Futech · <span class="hi">Laravel · Vue.js · TypeScript</span></span>
+        <span class="eyebrow-text" id="hero-eyebrow-text">Interning @ Futech · <span class="hi">Laravel · Vue.js · TypeScript</span></span>
       </div>
 
-      <h1>
+      <h1 id="hero-title">
         <span class="word w1"><span class="word-inner">Frontend</span></span><br/>
         <span class="word w2"><span class="word-inner">&amp; Backend</span></span><br/>
         <span class="word w3"><span class="word-inner">Dev.</span></span>
@@ -648,10 +648,10 @@
 
       <div class="hero-line-accent">
         <div class="line-mark"></div>
-        <span class="line-mark-label">Based in Kathmandu, Nepal</span>
+        <span class="line-mark-label" id="hero-location">Based in Kathmandu, Nepal</span>
       </div>
 
-      <p class="hero-desc">
+      <p class="hero-desc" id="hero-desc">
         I build clean, scalable web applications — from Laravel APIs and Blade-powered monoliths to reactive Vue + TypeScript frontends. Focused on maintainable code and reusable architecture on both sides of the stack.
       </p>
 
@@ -666,7 +666,7 @@
 
     <div class="hero-right">
       <div class="hero-photo-wrap">
-        <img src="images/profile.jpg" alt="Prajwal Sainju" class="hero-photo" loading="eager" onerror="this.style.display='none'; this.nextElementSibling.style.display='none'; this.parentElement.querySelector('.photo-placeholder').style.display='flex';" />
+        <img src="images/profile.jpg" alt="Prajwal Sainju" class="hero-photo" id="hero-photo" loading="eager" onerror="this.style.display='none'; this.nextElementSibling.style.display='none'; this.parentElement.querySelector('.photo-placeholder').style.display='flex';" />
         <div class="hero-photo-frame"></div>
         <div class="corner corner-tl"></div>
         <div class="corner corner-tr"></div>
@@ -674,12 +674,12 @@
         <div class="corner corner-br"></div>
         <div class="photo-placeholder" style="display:none; width:100%; aspect-ratio:3/4; background:var(--bg-card); border:1px solid var(--border); align-items:center; justify-content:center; font-family:var(--ff-display); font-size:3rem; color:var(--text-3);">PS</div>
         <div class="hero-photo-label">
-          <div class="lbl-name">Prajwal Sainju</div>
-          <div class="lbl-role">Frontend &amp; Backend Developer</div>
+          <div class="lbl-name" id="lbl-name">Prajwal Sainju</div>
+          <div class="lbl-role" id="lbl-role">Frontend &amp; Backend Developer</div>
         </div>
       </div>
 
-      <div class="hero-stats">
+      <div class="hero-stats" id="hero-stats">
         <div class="hero-stat">
           <div class="hero-stat-num">9+</div>
           <div class="hero-stat-lbl">Projects</div>
@@ -714,12 +714,12 @@
       </div>
       <h2 class="section-title reveal">About <em>Me</em></h2>
       <div class="about-layout">
-        <div class="about-text reveal-left">
+        <div class="about-text reveal-left" id="about-text">
           <p>I'm a Frontend &amp; Backend Developer based in <strong>Kathmandu, Nepal</strong>, building production web applications that are clean, performant, and maintainable — across both the server and the client.</p>
           <p>Currently interning at <strong>Futech Solution</strong>, where I ship features daily using <strong>Laravel</strong>, <strong>Vue.js</strong>, <strong>TypeScript</strong>, and <strong>SCSS</strong>. I'm comfortable in both patterns: decoupled Vue SPA + Laravel API setups and classic Laravel + Blade monoliths — choosing the right tool for the project at hand.</p>
           <p>I care deeply about <strong>reusable components</strong>, <strong>type-safe code</strong>, and <strong>architectural clarity</strong> — groundwork that makes future features a joy rather than a burden. I also follow professional Git workflows with code reviews.</p>
         </div>
-        <div class="about-sidebar reveal-right">
+        <div class="about-sidebar reveal-right" id="about-sidebar">
           <div class="meta-row">
             <div class="meta-key">Location</div>
             <div class="meta-val">Kathmandu, Nepal</div>
@@ -761,7 +761,7 @@
         <span class="section-eyebrow-num">// 02</span>
       </div>
       <h2 class="section-title reveal">Skills &amp; <em>Technologies</em></h2>
-      <div class="skills-grid reveal">
+      <div class="skills-grid reveal" id="skills-grid">
 
         <div class="skill-card">
           <div class="skill-num">01 / Frontend</div>
@@ -829,7 +829,7 @@
         <span class="section-eyebrow-num">// 03</span>
       </div>
       <h2 class="section-title reveal">Work <em>Experience</em></h2>
-      <div class="timeline reveal">
+      <div class="timeline reveal" id="timeline">
         <div class="timeline-item">
           <div class="timeline-date">Dec 2025 — Present</div>
           <div class="timeline-role">Frontend &amp; Backend Developer Intern</div>
@@ -865,7 +865,7 @@
         <span class="section-eyebrow-num">// 04</span>
       </div>
       <h2 class="section-title reveal">Featured <em>Projects</em></h2>
-      <div class="projects-list reveal">
+      <div class="projects-list reveal" id="projects-list">
 
        <article class="project-card" onclick="window.open('https://applydirectedu.com/login','_blank')" style="cursor:pointer;">
           <div class="project-num">01</div>
@@ -1099,24 +1099,24 @@
 
         <!-- Left: info + socials -->
         <div class="contact-left reveal-left">
-          <p class="contact-intro">I'm always open to discussing new projects, opportunities, or ideas. Feel free to reach out directly or send a message below.</p>
+          <p class="contact-intro" id="contact-intro">I'm always open to discussing new projects, opportunities, or ideas. Feel free to reach out directly or send a message below.</p>
           <div class="contact-links">
-            <a href="mailto:sainjoprajol12@gmail.com" class="contact-item">
+            <a href="mailto:sainjoprajol12@gmail.com" class="contact-item" id="contact-email">
               <div class="contact-icon">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
               </div>
               <div>
                 <div class="contact-lbl">Email</div>
-                <div class="contact-val">sainjoprajol12@gmail.com</div>
+                <div class="contact-val" id="contact-email-val">sainjoprajol12@gmail.com</div>
               </div>
             </a>
-            <a href="tel:+9779841273490" class="contact-item">
+            <a href="tel:+9779841273490" class="contact-item" id="contact-phone">
               <div class="contact-icon">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.15 12 19.79 19.79 0 0 1 1.08 3.4 2 2 0 0 1 3.06 1h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.09 8.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21 16"/></svg>
               </div>
               <div>
                 <div class="contact-lbl">Phone</div>
-                <div class="contact-val">+977 9841273490</div>
+                <div class="contact-val" id="contact-phone-val">+977 9841273490</div>
               </div>
             </a>
           </div>
@@ -1124,25 +1124,25 @@
           <div style="margin-top:12px; display:flex; flex-direction:column; gap:10px;">
             <div class="avail-card">
               <span class="avail-dot"></span>
-              <span class="avail-text">Currently interning &amp; open to new opportunities</span>
+              <span class="avail-text" id="avail-text">Currently interning &amp; open to new opportunities</span>
             </div>
-            <a href="https://linkedin.com/in/prajwal-sainju/" target="_blank" rel="noopener noreferrer" class="social-card">
+            <a href="https://linkedin.com/in/prajwal-sainju/" target="_blank" rel="noopener noreferrer" class="social-card" id="social-linkedin">
               <div class="social-icon social-icon-li">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
               </div>
               <div>
                 <div class="social-name">LinkedIn</div>
-                <div class="social-handle">in/prajwal-sainju</div>
+                <div class="social-handle" id="linkedin-handle">in/prajwal-sainju</div>
               </div>
               <svg class="social-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </a>
-            <a href="https://github.com/sanjoprajol12" target="_blank" rel="noopener noreferrer" class="social-card">
+            <a href="https://github.com/sanjoprajol12" target="_blank" rel="noopener noreferrer" class="social-card" id="social-github">
               <div class="social-icon social-icon-gh">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
               </div>
               <div>
                 <div class="social-name">GitHub</div>
-                <div class="social-handle">github.com/sanjoprajol12</div>
+                <div class="social-handle" id="github-handle">github.com/sanjoprajol12</div>
               </div>
               <svg class="social-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </a>
@@ -1151,17 +1151,7 @@
 
         <!-- Right: contact form -->
         <div class="contact-right reveal-right">
-          <form
-            name="contact"
-            method="POST"
-            data-netlify="true"
-            netlify-honeypot="bot-field"
-            id="contactForm"
-            class="contact-form"
-          >
-            <!-- Netlify hidden fields -->
-            <input type="hidden" name="form-name" value="contact" />
-            <p style="display:none;"><input name="bot-field" /></p>
+          <form id="contactForm" class="contact-form">
 
             <div class="form-group">
               <label class="form-label" for="name">Name</label>
@@ -1224,8 +1214,8 @@
   <!-- FOOTER -->
   <footer>
     <div class="footer-inner">
-      <a href="#" class="footer-logo">Prajwal <span>Sainju</span></a>
-      <p class="footer-copy">© 2026 · Kathmandu, Nepal · Built with care</p>
+      <a href="#" class="footer-logo" data-full-name>Prajwal <span>Sainju</span></a>
+      <p class="footer-copy" id="footer-copy">© 2026 · Kathmandu, Nepal · Built with care</p>
       <ul class="footer-links">
         <li><a href="#about">About</a></li>
         <li><a href="#projects">Projects</a></li>
@@ -1304,40 +1294,8 @@
       });
     }, { threshold: 0.4 });
     sections.forEach(s => navObserver.observe(s));
-    // ── Netlify contact form (AJAX) ──
-    const form = document.getElementById('contactForm');
-    const submitBtn = document.getElementById('submitBtn');
-    const formSuccess = document.getElementById('formSuccess');
-
-    if (form) {
-      form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        submitBtn.disabled = true;
-        submitBtn.querySelector('.submit-text').style.display = 'none';
-        submitBtn.querySelector('.submit-loading').style.display = 'inline';
-
-        const data = new FormData(form);
-
-        try {
-          await fetch(window.location.pathname, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: new URLSearchParams(data).toString(),
-          });
-          // Netlify returns a redirect on success — fetch follows it silently.
-          // If we reach here without throwing, treat it as success.
-          form.reset();
-          submitBtn.style.display = 'none';
-          formSuccess.style.display = 'flex';
-        } catch (err) {
-          submitBtn.disabled = false;
-          submitBtn.querySelector('.submit-text').style.display = 'flex';
-          submitBtn.querySelector('.submit-loading').style.display = 'none';
-          alert('Something went wrong. Please try emailing me directly at sainjoprajol12@gmail.com');
-        }
-      });
-    }
   </script>
+  <script src="js/portfolio.js"></script>
 </body>
 </html>
 
