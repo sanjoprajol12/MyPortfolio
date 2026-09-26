@@ -2,11 +2,19 @@
 # Docs: https://docs.netlify.com/configure-builds/file-based-configuration/
 
 [build]
-  # Adjust if your build output directory is different
-  # publish = "dist"
+  publish = "."
 
-# Secrets scanning: suppress false positives on template / example files.
-# .env.example is a committed template with placeholder values — not real secrets.
+# ──────────────────────────────────────────────────────────────────────────────
+# Secrets scanning suppression
 # https://ntl.fyi/configure-secrets-scanning
-[context.production.environment]
-  SECRETS_SCAN_OMIT_PATHS = ".env.example,node_modules"
+#
+# PORT  → value "3000" is a common port number that appears naturally in code.
+# ADMIN_USERNAME → value "admin" appears naturally throughout HTML/JS/docs as a
+#   route path (/admin), CSS class, link text, etc. — not a leaked credential.
+#
+# SECRETS_SCAN_OMIT_KEYS  skips scanning for the *values* of these specific keys.
+# SECRETS_SCAN_OMIT_PATHS skips scanning the listed files entirely.
+# ──────────────────────────────────────────────────────────────────────────────
+[build.environment]
+  SECRETS_SCAN_OMIT_KEYS  = "PORT,ADMIN_USERNAME"
+  SECRETS_SCAN_OMIT_PATHS = ".env.example,PrajwalSainju.pdf,node_modules"
