@@ -2,19 +2,26 @@
 # Docs: https://docs.netlify.com/configure-builds/file-based-configuration/
 
 [build]
-  publish = "."
+  publish   = "."               # serve static files from the repo root
+  functions = "netlify/functions"
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Secrets scanning suppression
 # https://ntl.fyi/configure-secrets-scanning
 #
-# PORT  → value "3000" is a common port number that appears naturally in code.
+# PORT          → value "3000" is a common port number that appears naturally in code.
 # ADMIN_USERNAME → value "admin" appears naturally throughout HTML/JS/docs as a
 #   route path (/admin), CSS class, link text, etc. — not a leaked credential.
-#
-# SECRETS_SCAN_OMIT_KEYS  skips scanning for the *values* of these specific keys.
-# SECRETS_SCAN_OMIT_PATHS skips scanning the listed files entirely.
 # ──────────────────────────────────────────────────────────────────────────────
 [build.environment]
   SECRETS_SCAN_OMIT_KEYS  = "PORT,ADMIN_USERNAME"
   SECRETS_SCAN_OMIT_PATHS = ".env.example,PrajwalSainju.pdf,node_modules"
+
+# ──────────────────────────────────────────────────────────────────────────────
+# API rewrites — transparently proxy /api/* to the serverless function.
+# The frontend JS uses relative /api/... URLs so no frontend code changes needed.
+# ──────────────────────────────────────────────────────────────────────────────
+[[redirects]]
+  from   = "/api/*"
+  to     = "/.netlify/functions/api/:splat"
+  status = 200

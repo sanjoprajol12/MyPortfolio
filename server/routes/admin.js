@@ -1,6 +1,4 @@
 const express = require('express');
-const path = require('path');
-const fs = require('fs');
 const multer = require('multer');
 const Site = require('../models/Site');
 const Skill = require('../models/Skill');
@@ -12,19 +10,10 @@ const { auth } = require('../middleware/auth');
 const router = express.Router();
 router.use(auth);
 
-const uploadsDir = path.join(__dirname, '..', '..', 'uploads');
-fs.mkdirSync(uploadsDir, { recursive: true });
-
-const storage = multer.diskStorage({
-  destination: (_req, _file, cb) => cb(null, uploadsDir),
-  filename: (_req, file, cb) => {
-    const ext = path.extname(file.originalname || '').toLowerCase() || '.jpg';
-    cb(null, `photo-${Date.now()}${ext}`);
-  },
-});
-
+// Memory storage — works in serverless environments (no writable disk).
+// The image is stored as a base64 data URL in MongoDB.
 const upload = multer({
-  storage,
+  storage: multer.memoryStorage(),
   limits: { fileSize: 5 * 1024 * 1024 },
   fileFilter: (_req, file, cb) => {
     if (!/^image\//.test(file.mimetype)) {
@@ -63,9 +52,10 @@ router.post('/upload', upload.single('photo'), async (req, res) => {
   if (!req.file) {
     return res.status(400).json({ error: 'No file uploaded' });
   }
-  const photoUrl = `/uploads/${req.file.filename}`;
-  await Site.findOneAndUpdate({}, { 'hero.photoUrl': photoUrl }, { upsert: true });
-  res.json({ photoUrl });
+  // Store as base64 data URL — no filesystem needed (serverless-safe)
+  const dataUrl = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
+  await Site.findOneAndUpdate({}, { 'hero.photoUrl': dataUrl }, { upsert: true });
+  res.json({ photoUrl: dataUrl });
 });
 
 router.get('/skills', async (_req, res) => {
