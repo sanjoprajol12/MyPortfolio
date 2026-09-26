@@ -1,0 +1,12 @@
+# Netlify build configuration
+# Docs: https://docs.netlify.com/configure-builds/file-based-configuration/
+
+[build]
+  # Adjust if your build output directory is different
+  # publish = "dist"
+
+# Secrets scanning: suppress false positives on template / example files.
+# .env.example is a committed template with placeholder values — not real secrets.
+# https://ntl.fyi/configure-secrets-scanning
+[context.production.environment]
+  SECRETS_SCAN_OMIT_PATHS = ".env.example,node_modules"
