@@ -3,747 +3,874 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Résumé — Prajwal Sainju · Frontend &amp; Backend Developer</title>
-  <meta name="description" content="Online résumé of Prajwal Sainju — Frontend & Backend Developer based in Kathmandu, Nepal. Skills, experience, and projects." />
+  <title>Prajwal Sainju — Resume &amp; Curriculum Vitae</title>
+  <meta name="description" content="Official Résumé of Prajwal Sainju — Full Stack Developer specializing in Laravel, Vue.js, TypeScript, and SCSS." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,700;1,9..144,900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Carlito:ital,wght@0,400;0,700;1,400;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:           #06060f;
-      --bg-2:         #0a0a16;
-      --bg-card:      #0e0e1c;
-      --bg-card-2:    #131324;
-      --border:       rgba(255,255,255,0.06);
-      --border-mid:   rgba(255,255,255,0.11);
-      --border-hi:    rgba(255,255,255,0.2);
-      --text:         #ededf8;
-      --text-2:       #9696b8;
-      --text-3:       #4a4a6e;
-      --gold:         #d4a853;
-      --gold-light:   #f0c87a;
-      --gold-dim:     rgba(212,168,83,0.1);
-      --gold-dim2:    rgba(212,168,83,0.05);
-      --teal:         #38d9c8;
-      --teal-dim:     rgba(56,217,200,0.08);
-      --rose:         #e87070;
-      --nav-h:        64px;
-      --ff-display:   'Fraunces', Georgia, serif;
-      --ff-body:      'DM Sans', system-ui, sans-serif;
-      --ff-mono:      'Fira Code', monospace;
-      --ease-expo:    cubic-bezier(0.16, 1, 0.3, 1);
+      --bg:             #070712;
+      --bg-surface:     #0d0d1e;
+      --nav-bg:         rgba(7, 7, 18, 0.85);
+      --border-subtle:  rgba(255, 255, 255, 0.08);
+      --gold:           #d4a853;
+      --gold-hover:     #f0c87a;
+      --text-portfolio: #ededf8;
+      --text-muted:     #8e8ea8;
+      --nav-height:     64px;
+
+      /* Resume Paper Palette — extracted directly from PrajwalSainju.pdf */
+      --cv-navy:        #1f3a5f;
+      --cv-gold:        #a0752a;
+      --cv-text:        #1a1a2e;
+      --cv-text-dark:   #000000;
+      --cv-date:        #5a5a7a;
+      --cv-pipe:        #8a8aa0;
+      --cv-paper-bg:    #ffffff;
+      --cv-line-navy:   #1f3a5f;
+      --cv-line-gold:   #a0752a;
     }
 
     [data-theme="light"] {
-      --bg:           #f0efe8;
-      --bg-2:         #e8e7de;
-      --bg-card:      #fafaf5;
-      --bg-card-2:    #f2f2ea;
-      --border:       rgba(0,0,0,0.07);
-      --border-mid:   rgba(0,0,0,0.11);
-      --border-hi:    rgba(0,0,0,0.18);
-      --text:         #18182e;
-      --text-2:       #4a4a6a;
-      --text-3:       #9898b8;
-      --gold:         #96680a;
-      --gold-light:   #7a5208;
-      --gold-dim:     rgba(150,104,10,0.1);
-      --gold-dim2:    rgba(150,104,10,0.05);
-      --teal:         #1a9b90;
-      --teal-dim:     rgba(26,155,144,0.08);
+      --bg:             #f2f1ea;
+      --bg-surface:     #e7e5dc;
+      --nav-bg:         rgba(242, 241, 234, 0.85);
+      --border-subtle:  rgba(0, 0, 0, 0.09);
+      --gold:           #96680a;
+      --gold-hover:     #7a5208;
+      --text-portfolio: #18182e;
+      --text-muted:     #6b6b80;
     }
 
-    html { scroll-behavior: smooth; }
+    /* In Dark Document Mode, the paper canvas adapts to sleek dark mode */
+    [data-sheet-mode="dark"] {
+      --cv-paper-bg:    #0e111a;
+      --cv-navy:        #5dade2;
+      --cv-gold:        #f5b041;
+      --cv-text:        #d6dbdf;
+      --cv-text-dark:   #ebedef;
+      --cv-date:        #95a5a6;
+      --cv-pipe:        #566573;
+      --cv-line-navy:   #2e4053;
+      --cv-line-gold:   #7d6608;
+    }
 
     body {
-      font-family: var(--ff-body);
       background: var(--bg);
-      color: var(--text);
-      line-height: 1.7;
+      color: var(--text-portfolio);
+      font-family: 'DM Sans', system-ui, sans-serif;
       min-height: 100vh;
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
-      transition: background 0.5s, color 0.5s;
+      transition: background 0.3s ease;
     }
 
-    /* ── NAV ── */
+    /* ── PORTFOLIO TOP NAV ── */
     nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      height: var(--nav-h);
-      background: rgba(6,6,15,0.82);
-      backdrop-filter: blur(18px) saturate(180%);
-      border-bottom: 1px solid var(--border);
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      height: var(--nav-height);
+      background: var(--nav-bg);
+      backdrop-filter: blur(16px) saturate(180%);
+      border-bottom: 1px solid var(--border-subtle);
     }
-    [data-theme="light"] nav { background: rgba(240,239,232,0.82); }
-
     .nav-inner {
-      max-width: 1180px; margin: 0 auto;
-      padding: 0 48px;
-      height: 100%; display: flex; align-items: center; justify-content: space-between;
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 32px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
     .nav-logo {
-      font-family: var(--ff-display); font-style: italic;
-      font-size: 1.1rem; font-weight: 700; color: var(--text);
-      text-decoration: none; letter-spacing: -0.02em;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      font-size: 1.15rem;
+      letter-spacing: -0.02em;
+      color: var(--text-portfolio);
+      text-decoration: none;
     }
-    .nav-logo span { color: var(--gold); font-style: normal; }
-
-    .nav-right { display: flex; align-items: center; gap: 10px; }
-    .nav-links { display: flex; align-items: center; gap: 0; list-style: none; }
+    .nav-logo span { color: var(--gold); }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      list-style: none;
+    }
     .nav-links a {
-      display: block; padding: 8px 16px;
-      font-family: var(--ff-mono); font-size: 0.65rem;
-      letter-spacing: 0.12em; text-transform: uppercase;
-      color: var(--text-2); text-decoration: none;
-      transition: color 0.25s; position: relative;
-    }
-    .nav-links a::after {
-      content: ''; position: absolute; bottom: 0; left: 16px; right: 16px;
-      height: 1px; background: var(--gold); transform: scaleX(0);
-      transition: transform 0.3s var(--ease-expo);
-    }
-    .nav-links a:hover { color: var(--gold); }
-    .nav-links a:hover::after { transform: scaleX(1); }
-    .nav-links a.active { color: var(--gold); }
-    .nav-links a.active::after { transform: scaleX(1); }
-
-    .toggle-btn {
-      width: 36px; height: 36px; border-radius: 3px;
-      border: 1px solid var(--border-mid); background: transparent;
-      color: var(--text-2); cursor: pointer; font-size: 0.9rem;
-      transition: all 0.25s; display: flex; align-items: center; justify-content: center;
-    }
-    .toggle-btn:hover { border-color: var(--gold); color: var(--gold); background: var(--gold-dim); }
-
-    /* ── PAGE LAYOUT ── */
-    .page-wrap {
-      max-width: 900px; margin: 0 auto;
-      padding: calc(var(--nav-h) + 56px) 48px 80px;
-    }
-
-    /* ── RESUME HEADER ── */
-    .resume-header {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 40px;
-      align-items: start;
-      margin-bottom: 48px;
-      padding-bottom: 40px;
-      border-bottom: 1px solid var(--border);
-      animation: fadeUp 0.7s var(--ease-expo) both;
-    }
-
-    .resume-name {
-      font-family: var(--ff-display);
-      font-size: clamp(2.4rem, 5vw, 3.8rem);
-      font-weight: 900;
-      line-height: 1;
-      letter-spacing: -0.04em;
-      color: var(--text);
-      margin-bottom: 10px;
-    }
-    .resume-name em { font-style: italic; color: var(--gold); }
-
-    .resume-title {
-      font-family: var(--ff-mono);
-      font-size: 0.72rem;
-      letter-spacing: 0.2em;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 4px;
+      transition: color 0.2s, background 0.2s;
+    }
+    .nav-links a:hover,
+    .nav-links a.active {
       color: var(--gold);
-      margin-bottom: 20px;
     }
 
-    .resume-contact-row {
-      display: flex; flex-wrap: wrap; gap: 6px 18px;
+    /* ── CONTROL TOOLBAR ── */
+    .toolbar-container {
+      max-width: 900px;
+      margin: calc(var(--nav-height) + 24px) auto 18px;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
     }
-    .resume-contact-item {
-      display: flex; align-items: center; gap: 7px;
-      font-family: var(--ff-mono); font-size: 0.68rem;
-      color: var(--text-2); text-decoration: none;
-      letter-spacing: 0.05em;
-      transition: color 0.2s;
+    .toolbar-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
-    .resume-contact-item:hover { color: var(--gold); }
-    .resume-contact-item svg { color: var(--text-3); flex-shrink: 0; }
-
-    /* ── ACTIONS ── */
-    .resume-actions {
-      display: flex; flex-direction: column; gap: 10px; align-items: flex-end;
+    .toolbar-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-portfolio);
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
-
-    .btn-download {
-      display: inline-flex; align-items: center; gap: 9px;
-      text-decoration: none; padding: 11px 22px;
-      background: var(--gold); color: #080500;
-      font-family: var(--ff-mono); font-size: 0.68rem; font-weight: 500;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      border-radius: 3px; border: 1px solid var(--gold);
-      transition: all 0.35s var(--ease-expo);
-      position: relative; overflow: hidden; white-space: nowrap;
+    .badge-exact {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.62rem;
+      padding: 3px 8px;
+      background: rgba(31, 58, 95, 0.3);
+      border: 1px solid rgba(93, 173, 226, 0.4);
+      color: #5dade2;
+      border-radius: 3px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
     }
-    .btn-download::before {
-      content: ''; position: absolute; inset: 0;
-      background: var(--gold-light);
-      transform: translateX(-101%);
-      transition: transform 0.4s var(--ease-expo);
+    .toolbar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
     }
-    .btn-download:hover { transform: translateY(-3px); box-shadow: 0 10px 32px rgba(212,168,83,0.3); }
-    .btn-download:hover::before { transform: translateX(0); }
-    .btn-download span, .btn-download svg { position: relative; z-index: 1; }
-
-    .btn-print {
-      display: inline-flex; align-items: center; gap: 9px;
-      text-decoration: none; padding: 10px 22px;
-      background: transparent; color: var(--text-2);
-      font-family: var(--ff-mono); font-size: 0.68rem;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      border-radius: 3px; border: 1px solid var(--border-mid);
-      cursor: pointer; transition: all 0.3s var(--ease-expo); white-space: nowrap;
-    }
-    .btn-print:hover { border-color: var(--border-hi); color: var(--text); transform: translateY(-3px); }
-
-    /* ── SECTION BLOCKS ── */
-    .resume-section {
-      margin-bottom: 48px;
-      animation: fadeUp 0.7s var(--ease-expo) 0.1s both;
-    }
-
-    .section-label {
-      display: flex; align-items: center; gap: 12px;
-      margin-bottom: 24px;
-    }
-    .section-label-line { flex: 1; height: 1px; background: var(--border); }
-    .section-label-text {
-      font-family: var(--ff-mono); font-size: 0.6rem;
-      letter-spacing: 0.28em; text-transform: uppercase;
-      color: var(--gold); white-space: nowrap;
-    }
-
-    /* Summary */
-    .resume-summary {
-      font-size: 0.92rem; color: var(--text-2);
-      line-height: 1.9; font-weight: 300;
-      padding: 22px 28px;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-left: 3px solid var(--gold);
-      border-radius: 2px;
-    }
-
-    /* Experience */
-    .exp-item {
-      display: grid;
-      grid-template-columns: 160px 1fr;
-      gap: 0 28px;
-      padding: 24px 0;
-      border-bottom: 1px solid var(--border);
-    }
-    .exp-item:last-child { border-bottom: none; }
-
-    .exp-meta {}
-    .exp-date {
-      font-family: var(--ff-mono); font-size: 0.62rem;
-      letter-spacing: 0.1em; color: var(--text-3);
-      margin-bottom: 6px;
-    }
-    .exp-company {
-      font-size: 0.8rem; color: var(--gold);
-      font-weight: 400; line-height: 1.4;
-    }
-
-    .exp-content {}
-    .exp-role {
-      font-family: var(--ff-display); font-size: 1.1rem;
-      font-weight: 700; color: var(--text);
-      margin-bottom: 10px;
-    }
-    .exp-stack {
-      display: flex; flex-wrap: wrap; gap: 5px;
-      margin-bottom: 12px;
-    }
-    .stack-badge {
-      font-family: var(--ff-mono); font-size: 0.6rem;
-      padding: 3px 8px; border-radius: 2px;
-      color: var(--teal); border: 1px solid rgba(56,217,200,0.25);
-      background: var(--teal-dim);
-    }
-    .exp-bullets { list-style: none; display: flex; flex-direction: column; gap: 6px; }
-    .exp-bullets li {
-      font-size: 0.84rem; color: var(--text-2);
-      padding-left: 16px; position: relative;
-      font-weight: 300; line-height: 1.65;
-    }
-    .exp-bullets li::before {
-      content: '→'; position: absolute; left: 0;
-      color: var(--gold); opacity: 0.7; font-size: 0.68rem; top: 1px;
-    }
-
-    /* Skills */
-    .skills-table {
-      display: flex; flex-direction: column; gap: 0;
-      border: 1px solid var(--border);
-    }
-    .skills-row {
-      display: grid; grid-template-columns: 120px 1fr;
-      border-bottom: 1px solid var(--border);
-    }
-    .skills-row:last-child { border-bottom: none; }
-    .skills-row-label {
-      padding: 14px 16px;
-      font-family: var(--ff-mono); font-size: 0.6rem;
-      letter-spacing: 0.18em; text-transform: uppercase;
-      color: var(--text-3); background: var(--bg-card);
-      border-right: 1px solid var(--border);
-      display: flex; align-items: center;
-    }
-    .skills-row-tags {
-      padding: 12px 16px;
-      display: flex; flex-wrap: wrap; gap: 6px;
-      align-items: center; background: var(--bg);
-    }
-    .skill-tag {
-      font-family: var(--ff-mono); font-size: 0.65rem;
-      padding: 3px 9px; border-radius: 2px;
-      color: var(--text-3); border: 1px solid var(--border-mid);
-      background: var(--bg-card);
-    }
-    .skill-tag.hi {
-      color: var(--gold); border-color: rgba(212,168,83,0.35);
-      background: var(--gold-dim);
-    }
-
-    /* Projects */
-    .project-item {
-      padding: 22px 0;
-      border-bottom: 1px solid var(--border);
-    }
-    .project-item:last-child { border-bottom: none; }
-    .project-item-header {
-      display: flex; align-items: flex-start;
-      justify-content: space-between; gap: 16px;
-      margin-bottom: 8px; flex-wrap: wrap;
-    }
-    .project-item-title {
-      font-family: var(--ff-display); font-size: 1rem;
-      font-weight: 700; color: var(--text);
-    }
-    .project-item-links {
-      display: flex; gap: 8px; align-items: center;
-      flex-shrink: 0;
-    }
-    .project-link {
-      display: inline-flex; align-items: center; gap: 5px;
-      font-family: var(--ff-mono); font-size: 0.6rem;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--text-3); text-decoration: none;
-      border: 1px solid var(--border); padding: 4px 10px;
-      border-radius: 2px; transition: all 0.2s;
+    .btn-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      padding: 9px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
       white-space: nowrap;
     }
-    .project-link:hover { border-color: var(--gold); color: var(--gold); }
-    .project-link.live { color: #22d98a; border-color: rgba(34,217,138,0.3); background: rgba(34,217,138,0.05); }
+    .btn-primary-action {
+      background: var(--gold);
+      color: #0b0702;
+      border: 1px solid var(--gold);
+    }
+    .btn-primary-action:hover {
+      background: var(--gold-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(212, 168, 83, 0.3);
+    }
+    .btn-secondary-action {
+      background: var(--bg-surface);
+      color: var(--text-portfolio);
+      border: 1px solid var(--border-subtle);
+    }
+    .btn-secondary-action:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      transform: translateY(-1px);
+    }
 
-    .project-item-techs {
-      display: flex; flex-wrap: wrap; gap: 5px;
+    /* ── RESUME PAPER WRAPPER & CONTAINER ── */
+    .resume-wrapper {
+      padding: 10px 20px 80px;
+      display: flex;
+      justify-content: center;
+    }
+
+    /* The Realistic A4 Sheet Canvas */
+    .resume-sheet {
+      width: 100%;
+      max-width: 820px;
+      background: var(--cv-paper-bg);
+      color: var(--cv-text);
+      font-family: 'Calibri', 'Carlito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(0, 0, 0, 0.08);
+      border-radius: 2px;
+      padding: 44px 52px;
+      line-height: 1.38;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    /* ── HEADER ── */
+    .cv-header {
+      text-align: center;
       margin-bottom: 8px;
     }
-    .tech-badge {
-      font-family: var(--ff-mono); font-size: 0.58rem;
-      padding: 2px 7px; border-radius: 2px;
-      color: var(--text-3); border: 1px solid var(--border);
+    .cv-name {
+      font-size: 23pt;
+      font-weight: 700;
+      letter-spacing: 0.28em;
+      color: var(--cv-navy);
+      text-transform: uppercase;
+      margin-bottom: 2px;
+      padding-left: 0.28em; /* Centers spaced text accurately */
     }
-    .project-item-desc {
-      font-size: 0.83rem; color: var(--text-2);
-      line-height: 1.75; font-weight: 300;
+    .cv-subtitle {
+      font-size: 11pt;
+      font-style: italic;
+      color: var(--cv-gold);
+      margin-bottom: 5px;
     }
-
-    /* Education */
-    .edu-item {
-      display: grid; grid-template-columns: 160px 1fr;
-      gap: 0 28px; padding: 20px 0;
-      border-bottom: 1px solid var(--border);
+    .cv-contact {
+      font-size: 9.2pt;
+      color: var(--cv-text);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 6px 7px;
     }
-    .edu-item:last-child { border-bottom: none; }
-    .edu-date {
-      font-family: var(--ff-mono); font-size: 0.62rem;
-      letter-spacing: 0.1em; color: var(--text-3);
+    .cv-contact a {
+      color: var(--cv-navy);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      transition: color 0.15s;
     }
-    .edu-degree {
-      font-family: var(--ff-display); font-size: 1rem;
-      font-weight: 700; color: var(--text); margin-bottom: 4px;
+    .cv-contact a:hover {
+      color: var(--cv-gold);
     }
-    .edu-school {
-      font-size: 0.82rem; color: var(--gold); font-weight: 400;
-    }
-
-    /* ── FOOTER ── */
-    .resume-footer {
-      margin-top: 56px; padding-top: 28px;
-      border-top: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: space-between;
-      flex-wrap: wrap; gap: 12px;
-    }
-    .resume-footer-copy {
-      font-family: var(--ff-mono); font-size: 0.62rem;
-      color: var(--text-3); letter-spacing: 0.08em;
-    }
-    .resume-footer-back {
-      font-family: var(--ff-mono); font-size: 0.62rem;
-      letter-spacing: 0.12em; text-transform: uppercase;
-      color: var(--text-3); text-decoration: none;
-      display: flex; align-items: center; gap: 6px;
-      transition: color 0.2s;
-    }
-    .resume-footer-back:hover { color: var(--gold); }
-
-    /* ── ANIMATIONS ── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
+    .cv-contact .pipe {
+      color: var(--cv-pipe);
+      font-weight: 300;
+      user-select: none;
     }
 
-    /* ── LOADING STATE ── */
-    .skeleton {
-      background: linear-gradient(90deg, var(--bg-card) 25%, var(--bg-card-2) 50%, var(--bg-card) 75%);
-      background-size: 200% 100%;
-      animation: shimmer 1.4s infinite;
-      border-radius: 2px;
-    }
-    @keyframes shimmer {
-      0%   { background-position: 200% 0; }
-      100% { background-position: -200% 0; }
+    /* Top gold rule line below contact */
+    .cv-header-rule {
+      height: 1.1px;
+      background: var(--cv-line-gold);
+      margin: 9px 0 15px;
     }
 
-    /* ── PRINT STYLES ── */
+    /* ── SECTION STYLING ── */
+    .cv-section {
+      margin-bottom: 12px;
+    }
+    .cv-section-title {
+      font-size: 11pt;
+      font-weight: 700;
+      color: var(--cv-navy);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding-left: 0.2em;
+      margin-bottom: 2px;
+    }
+    .cv-section-rule {
+      height: 0.85px;
+      background: var(--cv-line-navy);
+      margin-bottom: 7px;
+    }
+
+    /* ── SUMMARY ── */
+    .cv-summary-text {
+      font-size: 10.1pt;
+      color: var(--cv-text);
+      line-height: 1.42;
+      text-align: justify;
+    }
+
+    /* ── TECHNICAL SKILLS ── */
+    .cv-skills-list {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      font-size: 10.1pt;
+      line-height: 1.38;
+    }
+    .cv-skill-item {
+      color: var(--cv-text);
+    }
+    .cv-skill-label {
+      font-weight: 700;
+      color: var(--cv-navy);
+      margin-right: 5px;
+    }
+
+    /* ── EXPERIENCE & PROJECT ENTRIES ── */
+    .cv-entry {
+      margin-bottom: 9px;
+    }
+    .cv-entry:last-child {
+      margin-bottom: 0;
+    }
+    .cv-entry-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+    }
+    .cv-entry-title {
+      font-size: 11pt;
+      font-weight: 700;
+      color: var(--cv-text-dark);
+    }
+    .cv-entry-meta {
+      font-size: 10.1pt;
+      font-style: italic;
+      color: var(--cv-date);
+      white-space: nowrap;
+    }
+    .cv-entry-tech {
+      font-size: 10.1pt;
+      font-style: italic;
+      color: var(--cv-gold);
+      margin-top: 1px;
+      margin-bottom: 3px;
+    }
+    .cv-bullets {
+      list-style-type: none;
+      padding-left: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 2.5px;
+    }
+    .cv-bullets li {
+      font-size: 10.1pt;
+      color: var(--cv-text);
+      line-height: 1.36;
+      position: relative;
+    }
+    .cv-bullets li::before {
+      content: '•';
+      position: absolute;
+      left: -12px;
+      top: 0;
+      color: var(--cv-text);
+      font-size: 11pt;
+    }
+
+    /* ── EDUCATION ── */
+    .cv-edu-school {
+      font-size: 10.1pt;
+      font-style: italic;
+      color: var(--cv-gold);
+      margin-bottom: 3px;
+    }
+
+    /* ── CERTIFICATIONS & ADDITIONAL INFO ── */
+    .cv-info-list {
+      display: flex;
+      flex-direction: column;
+      gap: 3.5px;
+      font-size: 10.1pt;
+      line-height: 1.38;
+    }
+    .cv-info-item {
+      color: var(--cv-text);
+    }
+    .cv-info-label {
+      font-weight: 700;
+      color: var(--cv-navy);
+      margin-right: 5px;
+    }
+
+    /* Page break indicator for multi-page screen layout */
+    .page-separator {
+      margin: 22px 0 20px;
+      border: none;
+      border-top: 1px dashed rgba(120, 120, 140, 0.3);
+      position: relative;
+      text-align: center;
+    }
+    .page-separator::after {
+      content: 'Page 2';
+      position: absolute;
+      top: -9px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--cv-paper-bg);
+      padding: 0 12px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.65rem;
+      color: var(--cv-date);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* ── PRINT RULES (EXACT 1:1 TO PrajwalSainju.pdf) ── */
+    @page {
+      size: A4;
+      margin: 15mm 18mm 15mm 18mm;
+    }
+
     @media print {
-      nav, .resume-actions, .resume-footer-back { display: none !important; }
-      body { background: #fff !important; color: #111 !important; cursor: auto; }
-      .page-wrap { padding: 24px 32px !important; max-width: 100% !important; }
-      :root {
-        --bg: #fff; --bg-card: #f8f8f8; --bg-card-2: #f0f0f0;
-        --text: #111; --text-2: #444; --text-3: #888;
-        --border: rgba(0,0,0,0.12); --border-mid: rgba(0,0,0,0.16);
-        --gold: #7a5208; --teal: #1a6e68;
-        --gold-dim: rgba(122,82,8,0.06); --teal-dim: rgba(26,110,104,0.05);
+      nav,
+      .toolbar-container,
+      .page-separator {
+        display: none !important;
       }
-      .resume-header { animation: none; }
-      .resume-section { animation: none; break-inside: avoid; }
-      .exp-item { break-inside: avoid; }
-      .project-item { break-inside: avoid; }
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+      .resume-wrapper {
+        padding: 0 !important;
+        margin: 0 !important;
+        display: block !important;
+      }
+      .resume-sheet {
+        max-width: 100% !important;
+        width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        background: #ffffff !important;
+        color: #1a1a2e !important;
+        font-family: 'Calibri', 'Carlito', sans-serif !important;
+      }
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      .cv-header-rule {
+        background: #a0752a !important;
+      }
+      .cv-section-rule {
+        background: #1f3a5f !important;
+      }
+      .cv-name, .cv-section-title, .cv-skill-label, .cv-info-label {
+        color: #1f3a5f !important;
+      }
+      .cv-subtitle, .cv-entry-tech, .cv-edu-school {
+        color: #a0752a !important;
+      }
+      .cv-entry-meta {
+        color: #5a5a7a !important;
+      }
+      .cv-entry {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+      .cv-section {
+        break-inside: auto;
+      }
+      .print-break-before {
+        break-before: page;
+        page-break-before: always;
+      }
     }
 
-    /* ── RESPONSIVE ── */
-    @media (max-width: 680px) {
-      .nav-inner { padding: 0 18px; }
-      :root { --nav-h: 56px; }
-      .page-wrap { padding: calc(var(--nav-h) + 32px) 20px 60px; }
-      .resume-header { grid-template-columns: 1fr; gap: 24px; }
-      .resume-actions { align-items: flex-start; flex-direction: row; flex-wrap: wrap; }
-      .exp-item { grid-template-columns: 1fr; gap: 4px; }
-      .edu-item { grid-template-columns: 1fr; gap: 4px; }
+    /* ── MOBILE RESPONSIVENESS ── */
+    @media (max-width: 768px) {
+      .nav-inner { padding: 0 16px; }
       .nav-links { display: none; }
+      .toolbar-container {
+        margin-top: calc(var(--nav-height) + 16px);
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .toolbar-right {
+        justify-content: stretch;
+      }
+      .toolbar-right .btn-action {
+        flex: 1;
+        justify-content: center;
+      }
+      .resume-sheet {
+        padding: 26px 20px;
+      }
+      .cv-name {
+        font-size: 16pt;
+        letter-spacing: 0.15em;
+        padding-left: 0.15em;
+      }
+      .cv-subtitle {
+        font-size: 10pt;
+      }
+      .cv-contact {
+        font-size: 8.5pt;
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- NAV -->
+  <!-- PORTFOLIO NAV -->
   <nav>
     <div class="nav-inner">
       <a href="/" class="nav-logo">Prajwal <span>Sainju</span></a>
-      <div class="nav-right">
-        <ul class="nav-links">
-          <li><a href="/#about">About</a></li>
-          <li><a href="/#skills">Skills</a></li>
-          <li><a href="/#experience">Experience</a></li>
-          <li><a href="/#projects">Projects</a></li>
-          <li><a href="/#contact">Contact</a></li>
-          <li><a href="/resume.html" class="active">Résumé</a></li>
-        </ul>
-        <button class="toggle-btn" id="themeToggle" aria-label="Toggle theme">☀️</button>
-      </div>
+      <ul class="nav-links">
+        <li><a href="/#about">About</a></li>
+        <li><a href="/#skills">Skills</a></li>
+        <li><a href="/#experience">Experience</a></li>
+        <li><a href="/#projects">Projects</a></li>
+        <li><a href="/#contact">Contact</a></li>
+        <li><a href="/resume.html" class="active">Résumé</a></li>
+      </ul>
+      <button class="btn-action btn-secondary-action" id="themeToggle" title="Toggle site theme" aria-label="Toggle site theme">☀️ Light</button>
     </div>
   </nav>
 
-  <div class="page-wrap">
-
-    <!-- RESUME HEADER -->
-    <div class="resume-header">
-      <div>
-        <h1 class="resume-name" id="res-name">Prajwal <em>Sainju</em></h1>
-        <div class="resume-title" id="res-title">Frontend &amp; Backend Developer</div>
-        <div class="resume-contact-row">
-          <a href="mailto:sainjoprajol12@gmail.com" class="resume-contact-item" id="res-email">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
-            <span>sainjoprajol12@gmail.com</span>
-          </a>
-          <a href="tel:+9779841273490" class="resume-contact-item" id="res-phone">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13 19.79 19.79 0 0 1 1.61 4.45 2 2 0 0 1 3.59 2.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l.81-.81a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-            <span>+977 9841273490</span>
-          </a>
-          <span class="resume-contact-item" id="res-location">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            <span>Kathmandu, Nepal</span>
-          </span>
-          <a href="https://linkedin.com/in/prajwal-sainju/" target="_blank" rel="noopener" class="resume-contact-item" id="res-linkedin">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
-            <span>linkedin.com/in/prajwal-sainju</span>
-          </a>
-          <a href="https://github.com/sanjoprajol12" target="_blank" rel="noopener" class="resume-contact-item" id="res-github">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-            <span>github.com/sanjoprajol12</span>
-          </a>
-        </div>
-      </div>
-
-      <div class="resume-actions">
-        <a href="/PrajwalSainju.pdf" download="PrajwalSainju_Resume.pdf" class="btn-download" id="btn-download-cv">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          <span>Download CV</span>
-        </a>
-        <button class="btn-print" onclick="window.print()" id="btn-print-resume">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-          Print / Save PDF
-        </button>
+  <!-- ACTIONS TOOLBAR -->
+  <div class="toolbar-container">
+    <div class="toolbar-left">
+      <div class="toolbar-title">
+        <span>Curriculum Vitae</span>
+        <span class="badge-exact">Verified PDF Format</span>
       </div>
     </div>
-
-    <!-- SUMMARY -->
-    <div class="resume-section">
-      <div class="section-label">
-        <div class="section-label-text">Summary</div>
-        <div class="section-label-line"></div>
-      </div>
-      <p class="resume-summary" id="res-summary">
-        Frontend &amp; Backend Developer based in Kathmandu, Nepal. Currently interning at Futech Solution building production-grade web applications using Laravel, Vue.js, TypeScript, and SCSS — on both decoupled SPA and Blade monolith architectures. Passionate about reusable component design, type-safe code, and clean architectural patterns.
-      </p>
-    </div>
-
-    <!-- EXPERIENCE -->
-    <div class="resume-section">
-      <div class="section-label">
-        <div class="section-label-text">Experience</div>
-        <div class="section-label-line"></div>
-      </div>
-      <div id="res-experience">
-        <!-- Filled by JS -->
-        <div class="exp-item">
-          <div class="exp-meta">
-            <div class="exp-date skeleton" style="height:14px;width:120px;margin-bottom:6px;"></div>
-            <div class="skeleton" style="height:14px;width:90px;"></div>
-          </div>
-          <div class="exp-content">
-            <div class="skeleton" style="height:20px;width:240px;margin-bottom:10px;"></div>
-            <div class="skeleton" style="height:12px;width:100%;margin-bottom:6px;"></div>
-            <div class="skeleton" style="height:12px;width:80%;"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- SKILLS -->
-    <div class="resume-section">
-      <div class="section-label">
-        <div class="section-label-text">Skills</div>
-        <div class="section-label-line"></div>
-      </div>
-      <div class="skills-table" id="res-skills">
-        <div class="skills-row">
-          <div class="skills-row-label skeleton" style="height:44px;"></div>
-          <div class="skills-row-tags skeleton" style="height:44px;"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- PROJECTS -->
-    <div class="resume-section">
-      <div class="section-label">
-        <div class="section-label-text">Projects</div>
-        <div class="section-label-line"></div>
-      </div>
-      <div id="res-projects">
-        <div class="project-item">
-          <div class="skeleton" style="height:18px;width:280px;margin-bottom:8px;"></div>
-          <div class="skeleton" style="height:12px;width:100%;margin-bottom:4px;"></div>
-          <div class="skeleton" style="height:12px;width:70%;"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- EDUCATION -->
-    <div class="resume-section">
-      <div class="section-label">
-        <div class="section-label-text">Education</div>
-        <div class="section-label-line"></div>
-      </div>
-      <div id="res-education">
-        <div class="edu-item">
-          <div class="edu-date" id="res-edu-date">2022 — Present</div>
-          <div>
-            <div class="edu-degree" id="res-edu-degree">Bachelor of Computer Application (BCA)</div>
-            <div class="edu-school" id="res-edu-school">Arunima College · Kathmandu, Nepal</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- FOOTER -->
-    <div class="resume-footer">
-      <div class="resume-footer-copy" id="res-footer-copy">© 2026 · Prajwal Sainju · Kathmandu, Nepal</div>
-      <a href="/" class="resume-footer-back">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-        Back to portfolio
+    <div class="toolbar-right">
+      <button class="btn-action btn-secondary-action" id="sheetModeBtn" title="Toggle paper canvas view">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
+        <span id="sheetModeLabel">Dark Canvas</span>
+      </button>
+      <button class="btn-action btn-secondary-action" onclick="window.print()" id="btnPrint">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        Print / Save PDF
+      </button>
+      <a href="/PrajwalSainju.pdf" download="PrajwalSainju.pdf" class="btn-action btn-primary-action" id="btnDownload">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download Official PDF
       </a>
     </div>
+  </div>
 
-  </div><!-- /page-wrap -->
+  <!-- RESUME SHEET (Exact Replica of PrajwalSainju.pdf) -->
+  <div class="resume-wrapper">
+    <main class="resume-sheet" id="resumeSheet">
+
+      <!-- HEADER -->
+      <header class="cv-header">
+        <h1 class="cv-name">P R A J W A L &nbsp; S A I N J U</h1>
+        <div class="cv-subtitle">Full Stack Developer &nbsp;·&nbsp; Laravel + Vue.js + TypeScript</div>
+        <div class="cv-contact">
+          <span>Kathmandu, Nepal</span>
+          <span class="pipe">|</span>
+          <a href="tel:+9779841273490">+977 9841273490</a>
+          <span class="pipe">|</span>
+          <a href="mailto:Sainjoprajol12@gmail.com">Sainjoprajol12@gmail.com</a>
+          <span class="pipe">|</span>
+          <a href="https://linkedin.com/in/prajwal-sainju" target="_blank" rel="noopener">linkedin.com/in/prajwal-sainju</a>
+          <span class="pipe">|</span>
+          <a href="https://github.com/sanjoprajol12" target="_blank" rel="noopener">github.com/sanjoprajol12</a>
+        </div>
+      </header>
+
+      <div class="cv-header-rule"></div>
+
+      <!-- PROFESSIONAL SUMMARY -->
+      <section class="cv-section">
+        <h2 class="cv-section-title">P R O F E S S I O N A L &nbsp; S U M M A R Y</h2>
+        <div class="cv-section-rule"></div>
+        <p class="cv-summary-text">
+          Full Stack Developer based in Kathmandu with hands-on internship experience building production web applications. Comfortable across the stack — server-side logic and APIs in PHP/Laravel, reactive client-side UIs in Vue.js with TypeScript and SCSS, and full-stack monoliths combining Laravel + Blade + Vue. Currently shipping a live consultancy admin portal and comfortable with Docker-based deployment workflows. Focused on clean architecture, reusable components, and maintainable code. Multilingual: English, Nepali, Hindi.
+        </p>
+      </section>
+
+      <!-- TECHNICAL SKILLS -->
+      <section class="cv-section">
+        <h2 class="cv-section-title">T E C H N I C A L &nbsp; S K I L L S</h2>
+        <div class="cv-section-rule"></div>
+        <div class="cv-skills-list">
+          <div class="cv-skill-item">
+            <span class="cv-skill-label">Primary Stack:</span>
+            <span>Laravel · Vue.js · TypeScript · SCSS · MySQL</span>
+          </div>
+          <div class="cv-skill-item">
+            <span class="cv-skill-label">Languages:</span>
+            <span>PHP · JavaScript (ES6+) · TypeScript · SQL · HTML5 · CSS3 · SCSS · C · C#</span>
+          </div>
+          <div class="cv-skill-item">
+            <span class="cv-skill-label">Frameworks &amp; Libraries:</span>
+            <span>Laravel · Vue.js · Blade · Inertia.js · Node.js · Express.js · React.js · Bootstrap · Tailwind CSS</span>
+          </div>
+          <div class="cv-skill-item">
+            <span class="cv-skill-label">Databases:</span>
+            <span>MySQL · PostgreSQL · SQLite · Redis · MongoDB</span>
+          </div>
+          <div class="cv-skill-item">
+            <span class="cv-skill-label">DevOps &amp; Tooling:</span>
+            <span>Docker · Git · GitHub · GitLab · Composer · npm · Vite · VS Code · XAMPP · Jira</span>
+          </div>
+          <div class="cv-skill-item">
+            <span class="cv-skill-label">Productivity:</span>
+            <span>Excel · Power BI · PowerPoint · Word · Outlook</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- EXPERIENCE -->
+      <section class="cv-section">
+        <h2 class="cv-section-title">E X P E R I E N C E</h2>
+        <div class="cv-section-rule"></div>
+
+        <div class="cv-entry">
+          <div class="cv-entry-head">
+            <span class="cv-entry-title">Full Stack Developer Intern</span>
+            <span class="cv-entry-meta">Current</span>
+          </div>
+          <div class="cv-entry-tech">Laravel · Vue.js · TypeScript · Blade · MySQL · Docker</div>
+          <ul class="cv-bullets">
+            <li>Ship features end-to-end across Laravel backends and Vue.js frontends for a live consultancy product.</li>
+            <li>Build reactive admin dashboards in Vue + TypeScript + SCSS, focused on reusable components and scalable front-end architecture.</li>
+            <li>Develop server-side logic, APIs, and database schemas in Laravel, including authentication, role-based access, and CRUD workflows.</li>
+            <li>Work across both decoupled Vue SPA + Laravel API setups and classic Laravel + Blade + Vue monoliths — choosing the right pattern per project.</li>
+            <li>Use Docker for consistent local development and deployment; follow professional Git workflows with code review.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- PROJECTS -->
+      <section class="cv-section">
+        <h2 class="cv-section-title">P R O J E C T S</h2>
+        <div class="cv-section-rule"></div>
+
+        <!-- Project 1 -->
+        <div class="cv-entry">
+          <div class="cv-entry-head">
+            <span class="cv-entry-title">Consultancy Web — Full-Stack Website</span>
+            <span class="cv-entry-meta">Live</span>
+          </div>
+          <div class="cv-entry-tech">Laravel · Blade · Vue.js · MySQL</div>
+          <ul class="cv-bullets">
+            <li>Built a public-facing consultancy website with server-rendered Blade pages for SEO and Vue components for interactive sections.</li>
+            <li>Implemented pages for services, contact, and marketing content with clean, responsive layouts.</li>
+            <li>Chose a hybrid Blade + Vue approach to balance SEO-friendly rendering with a modern interactive feel.</li>
+          </ul>
+        </div>
+
+        <!-- Project 2 -->
+        <div class="cv-entry">
+          <div class="cv-entry-head">
+            <span class="cv-entry-title">Consultancy Admin — Admin Dashboard</span>
+            <span class="cv-entry-meta"></span>
+          </div>
+          <div class="cv-entry-tech">Vue.js · TypeScript · SCSS</div>
+          <ul class="cv-bullets">
+            <li>Developed an internal admin panel for managing the consultancy website's content, users, and records.</li>
+            <li>Built a responsive, component-driven UI using Vue + TypeScript for type safety and SCSS for structured styling.</li>
+            <li>Focused on reusable components and a scalable folder structure to support ongoing feature additions.</li>
+          </ul>
+        </div>
+
+        <!-- Visual Page Break for screen preview & clean print page break -->
+        <hr class="page-separator" />
+
+        <!-- Project 3 -->
+        <div class="cv-entry print-break-before">
+          <div class="cv-entry-head">
+            <span class="cv-entry-title">Futech Project — Backend API</span>
+            <span class="cv-entry-meta"></span>
+          </div>
+          <div class="cv-entry-tech">PHP · Laravel · MySQL</div>
+          <ul class="cv-bullets">
+            <li>Developed the server-side application handling business logic, database operations, authentication, and API endpoints.</li>
+            <li>Structured the codebase around Laravel conventions for maintainable controllers, models, and migrations.</li>
+            <li>Designed APIs consumed by a separate Vue + TypeScript frontend.</li>
+          </ul>
+        </div>
+
+        <!-- Project 4 -->
+        <div class="cv-entry">
+          <div class="cv-entry-head">
+            <span class="cv-entry-title">Futech Project — Frontend SPA</span>
+            <span class="cv-entry-meta"></span>
+          </div>
+          <div class="cv-entry-tech">Vue.js · TypeScript</div>
+          <ul class="cv-bullets">
+            <li>Built the client-side interface as a Vue single-page application, consuming the Laravel API.</li>
+            <li>Emphasized reusable UI components, clean file structure, and TypeScript for safer, more maintainable code.</li>
+            <li>Delivered screens, forms, and dashboards with clear separation from backend concerns.</li>
+          </ul>
+        </div>
+
+        <!-- Project 5 -->
+        <div class="cv-entry">
+          <div class="cv-entry-head">
+            <span class="cv-entry-title">CMS Template — Reusable Admin Starter</span>
+            <span class="cv-entry-meta"></span>
+          </div>
+          <div class="cv-entry-tech">Vue.js · TypeScript · SCSS</div>
+          <ul class="cv-bullets">
+            <li>Created a reusable CMS/admin template to accelerate future dashboard and admin panel projects.</li>
+            <li>Packaged a consistent layout, shared component library, and SCSS theming system.</li>
+            <li>Designed as a starting point for client projects, reducing setup time on new builds.</li>
+          </ul>
+        </div>
+
+        <!-- Project 6 -->
+        <div class="cv-entry">
+          <div class="cv-entry-head">
+            <span class="cv-entry-title">Appointment System — Booking Platform</span>
+            <span class="cv-entry-meta"></span>
+          </div>
+          <div class="cv-entry-tech">Laravel · Blade · JavaScript · Docker</div>
+          <ul class="cv-bullets">
+            <li>Built an appointment booking and management web app with scheduling workflows and admin/user views.</li>
+            <li>Implemented authentication, database design for appointments, and Blade-based UI with vanilla JS interactions.</li>
+            <li>Containerized the app with Docker for consistent environments across local development and deployment.</li>
+          </ul>
+        </div>
+
+        <!-- Project 7 -->
+        <div class="cv-entry">
+          <div class="cv-entry-head">
+            <span class="cv-entry-title">Inventory Management System</span>
+            <span class="cv-entry-meta"></span>
+          </div>
+          <div class="cv-entry-tech">PHP · JavaScript · MySQL</div>
+          <ul class="cv-bullets">
+            <li>Real-time stock tracking with low-stock alerts, product categorization, and supplier management.</li>
+            <li>Purchase and sales order workflows with role-based access control for staff and admins.</li>
+            <li>Reporting dashboard with exportable data.</li>
+          </ul>
+        </div>
+
+        <!-- Project 8 -->
+        <div class="cv-entry">
+          <div class="cv-entry-head">
+            <span class="cv-entry-title">College Management System</span>
+            <span class="cv-entry-meta"></span>
+          </div>
+          <div class="cv-entry-tech">PHP · MySQL · Bootstrap</div>
+          <ul class="cv-bullets">
+            <li>Student enrollment, academic record management, and attendance tracking with automated reporting.</li>
+            <li>Faculty management, course scheduling, and fee collection workflows.</li>
+            <li>Export to Excel/PDF for academic and financial records.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- EDUCATION -->
+      <section class="cv-section">
+        <h2 class="cv-section-title">E D U C A T I O N</h2>
+        <div class="cv-section-rule"></div>
+
+        <div class="cv-entry">
+          <div class="cv-entry-head">
+            <span class="cv-entry-title">Bachelor of Computer Applications (BCA)</span>
+            <span class="cv-entry-meta">2022 — Ongoing</span>
+          </div>
+          <div class="cv-edu-school">Arunima College, Kathmandu, Nepal</div>
+          <ul class="cv-bullets">
+            <li>Completed: Web Development, Database System Management, Data Structures.</li>
+            <li>Ongoing: Advanced Java, Mobile Programming.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- CERTIFICATIONS & ADDITIONAL INFO -->
+      <section class="cv-section">
+        <h2 class="cv-section-title">C E R T I F I C A T I O N S &nbsp; &amp; &nbsp; A D D I T I O N A L &nbsp; I N F O</h2>
+        <div class="cv-section-rule"></div>
+
+        <div class="cv-info-list">
+          <div class="cv-info-item">
+            <span class="cv-info-label">Certifications:</span>
+            <span>MERN Stack Certification — N9 Solutions (2024)</span>
+          </div>
+          <div class="cv-info-item">
+            <span class="cv-info-label">Strengths:</span>
+            <span>Problem-solving · Fast learner · Team collaboration · Clean, maintainable code · Adaptability</span>
+          </div>
+          <div class="cv-info-item">
+            <span class="cv-info-label">Interests:</span>
+            <span>Full Stack Development · Database Design · Mobile App Development · Cybersecurity</span>
+          </div>
+          <div class="cv-info-item">
+            <span class="cv-info-label">Languages:</span>
+            <span>English · Nepali · Hindi</span>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
 
   <script>
-    // ── Theme toggle ──────────────────────────────────────────────────────────
-    const html = document.documentElement;
+    // ── Theme Management ──
+    const htmlEl = document.documentElement;
     const themeBtn = document.getElementById('themeToggle');
-    const saved = localStorage.getItem('theme') || 'dark';
-    html.setAttribute('data-theme', saved);
-    themeBtn.textContent = saved === 'dark' ? '☀️' : '🌙';
+    const sheetModeBtn = document.getElementById('sheetModeBtn');
+    const sheetModeLabel = document.getElementById('sheetModeLabel');
+
+    // Load saved preferences
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    const savedSheetMode = localStorage.getItem('sheetMode') || 'light';
+
+    htmlEl.setAttribute('data-theme', savedTheme);
+    htmlEl.setAttribute('data-sheet-mode', savedSheetMode);
+    updateThemeBtn();
+    updateSheetBtn();
+
     themeBtn.addEventListener('click', () => {
-      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-      html.setAttribute('data-theme', next);
+      const current = htmlEl.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      htmlEl.setAttribute('data-theme', next);
       localStorage.setItem('theme', next);
-      themeBtn.textContent = next === 'dark' ? '☀️' : '🌙';
+      updateThemeBtn();
     });
 
-    // ── Helper ────────────────────────────────────────────────────────────────
-    function esc(v) {
-      return String(v == null ? '' : v)
-        .replace(/&/g, '&amp;').replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    sheetModeBtn.addEventListener('click', () => {
+      const current = htmlEl.getAttribute('data-sheet-mode');
+      const next = current === 'dark' ? 'light' : 'dark';
+      htmlEl.setAttribute('data-sheet-mode', next);
+      localStorage.setItem('sheetMode', next);
+      updateSheetBtn();
+    });
+
+    function updateThemeBtn() {
+      const isDark = htmlEl.getAttribute('data-theme') === 'dark';
+      themeBtn.textContent = isDark ? '☀️ Light' : '🌙 Dark';
     }
 
-    // ── Render data from API ──────────────────────────────────────────────────
-    function render(data) {
-      const site       = data.site       || {};
-      const hero       = site.hero       || {};
-      const about      = site.about      || {};
-      const contact    = site.contact    || {};
-      const skills     = data.skills     || [];
-      const experience = data.experience || [];
-      const projects   = data.projects   || [];
-
-      const fullName = [site.firstName, site.lastName].filter(Boolean).join(' ');
-
-      // Header
-      if (fullName) {
-        const nameParts = fullName.split(' ');
-        const last = nameParts.pop();
-        document.getElementById('res-name').innerHTML =
-          `${esc(nameParts.join(' '))} <em>${esc(last)}</em>`;
-      }
-      if (hero.photoRole || site.pageTitle) {
-        document.getElementById('res-title').textContent = hero.photoRole || '';
-      }
-      if (contact.email) {
-        const el = document.getElementById('res-email');
-        el.href = `mailto:${contact.email}`;
-        el.querySelector('span').textContent = contact.email;
-      }
-      if (contact.phone) {
-        const el = document.getElementById('res-phone');
-        el.href = `tel:${contact.phone.replace(/\s+/g, '')}`;
-        el.querySelector('span').textContent = contact.phone;
-      }
-      if (contact.linkedinUrl) {
-        const el = document.getElementById('res-linkedin');
-        el.href = contact.linkedinUrl;
-        if (contact.linkedinHandle) el.querySelector('span').textContent = contact.linkedinHandle;
-      }
-      if (contact.githubUrl) {
-        const el = document.getElementById('res-github');
-        el.href = contact.githubUrl;
-        if (contact.githubHandle) el.querySelector('span').textContent = contact.githubHandle;
-      }
-
-      // Summary
-      if (about.paragraphs && about.paragraphs.length) {
-        document.getElementById('res-summary').textContent = about.paragraphs[0];
-      }
-
-      // Experience
-      if (experience.length) {
-        document.getElementById('res-experience').innerHTML = experience.map(e => `
-          <div class="exp-item">
-            <div class="exp-meta">
-              <div class="exp-date">${esc(e.date || '')}</div>
-              <div class="exp-company">${esc(e.company || '')}</div>
-            </div>
-            <div class="exp-content">
-              <div class="exp-role">${esc(e.role || '')}</div>
-              <div class="exp-stack">
-                ${(e.stack || []).map(t => `<span class="stack-badge">${esc(t)}</span>`).join('')}
-              </div>
-              <ul class="exp-bullets">
-                ${(e.bullets || []).map(b => `<li>${esc(b)}</li>`).join('')}
-              </ul>
-            </div>
-          </div>
-        `).join('');
-      }
-
-      // Skills
-      if (skills.length) {
-        document.getElementById('res-skills').innerHTML = skills.map(s => `
-          <div class="skills-row">
-            <div class="skills-row-label">${esc(s.title || '')}</div>
-            <div class="skills-row-tags">
-              ${(s.tags || []).map(t => `<span class="skill-tag${t.highlight ? ' hi' : ''}">${esc(t.name || '')}</span>`).join('')}
-            </div>
-          </div>
-        `).join('');
-      }
-
-      // Projects — show only top 5 with links
-      const topProjects = projects.slice(0, 5);
-      if (topProjects.length) {
-        document.getElementById('res-projects').innerHTML = topProjects.map(p => {
-          const liveLink = p.liveUrl
-            ? `<a href="${esc(p.liveUrl)}" target="_blank" rel="noopener" class="project-link live">
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                Live
-              </a>` : '';
-          const ghLink = p.githubUrl
-            ? `<a href="${esc(p.githubUrl)}" target="_blank" rel="noopener" class="project-link">
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-                GitHub
-              </a>` : '';
-          return `
-            <div class="project-item">
-              <div class="project-item-header">
-                <div class="project-item-title">${esc(p.title || '')}</div>
-                <div class="project-item-links">${liveLink}${ghLink}</div>
-              </div>
-              <div class="project-item-techs">
-                ${(p.techs || []).map(t => `<span class="tech-badge">${esc(t)}</span>`).join('')}
-              </div>
-              <div class="project-item-desc">${esc(p.description || '')}</div>
-            </div>
-          `;
-        }).join('');
-      }
-
-      // Footer
-      if (site.footerCopy) {
-        document.getElementById('res-footer-copy').textContent = site.footerCopy;
-      }
+    function updateSheetBtn() {
+      const isDarkSheet = htmlEl.getAttribute('data-sheet-mode') === 'dark';
+      sheetModeLabel.textContent = isDarkSheet ? 'Light Paper' : 'Dark Canvas';
     }
 
-    // ── Fetch from API ────────────────────────────────────────────────────────
+    // Optional API hydration (updates contact details if modified via admin)
     const API = window.PORTFOLIO_API || '';
-    fetch(`${API}/api/content`)
-      .then(r => (r.ok ? r.json() : Promise.reject()))
-      .then(render)
-      .catch(() => { /* static fallback already in HTML */ });
+    if (API) {
+      fetch(`${API}/api/content`)
+        .then(r => r.ok ? r.json() : null)
+        .then(data => {
+          if (!data || !data.site) return;
+          const contact = data.site.contact || {};
+          if (contact.email) {
+            document.querySelectorAll('a[href^="mailto:"]').forEach(el => {
+              el.href = `mailto:${contact.email}`;
+              el.textContent = contact.email;
+            });
+          }
+          if (contact.phone) {
+            document.querySelectorAll('a[href^="tel:"]').forEach(el => {
+              el.href = `tel:${contact.phone.replace(/\\s+/g, '')}`;
+              el.textContent = contact.phone;
+            });
+          }
+        })
+        .catch(() => {});
+    }
   </script>
 
 </body>
