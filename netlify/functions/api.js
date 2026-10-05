@@ -13,6 +13,8 @@ const { seed }       = require('../../server/seed');
 const authRoutes     = require('../../server/routes/auth');
 const publicRoutes   = require('../../server/routes/public');
 const adminRoutes    = require('../../server/routes/admin');
+const mfaRoutes      = require('../../server/routes/mfa');
+const userRoutes     = require('../../server/routes/users');
 
 const app = express();
 
