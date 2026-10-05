@@ -1,0 +1,15 @@
+{
+  "airdrop": "AirDrop",
+  "airpods": "AirPods",
+  "airtag": "AirTag",
+  "homekit": "HomeKit",
+  "homepod": "HomePod",
+  "imac": "iMac",
+  "ipad": "iPad",
+  "iphone": "iPhone",
+  "ipod": "iPod",
+  "macbook": "MacBook",
+  "macbook air": "MacBook Air",
+  "macbook pro": "MacBook Pro",
+  "yubikey": "YubiKey"
+}
