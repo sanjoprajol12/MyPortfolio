@@ -1,0 +1,9 @@
+@use 'misc';
+
+%default-layout-horizontal-nav-navbar-and-nav-container {
+  box-shadow: 0 4px 8px -4px rgba(var(--v-shadow-key-umbra-color), 42%);
+
+  &.header-blur {
+    @extend %blurry-bg;
+  }
+}

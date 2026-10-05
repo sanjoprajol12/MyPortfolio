@@ -1,0 +1,6 @@
+export { default as TransitionExpand } from '@/core/components/TransitionExpand.vue'
+export { default as VerticalNav } from '@/core/components/VerticalNav.vue'
+export { default as VerticalNavGroup } from '@/core/components/VerticalNavGroup.vue'
+export { default as VerticalNavLayout } from '@/core/components/VerticalNavLayout.vue'
+export { default as VerticalNavLink } from '@/core/components/VerticalNavLink.vue'
+export { default as VerticalNavSectionTitle } from '@/core/components/VerticalNavSectionTitle.vue'

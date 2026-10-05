@@ -2,6 +2,7 @@
 # Docs: https://docs.netlify.com/configure-builds/file-based-configuration/
 
 [build]
+  command   = "npm run build"   # builds the Vue admin (admin-ui/) into admin/
   publish   = "."               # serve static files from the repo root
   functions = "netlify/functions"
 
@@ -24,4 +25,11 @@
 [[redirects]]
   from   = "/api/*"
   to     = "/.netlify/functions/api/:splat"
+  status = 200
+
+# The Vue admin uses client-side routes (/admin/projects, /admin/login, ...).
+# Built files under /admin/assets are served as-is; every other /admin path loads the app.
+[[redirects]]
+  from   = "/admin/*"
+  to     = "/admin/index.html"
   status = 200

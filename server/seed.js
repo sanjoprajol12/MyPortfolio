@@ -244,15 +244,20 @@ const projectsSeed = [
 async function seed({ force = false } = {}) {
   await connectDb();
 
+  // ADMIN_USERNAME / ADMIN_PASSWORD only create the first account. Once any admin exists,
+  // passwords are managed in the admin portal and are never reset from .env.
   const username = process.env.ADMIN_USERNAME || 'admin';
-  const password = process.env.ADMIN_PASSWORD || 'ChangeThisPassword123';
-  const passwordHash = await bcrypt.hash(password, 12);
-
-  await User.findOneAndUpdate(
-    { username },
-    { username, passwordHash },
-    { upsert: true, new: true }
-  );
+  const userCount = await User.countDocuments();
+  if (!userCount) {
+    const password = process.env.ADMIN_PASSWORD || 'ChangeThisPassword123';
+    await User.create({ username, passwordHash: await bcrypt.hash(password, 12), role: 'super_admin' });
+    console.log(`Created admin account "${username}" (password from .env ADMIN_PASSWORD)`);
+  } else if (!(await User.exists({ role: 'super_admin' }))) {
+    // Accounts from before roles existed: the oldest one becomes the super admin
+    const oldest = await User.findOne().sort({ createdAt: 1, _id: 1 });
+    oldest.role = 'super_admin';
+    await oldest.save();
+  }
 
   const hasSite = await Site.countDocuments();
   if (hasSite && !force) {
@@ -277,7 +282,6 @@ async function seed({ force = false } = {}) {
   }
 
   console.log('Seed complete.');
-  console.log(`Admin login: ${username} / (password from .env ADMIN_PASSWORD)`);
 }
 
 if (require.main === module) {
