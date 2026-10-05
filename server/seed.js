@@ -52,6 +52,32 @@ const siteSeed = {
     linkedinHandle: 'in/prajwal-sainju',
     githubUrl: 'https://github.com/sanjoprajol12',
     githubHandle: 'github.com/sanjoprajol12',
+    website: '',
+  },
+  resume: {
+    headline: 'Frontend & Backend Developer',
+    summary: 'Frontend and backend developer building clean, scalable web applications — from Laravel APIs and Blade-powered monoliths to Vue + TypeScript frontends. Focused on maintainable code, reusable architecture, and shipping production features.',
+    location: 'Kathmandu, Nepal',
+    website: '',
+    includePhoto: false,
+    showDownloadButtons: true,
+    includeProjectsOnResume: false,
+    resumeProjectLimit: 3,
+    education: [
+      {
+        degree: 'Bachelor of Computer Application (BCA)',
+        school: 'Arunima College',
+        years: '',
+        details: 'Kathmandu, Nepal',
+      },
+    ],
+    certifications: [],
+    languages: [
+      { name: 'English', level: 'Professional' },
+      { name: 'Nepali', level: 'Native' },
+    ],
+    awards: [],
+    interests: [],
   },
   footerCopy: '© 2026 · Kathmandu, Nepal · Built with care',
 };
@@ -229,6 +255,14 @@ async function seed({ force = false } = {}) {
   );
 
   const hasSite = await Site.countDocuments();
+  if (hasSite && !force) {
+    const existing = await Site.findOne();
+    if (existing && !(existing.resume && existing.resume.headline)) {
+      existing.resume = siteSeed.resume;
+      if (existing.contact && existing.contact.website == null) existing.contact.website = '';
+      await existing.save();
+    }
+  }
   if (!hasSite || force) {
     if (force) {
       await Site.deleteMany({});

@@ -198,6 +198,12 @@
       document.getElementById('github-handle').textContent = contact.githubHandle || '';
     }
 
+    const showPdf = (site.resume && site.resume.showDownloadButtons !== false);
+    ['btn-resume', 'btn-cv'].forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) el.style.display = showPdf ? '' : 'none';
+    });
+
     const footer = document.getElementById('footer-copy');
     if (footer) footer.textContent = site.footerCopy || '';
 

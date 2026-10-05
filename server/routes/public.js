@@ -5,8 +5,26 @@ const Skill = require('../models/Skill');
 const Experience = require('../models/Experience');
 const Project = require('../models/Project');
 const Message = require('../models/Message');
+const { buildPdf } = require('../lib/resumePdf');
 
 const router = express.Router();
+
+const pdfLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 30,
+  message: { error: 'Too many PDF downloads. Please try again later.' },
+});
+
+async function sendPdf(req, res, kind) {
+  const [site, skills, experience, projects] = await Promise.all([
+    Site.findOne().lean(),
+    Skill.find().sort({ order: 1 }).lean(),
+    Experience.find().sort({ order: 1 }).lean(),
+    Project.find().sort({ order: 1 }).lean(),
+  ]);
+  if (!site) return res.status(404).json({ error: 'Site content not found.' });
+  buildPdf(res, { kind, site, skills, experience, projects });
+}
 
 const messageLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -37,5 +55,8 @@ router.post('/messages', messageLimiter, async (req, res) => {
   await Message.create({ name, email, message });
   res.status(201).json({ ok: true });
 });
+
+router.get('/resume.pdf', pdfLimiter, (req, res) => sendPdf(req, res, 'resume'));
+router.get('/cv.pdf', pdfLimiter, (req, res) => sendPdf(req, res, 'cv'));
 
 module.exports = router;

@@ -118,6 +118,7 @@
       <button class="nav-btn" data-page="experience">Experience</button>
       <button class="nav-btn" data-page="projects">Projects</button>
       <button class="nav-btn" data-page="contact">Contact info</button>
+      <button class="nav-btn" data-page="resume">Resume &amp; CV</button>
       <button class="nav-btn" data-page="messages">Messages</button>
       <div class="nav-spacer"></div>
       <div class="user-row" id="who"></div>
@@ -234,6 +235,7 @@
         if (page === 'experience') await renderExperience(main);
         if (page === 'projects') await renderProjects(main);
         if (page === 'contact') await renderContact(main);
+        if (page === 'resume') await renderResume(main);
         if (page === 'messages') await renderMessages(main);
       } catch (err) {
         main.innerHTML = `<p class="error">${esc(err.message)}</p>`;
@@ -568,6 +570,7 @@
           ${field('LinkedIn handle', 'linkedinHandle', c.linkedinHandle)}
           ${field('GitHub URL', 'githubUrl', c.githubUrl)}
           ${field('GitHub handle', 'githubHandle', c.githubHandle)}
+          ${field('Website / portfolio URL', 'website', c.website)}
           <button class="btn" type="submit">Save contact</button>
         </form>
       `;
@@ -587,6 +590,7 @@
               linkedinHandle: f.linkedinHandle.value,
               githubUrl: f.githubUrl.value,
               githubHandle: f.githubHandle.value,
+              website: f.website.value,
             },
           }),
         });
