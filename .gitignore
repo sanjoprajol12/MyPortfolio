@@ -1,0 +1,7 @@
+# Local environment files (never commit secrets)
+.env
+.env.local
+.env.*
+
+# Dependencies
+node_modules/
