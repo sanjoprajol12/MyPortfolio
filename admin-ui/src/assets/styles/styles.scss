@@ -1,0 +1,79 @@
+@use './variables/variables' as *;
+@use './base' as *;
+@use './_table' as *;
+@use './_router-tab' as *;
+
+
+.v-btn {
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none !important;
+}
+
+// Lucide icons (plugins/vuetify/icons.ts) are SVGs: fill the VIcon box, which Vuetify sizes
+.v-icon .lucide-icon {
+  display: block;
+  block-size: 100%;
+  inline-size: 100%;
+}
+
+// Headings follow the website: Plus Jakarta Sans, slightly tighter tracking
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.text-h1,
+.text-h2,
+.text-h3,
+.text-h4,
+.text-h5,
+.text-h6 {
+  letter-spacing: -0.01em !important;
+}
+
+// Clickable title cell in list tables (opens the edit drawer)
+.title-hover {
+  color: rgb(var(--v-theme-primary));
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+// Clamp long text in table cells to two lines
+.text-truncate-2 {
+  display: -webkit-box;
+  overflow: hidden;
+  max-inline-size: 420px;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  white-space: normal;
+}
+
+// Page-level container card. Page cards are `flat` (the bordered skin skips those),
+// so they get their own hairline border and radius here.
+.admin-card {
+  overflow: hidden;
+  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity)) !important;
+  border-radius: 14px !important;
+  background-color: rgb(var(--v-theme-surface)) !important;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 4%);
+}
+
+// Navigation drawers used as forms: let the body scroll under a fixed header
+.v-navigation-drawer--temporary .v-card--flat {
+  background: transparent;
+}
+
+// Primary-tinted hover for list rows and quick links
+.hover-tint {
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+
+  &:hover {
+    border-color: rgba(var(--v-theme-primary), 0.35) !important;
+    background-color: rgba(var(--v-theme-primary), 0.05);
+  }
+}

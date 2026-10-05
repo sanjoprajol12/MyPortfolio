@@ -22,6 +22,8 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/auth',  authRoutes);
 app.use('/api',       publicRoutes);
+app.use('/api/admin/mfa', mfaRoutes);
+app.use('/api/admin/users', userRoutes);
 app.use('/api/admin', adminRoutes);
 
 // Lazy-connect: reuse the Mongoose connection across warm Lambda invocations.

@@ -1,0 +1,28 @@
+// vue3-router-tab overrides
+//
+// The library paints the tab close button as a filled circle using
+// --router-tab-button-background / --router-tab-button-color. Those are single
+// values, so they cannot read correctly against both the plain tab background
+// and the active tab background at the same time. In light mode this shows up
+// as a near-white puck behind the cross on the active (teal) tab.
+//
+// Instead: no background at rest, and inherit the tab's own text colour so the
+// cross stays legible on active and inactive tabs in both themes.
+//
+// Selectors are prefixed with `.router-tab` so they outrank the library rules,
+// which ship after this file in the bundle.
+
+.router-tab {
+  .router-tab__item-close {
+    color: currentcolor;
+    background: transparent;
+    opacity: 0.6;
+
+    &:hover,
+    &:focus-visible {
+      color: currentcolor;
+      background: color-mix(in srgb, currentcolor 18%, transparent);
+      opacity: 1;
+    }
+  }
+}

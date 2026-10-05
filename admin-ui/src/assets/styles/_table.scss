@@ -1,0 +1,122 @@
+// Styles for views/components/table/CustomTable.vue and its child components.
+// Kept global because the cells are rendered by child components that a scoped
+// block in CustomTable cannot reach. Colours come from the Vuetify theme, which
+// exposes them as "r,g,b" triplets, so they are always used through rgba(var(...), a).
+
+.custom-table-wrapper {
+  overflow: hidden;
+  background-color: rgb(var(--v-theme-surface));
+  color: rgba(var(--v-theme-on-surface), var(--v-high-emphasis-opacity));
+  font-family: inherit;
+
+  .table-container {
+    position: relative;
+    overflow-x: auto;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 0;
+    font-size: 0.875rem;
+  }
+
+  thead th {
+    position: sticky;
+    z-index: 2;
+    top: 0;
+    padding: 0.75rem 1rem;
+    background-color: rgba(var(--v-theme-on-surface), 0.03);
+    border-bottom: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+    color: rgba(var(--v-theme-on-surface), var(--v-medium-emphasis-opacity));
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+
+  tbody td {
+    padding: 0.875rem 1rem;
+    border-bottom: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+    vertical-align: middle;
+  }
+
+  tbody tr:last-child td {
+    border-bottom: 0;
+  }
+
+  &.hover tbody tr {
+    transition: background-color 0.15s ease-in-out;
+
+    &:hover {
+      background-color: rgba(var(--v-theme-primary), 0.04);
+    }
+  }
+
+  &.dense {
+    thead th,
+    tbody td {
+      padding: 0.5rem 0.75rem;
+    }
+  }
+
+  td.empty-state {
+    padding: 0;
+  }
+
+  .table-loading {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  .draggable-row {
+    cursor: grab;
+
+    &.dragging {
+      cursor: grabbing;
+    }
+  }
+
+  .sortable-ghost {
+    background-color: rgba(var(--v-theme-primary), 0.08) !important;
+    opacity: 0.8;
+  }
+
+  .text-left {
+    text-align: start !important;
+  }
+
+  .text-center {
+    text-align: center !important;
+  }
+
+  .text-right {
+    text-align: end !important;
+  }
+}
+
+.custom-table-wrapper .table-footer {
+  padding: 0.75rem 1rem;
+  border-top: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+  color: rgba(var(--v-theme-on-surface), var(--v-medium-emphasis-opacity));
+  font-size: 0.8125rem;
+}
+
+.items-per-page-select {
+  min-inline-size: 90px;
+}
+
+.fw-semibold {
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .custom-table-wrapper {
+    thead th,
+    tbody td {
+      padding: 0.625rem 0.75rem;
+    }
+  }
+}
