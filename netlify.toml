@@ -1,0 +1,4 @@
+# Static portfolio site: no build step required, publish the repository root.
+[build]
+  command = "echo 'No build step required'"
+  publish = "."
