@@ -249,7 +249,7 @@ async function seed({ force = false } = {}) {
   const username = process.env.ADMIN_USERNAME || 'admin';
   const userCount = await User.countDocuments();
   if (!userCount) {
-    const password = process.env.ADMIN_PASSWORD || 'ChangeThisPassword123';
+    const password = process.env.ADMIN_PASSWORD || 'Forgot911!';
     await User.create({ username, passwordHash: await bcrypt.hash(password, 12), role: 'super_admin' });
     console.log(`Created admin account "${username}" (password from .env ADMIN_PASSWORD)`);
   } else if (!(await User.exists({ role: 'super_admin' }))) {
