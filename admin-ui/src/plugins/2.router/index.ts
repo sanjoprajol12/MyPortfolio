@@ -172,6 +172,18 @@ const router = createRouter({
           component: () => import("@/views/pages/auth/Login.vue"),
           meta: { unauthenticatedOnly: true }, // Redirect if logged in
         },
+        {
+          path: "/forgot-password",
+          name: "forgot-password",
+          component: () => import("@/views/pages/auth/ForgotPassword.vue"),
+          meta: { unauthenticatedOnly: true },
+        },
+        {
+          // Opened from the emailed link; works while signed in too
+          path: "/reset-password",
+          name: "reset-password",
+          component: () => import("@/views/pages/auth/ResetPassword.vue"),
+        },
       ],
     },
     {

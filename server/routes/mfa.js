@@ -4,6 +4,7 @@ const rateLimit = require('express-rate-limit');
 const QRCode = require('qrcode');
 const { auth } = require('../middleware/auth');
 const wrap = require('../lib/asyncHandler');
+const { requireMfa } = require('../config');
 const { generateTotpSecret, verifyTotp, totpAuthUrl, generateRecoveryCodes, hashRecoveryCode } = require('../lib/totp');
 
 // Two-step verification (authenticator app) for the signed-in admin
@@ -15,7 +16,7 @@ const SETUP_TTL_MS = 15 * 60 * 1000;
 
 const mfaLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 10,
+  limit: 10,
   message: { error: 'Too many verification attempts. Try again later.' },
 });
 
@@ -75,6 +76,10 @@ router.post('/activate', mfaLimiter, wrap(async (req, res) => {
 }));
 
 router.post('/disable', mfaLimiter, wrap(async (req, res) => {
+  // Blocked while the site requires two-step verification for everyone (REQUIRE_MFA)
+  if (requireMfa) {
+    return res.status(400).json({ error: 'Two-step verification is required for every admin on this site and cannot be turned off.' });
+  }
   if (!(await passwordMatches(req))) {
     return res.status(422).json({ error: 'The current password is incorrect.' });
   }

@@ -1,4 +1,5 @@
 import BaseAPIService from '@/services/BaseAPIService'
+import type { APIResponseOk } from '@/types/APIResponse'
 import type {
   AccountUpdate,
   AccountUpdateResponse,
@@ -25,12 +26,30 @@ export default class AuthService extends BaseAPIService {
     return this.get<AuthUser>('me')
   }
 
+  // { user: null } when signed out, so checking costs no failed request
+  session() {
+    return this.get<{ user: AuthUser | null }>('session')
+  }
+
   updateAccount(data: AccountUpdate) {
     return this.put<AccountUpdateResponse>(data, 'account')
   }
 
-  // Signs out every session of this account; returns a fresh token for this one
+  logout() {
+    return this.post<APIResponseOk>({}, 'logout')
+  }
+
+  // Signs out every session of this account; this browser gets a fresh cookie
   revokeSessions() {
-    return this.post<{ token: string }>({}, 'sessions/revoke')
+    return this.post<APIResponseOk>({}, 'sessions/revoke')
+  }
+
+  // Always answers the same way, whether or not the address has an account
+  forgotPassword(email: string) {
+    return this.post<{ ok: true; message: string }>({ email }, 'password/forgot')
+  }
+
+  resetPassword(token: string, password: string) {
+    return this.post<{ ok: true; message: string }>({ token, password }, 'password/reset')
   }
 }

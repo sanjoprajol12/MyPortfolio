@@ -4,6 +4,7 @@ import AuthService from '@/services/portfolio/AuthService'
 import { useAuthStore } from '@/store/auth'
 import type { AccountUpdate } from '@/types/portfolio'
 import { rules } from '@/composable/validation/useRules'
+import { passwordProblem } from '@/utils/password'
 
 const authService = new AuthService()
 const authStore = useAuthStore()
@@ -14,6 +15,7 @@ const isPasswordVisible = ref(false)
 const accountForm = reactive({
   currentPassword: '',
   username: authStore.user?.username ?? '',
+  email: authStore.user?.email ?? '',
   newPassword: '',
   confirmPassword: '',
 })
@@ -21,7 +23,13 @@ const accountForm = reactive({
 const formValidationRules = computed(() => ({
   currentPassword: { required: rules.required },
   username: { required: rules.required },
-  newPassword: { minLength: rules.minLength(8) },
+  email: { email: rules.email },
+  newPassword: {
+    strong: rules.custom(
+      (value: string) => !value || !passwordProblem(value, accountForm.username),
+      'Choose a stronger password (see the hint below)',
+    ),
+  },
   confirmPassword: {
     sameAs: rules.custom(
       (value: string) => value === accountForm.newPassword,
@@ -42,12 +50,16 @@ const saveAccount = async () => {
   const payload: AccountUpdate = { currentPassword: accountForm.currentPassword }
   const username = accountForm.username.trim()
 
+  const email = accountForm.email.trim().toLowerCase()
+
   if (username !== authStore.user?.username)
     payload.username = username
+  if (email !== (authStore.user?.email ?? ''))
+    payload.email = email
   if (accountForm.newPassword)
     payload.newPassword = accountForm.newPassword
 
-  if (!payload.username && !payload.newPassword) {
+  if (!payload.username && payload.email === undefined && !payload.newPassword) {
     showInfo('Nothing to update')
 
     return
@@ -55,9 +67,9 @@ const saveAccount = async () => {
 
   isSaving.value = true
   try {
-    const { user, token } = await authService.updateAccount(payload)
+    const { user } = await authService.updateAccount(payload)
 
-    authStore.setAuth(user, token)
+    authStore.setAuth(user)
     Object.assign(accountForm, { currentPassword: '', newPassword: '', confirmPassword: '' })
     nextTick(() => resetValidation())
     showSuccess(payload.newPassword ? 'Password changed. Your other sessions were signed out.' : 'Account updated')
@@ -136,7 +148,7 @@ const saveAccount = async () => {
         >
           <PageHeader
             title="Sign-in details"
-            subtitle="Change your username or password"
+            subtitle="Change your username, email or password"
             icon="key"
             size="small"
           />
@@ -157,6 +169,18 @@ const saveAccount = async () => {
                   </template>
                 </VTextField>
               </VCol>
+              <VCol cols="12">
+                <VTextField
+                  v-model="accountForm.email"
+                  label="Email for password resets"
+                  type="email"
+                  autocomplete="email"
+                  hint="Where a reset link is sent if you forget your password"
+                  persistent-hint
+                  :error-messages="validationErrors('email')"
+                  @input="touchField('email')"
+                />
+              </VCol>
               <VCol
                 cols="12"
                 md="6"
@@ -170,6 +194,11 @@ const saveAccount = async () => {
                   :type="isPasswordVisible ? 'text' : 'password'"
                   :error-messages="validationErrors('newPassword')"
                   @input="touchField('newPassword')"
+                />
+                <PasswordStrength
+                  :password="accountForm.newPassword"
+                  :username="accountForm.username"
+                  class="mt-2"
                 />
               </VCol>
               <VCol

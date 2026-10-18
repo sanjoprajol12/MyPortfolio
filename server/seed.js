@@ -6,11 +6,12 @@ const Site = require('./models/Site');
 const Skill = require('./models/Skill');
 const Experience = require('./models/Experience');
 const Project = require('./models/Project');
+const { passwordError } = require('./lib/accounts');
 
 const siteSeed = {
   firstName: 'Prajwal',
   lastName: 'Sainju',
-  pageTitle: 'Prajwal Sainju — Frontend & Backend Developer',
+  pageTitle: 'Prajwal Sainju | Laravel & Vue.js Developer in Kathmandu, Nepal',
   hero: {
     eyebrow: 'Interning @ Futech ·',
     eyebrowHighlight: 'Laravel · Vue.js · TypeScript',
@@ -18,27 +19,27 @@ const siteSeed = {
     headlineLine2: '& Backend',
     headlineLine3: 'Dev.',
     locationLabel: 'Based in Kathmandu, Nepal',
-    description: 'I build clean, scalable web applications — from Laravel APIs and Blade-powered monoliths to reactive Vue + TypeScript frontends. Focused on maintainable code and reusable architecture on both sides of the stack.',
+    description: 'I build clean, scalable web applications, from Laravel APIs and Blade-powered monoliths to reactive Vue + TypeScript frontends. Focused on maintainable code and reusable architecture on both sides of the stack.',
     photoUrl: 'images/profile.jpg',
     photoName: 'Prajwal Sainju',
     photoRole: 'Frontend & Backend Developer',
     stats: [
-      { num: '9+', label: 'Projects', fullWidth: false },
+      { num: '7', label: 'Projects', fullWidth: false },
       { num: '1', label: 'Live / Prod', fullWidth: false },
     ],
     primaryStack: ['Laravel', 'Vue.js', 'TypeScript', 'MySQL'],
   },
   about: {
     paragraphs: [
-      "I'm a Frontend & Backend Developer based in **Kathmandu, Nepal**, building production web applications that are clean, performant, and maintainable — across both the server and the client.",
-      "Currently interning at **Futech Solution**, where I ship features daily using **Laravel**, **Vue.js**, **TypeScript**, and **SCSS**. I'm comfortable in both patterns: decoupled Vue SPA + Laravel API setups and classic Laravel + Blade monoliths — choosing the right tool for the project at hand.",
-      'I care deeply about **reusable components**, **type-safe code**, and **architectural clarity** — groundwork that makes future features a joy rather than a burden. I also follow professional Git workflows with code reviews.',
+      "I'm a Frontend & Backend Developer based in **Kathmandu, Nepal**, building production web applications that are clean, performant and maintainable, on both the server and the client.",
+      "Currently interning at **Futech Solution**, where I ship features daily using **Laravel**, **Vue.js**, **TypeScript**, and **SCSS**. I'm comfortable in both patterns: decoupled Vue SPA + Laravel API setups and classic Laravel + Blade monoliths, choosing the right tool for the project at hand.",
+      'I care deeply about **reusable components**, **type-safe code**, and **architectural clarity**: groundwork that makes future features a joy rather than a burden. I also follow professional Git workflows with code reviews.',
     ],
     meta: [
       { key: 'Location', value: 'Kathmandu, Nepal' },
       { key: 'Email', value: 'sainjoprajol12@gmail.com' },
       { key: 'Phone', value: '+977 9841273490' },
-      { key: 'Education', value: 'BCA — Arunima College' },
+      { key: 'Education', value: 'BCA, Arunima College' },
       { key: 'Focus', value: 'Vue + TypeScript · Laravel' },
       { key: 'Status', value: 'Interning · Open to Work', highlight: true },
     ],
@@ -48,7 +49,7 @@ const siteSeed = {
     email: 'sainjoprajol12@gmail.com',
     phone: '+977 9841273490',
     availability: 'Currently interning & open to new opportunities',
-    linkedinUrl: 'https://linkedin.com/in/prajwal-sainju/',
+    linkedinUrl: 'https://www.linkedin.com/in/prajwal-sainju/',
     linkedinHandle: 'in/prajwal-sainju',
     githubUrl: 'https://github.com/sanjoprajol12',
     githubHandle: 'github.com/sanjoprajol12',
@@ -56,7 +57,7 @@ const siteSeed = {
   },
   resume: {
     headline: 'Frontend & Backend Developer',
-    summary: 'Frontend and backend developer building clean, scalable web applications — from Laravel APIs and Blade-powered monoliths to Vue + TypeScript frontends. Focused on maintainable code, reusable architecture, and shipping production features.',
+    summary: 'Frontend and backend developer building clean, scalable web applications, from Laravel APIs and Blade-powered monoliths to Vue + TypeScript frontends. Focused on maintainable code, reusable architecture, and shipping production features.',
     location: 'Kathmandu, Nepal',
     website: '',
     includePhoto: false,
@@ -79,7 +80,7 @@ const siteSeed = {
     awards: [],
     interests: [],
   },
-  footerCopy: '© 2026 · Kathmandu, Nepal · Built with care',
+  footerCopy: 'Kathmandu, Nepal',
 };
 
 const skillsSeed = [
@@ -139,7 +140,7 @@ const skillsSeed = [
 const experienceSeed = [
   {
     order: 1,
-    date: 'Dec 2025 — Present',
+    date: 'Dec 2025 to Present',
     role: 'Frontend & Backend Developer Intern',
     company: 'Futech Solution · Kathmandu, Nepal',
     stack: ['Laravel', 'Vue.js', 'TypeScript', 'Blade', 'MySQL'],
@@ -156,7 +157,7 @@ const experienceSeed = [
 const projectsSeed = [
   {
     order: 1,
-    title: 'Consultancy Web — Full-Stack Website',
+    title: 'Consultancy Web: Full-Stack Website',
     description: 'A public-facing consultancy platform combining server-rendered Blade pages for SEO with interactive Vue components. Hybrid architecture balancing crawlable content with a modern, responsive user experience.',
     liveUrl: 'https://applydirectedu.com/login',
     githubUrl: 'https://github.com/anilshr25/consultancy-web',
@@ -171,7 +172,7 @@ const projectsSeed = [
   },
   {
     order: 2,
-    title: 'Consultancy Admin — Dashboard',
+    title: 'Consultancy Admin Dashboard',
     description: "An internal admin panel / operations dashboard for managing the consultancy's content, users, and records. Built with Vue + TypeScript for type safety and SCSS for a structured, scalable styling architecture.",
     liveUrl: 'https://portal.applydirectedu.com/login',
     githubUrl: 'https://github.com/anilshr25/consultancy-admin',
@@ -180,28 +181,28 @@ const projectsSeed = [
     techs: ['Vue.js', 'TypeScript', 'SCSS'],
     features: [
       'Fully component-driven UI with reusable building blocks',
-      'TypeScript throughout — safer refactors and clearer data contracts',
+      'TypeScript throughout for safer refactors and clearer data contracts',
       'SCSS architecture designed to scale across features',
       'Responsive layouts tuned for admin workflows',
     ],
   },
   {
     order: 3,
-    title: 'Appointment System — Booking Platform',
+    title: 'Appointment System: Booking Platform',
     description: 'An end-to-end appointment booking and management platform covering full scheduling workflows for both users and admins.',
     githubUrl: 'https://github.com/karkirajendra/Apointment-System',
     statusKind: 'type',
     statusLabel: 'Scheduling Platform',
     techs: ['PHP', 'Blade', 'JavaScript'],
     features: [
-      'Full booking workflow — scheduling, editing, and cancellation',
+      'Full booking workflow: scheduling, editing and cancellation',
       'Auth system with separate admin and user views',
       'Appointment-first database design and schema',
     ],
   },
   {
     order: 4,
-    title: 'Map Dev Option — World Guesser Helper',
+    title: 'Map Dev Option: World Guesser Helper',
     description: 'A developer-option / helper utility for a world guesser game, with interactive map-related behavior.',
     githubUrl: 'https://github.com/sanjoprajol12/Map-Dev-option',
     statusKind: 'type',
@@ -246,12 +247,20 @@ async function seed({ force = false } = {}) {
 
   // ADMIN_USERNAME / ADMIN_PASSWORD only create the first account. Once any admin exists,
   // passwords are managed in the admin portal and are never reset from .env.
-  const username = process.env.ADMIN_USERNAME || 'admin';
+  const username = String(process.env.ADMIN_USERNAME || '').trim();
+  const password = process.env.ADMIN_PASSWORD || '';
   const userCount = await User.countDocuments();
   if (!userCount) {
-    const password = process.env.ADMIN_PASSWORD || 'Forgot911!';
-    await User.create({ username, passwordHash: await bcrypt.hash(password, 12), role: 'super_admin' });
-    console.log(`Created admin account "${username}" (password from .env ADMIN_PASSWORD)`);
+    // Never fall back to a default password: refuse until a strong one is configured
+    const problem = !username || /^EXAMPLE_/i.test(username) ? 'ADMIN_USERNAME is not set.'
+      : /^EXAMPLE_/i.test(password) ? 'ADMIN_PASSWORD is still the example value.'
+        : passwordError(password, username);
+    if (problem) {
+      console.warn(`No admin account was created: ${problem} Set ADMIN_USERNAME and ADMIN_PASSWORD in .env and restart.`);
+    } else {
+      await User.create({ username, passwordHash: await bcrypt.hash(password, 12), role: 'super_admin' });
+      console.log(`Created admin account "${username}" (password from .env ADMIN_PASSWORD)`);
+    }
   } else if (!(await User.exists({ role: 'super_admin' }))) {
     // Accounts from before roles existed: the oldest one becomes the super admin
     const oldest = await User.findOne().sort({ createdAt: 1, _id: 1 });
@@ -279,9 +288,12 @@ async function seed({ force = false } = {}) {
     await Skill.insertMany(skillsSeed);
     await Experience.insertMany(experienceSeed);
     await Project.insertMany(projectsSeed);
+    console.log('Seeded the site content.');
   }
 
-  console.log('Seed complete.');
+  // Projects created before project pages existed get their address (slug) from the title
+  const unslugged = await Project.find({ $or: [{ slug: { $exists: false } }, { slug: '' }] });
+  for (const project of unslugged) await project.save();
 }
 
 if (require.main === module) {
@@ -294,4 +306,4 @@ if (require.main === module) {
     });
 }
 
-module.exports = { seed };
+module.exports = { seed, siteSeed, skillsSeed, experienceSeed, projectsSeed };

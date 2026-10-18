@@ -2,8 +2,8 @@
 # Docs: https://docs.netlify.com/configure-builds/file-based-configuration/
 
 [build]
-  command   = "npm run build"   # builds the Vue admin (admin-ui/) into admin/
-  publish   = "."               # serve static files from the repo root
+  command   = "npm run build"   # builds the Vue admin, then the public site, into dist/
+  publish   = "dist"            # only built, public files; never the source tree
   functions = "netlify/functions"
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -11,20 +11,39 @@
 # https://ntl.fyi/configure-secrets-scanning
 #
 # PORT          → value "3000" is a common port number that appears naturally in code.
-# ADMIN_USERNAME → value "admin" appears naturally throughout HTML/JS/docs as a
-#   route path (/admin), CSS class, link text, etc. — not a leaked credential.
+# ADMIN_USERNAME → appears naturally as the /admin route, CSS class names and link text.
 # ──────────────────────────────────────────────────────────────────────────────
 [build.environment]
   SECRETS_SCAN_OMIT_KEYS  = "PORT,ADMIN_USERNAME"
   SECRETS_SCAN_OMIT_PATHS = ".env.example,PrajwalSainju.pdf,node_modules"
 
+# Sends queued emails and alerts, and retries failures (see server/lib/queue.js)
+[functions."queue-worker"]
+  schedule = "*/5 * * * *"
+
 # ──────────────────────────────────────────────────────────────────────────────
-# API rewrites — transparently proxy /api/* to the serverless function.
-# The frontend JS uses relative /api/... URLs so no frontend code changes needed.
+# Routes handled by the API function (server/app.js)
 # ──────────────────────────────────────────────────────────────────────────────
 [[redirects]]
   from   = "/api/*"
   to     = "/.netlify/functions/api/:splat"
+  status = 200
+
+# One page per project, rendered from the database
+[[redirects]]
+  from   = "/projects"
+  to     = "/.netlify/functions/api/projects"
+  status = 200
+
+[[redirects]]
+  from   = "/projects/*"
+  to     = "/.netlify/functions/api/projects/:splat"
+  status = 200
+
+# Lists every page, including project pages, with their last change date
+[[redirects]]
+  from   = "/sitemap.xml"
+  to     = "/.netlify/functions/api/sitemap.xml"
   status = 200
 
 # The Vue admin uses client-side routes (/admin/projects, /admin/login, ...).
@@ -33,3 +52,41 @@
   from   = "/admin/*"
   to     = "/admin/index.html"
   status = 200
+
+# Anything else that does not exist gets dist/404.html automatically.
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Security headers for every static file. The API sets the same ones itself
+# (server/lib/security.js); keep the two Content-Security-Policy values in sync.
+# ──────────────────────────────────────────────────────────────────────────────
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Content-Security-Policy = "default-src 'self'; script-src 'self' https://www.googletagmanager.com https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com; connect-src 'self' https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; frame-ancestors 'none'; form-action 'self'; base-uri 'self'; object-src 'none'; manifest-src 'self'; upgrade-insecure-requests"
+    Strict-Transport-Security = "max-age=63072000; includeSubDomains"
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(), usb=(), browsing-topics=()"
+    Cross-Origin-Opener-Policy = "same-origin"
+
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
+# File names under these paths change when their content does, so they can be cached for a year
+[[headers]]
+  for = "/admin/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"

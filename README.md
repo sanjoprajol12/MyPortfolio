@@ -1,12 +1,12 @@
 # My Portfolio
 
-Portfolio site with a MongoDB-backed admin portal. Edit hero, about, skills, experience, projects, and contact details in the browser. Visitor messages from the contact form show up in admin.
+Portfolio site with a MongoDB-backed admin portal. Edit hero, about, skills, experience, projects, and contact details in the browser. Visitor messages from the contact form show up in admin and are emailed to you.
 
 ## Run locally
 
-1. Copy `.env.example` to `.env` and fill in your MongoDB Atlas URI, admin username, and admin password.
+1. Copy `.env.example` to `.env` and fill in your MongoDB Atlas URI, a random `JWT_SECRET`, admin username and a strong admin password.
 2. Allow your current IP in Atlas: Network Access → Add IP Address.
-3. Install, build the admin, and start:
+3. Install, build and start:
 
 ```bash
 npm install
@@ -14,12 +14,12 @@ npm run build
 npm start
 ```
 
-`npm run build` compiles the Vue admin in `admin-ui/` into `admin/`. Run it again after changing anything in `admin-ui/`. While working on the admin, `npm run dev:admin` serves it with hot reload at http://localhost:4010/admin/ and forwards API calls to the server on port 3000.
+`npm run build` compiles the Vue admin in `admin-ui/` and the public site into `dist/`, which is the only folder that is served. While working on the public site, `npm run dev` rebuilds on every change and restarts the server. While working on the admin, `npm run dev:admin` serves it with hot reload at http://localhost:4010/admin/ and forwards API calls to the server on port 3000.
 
 - Site: http://localhost:3000
 - Admin: http://localhost:3000/admin
 
-Sign in with `ADMIN_USERNAME` and `ADMIN_PASSWORD` from `.env`. These only create the first account (a super admin) when the database has no admin users yet. After that, change passwords, add admins and turn on two-step verification under **Administration** in the admin portal; editing `.env` no longer resets a password.
+Sign in with `ADMIN_USERNAME` and `ADMIN_PASSWORD` from `.env`. These only create the first account (a super admin) when the database has no admin users yet. Every admin must turn on two-step verification before editing (`REQUIRE_MFA`). Add an email address on **My account** so you can use "Forgot password?".
 
 The first start seeds the database with your current portfolio content if it is empty. To reset content from the seed file:
 
@@ -27,20 +27,39 @@ The first start seeds the database with your current portfolio content if it is 
 npm run seed -- --force
 ```
 
-## What you can change in admin
+## How it fits together
 
-- Hero, name, photo, stats, footer
-- About paragraphs and sidebar rows
-- Skill categories and tags
-- Work experience
-- Projects (add, edit, delete)
-- Contact email, phone, social links
-- Incoming contact messages (mark read, reply, delete)
+| Part | Where |
+| --- | --- |
+| Public pages | `index.html`, `resume.html`, `pages/*.js` (privacy, cookies, terms, accessibility, 404, thank-you) |
+| Styles and scripts | `css/`, `js/` (minified into `dist/` by `scripts/build-site.js`) |
+| Project pages, sitemap | `server/routes/pages.js` (`/projects/<slug>`, `/sitemap.xml`) |
+| API | `server/app.js` and `server/routes/` |
+| Emails and alerts | queued in MongoDB (`server/lib/queue.js`), sent by a worker every minute (server) or 5 minutes (Netlify scheduled function) |
+| Admin | `admin-ui/` (Vue + Vuetify) |
 
-Saves update the live site immediately. You do not need to edit HTML to change copy.
+## Security
+
+- Admin sessions are httpOnly, SameSite=Strict cookies with CSRF protection, valid for 12 hours.
+- Passwords are hashed with bcrypt (cost 12) and must be 8+ characters; two-step verification is required.
+- Sign-in is rate limited per network and per account, and repeated failures send a security alert.
+- Password reset links expire after 30 minutes and work once.
+- Security headers (CSP, HSTS, frame blocking) are set by the API and in `netlify.toml`.
+- Request bodies are stripped of MongoDB operators, and admin writes only accept known fields.
+
+## Maintenance
+
+```bash
+npm run backup        # saves every collection to backups/<date>/ (keeps the newest 14)
+npm run check:links   # finds broken links in the built site
+```
+
+Schedule `npm run backup` (cron or a CI job) for automatic backups, and store the files somewhere private: they contain password hashes. MongoDB Atlas paid tiers also offer automatic snapshots.
 
 ## Deploy
 
-This app needs Node.js 20.19 or newer (not GitHub Pages). On Netlify, `netlify.toml` already runs `npm run build`. On Render, Railway, or a VPS, use `npm install && npm run build` as the build command and `npm start` to run it, set the same `.env` values there, and keep `/admin` private by using a strong password.
+This app needs Node.js 20.19 or newer. On Netlify, `netlify.toml` builds everything and publishes `dist/`; set the variables from `.env.example` under Site configuration → Environment variables. On Render, Railway, or a VPS, use `npm install && npm run build` as the build command and `npm start` to run it.
 
-Never commit `.env`. If a database password was shared in chat or a screenshot, rotate it in Atlas.
+Never commit `.env`. If a database password or secret was ever committed or shared, rotate it in Atlas and generate a new `JWT_SECRET`.
+
+See [docs/SEO.md](docs/SEO.md) for search, AI-answer and local SEO tasks that need your accounts.

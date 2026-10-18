@@ -2,48 +2,80 @@
 <html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Prajwal Sainju — Resume &amp; Curriculum Vitae</title>
-  <meta name="description" content="Official Résumé of Prajwal Sainju — Full Stack Developer specializing in Laravel, Vue.js, TypeScript, and SCSS." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Carlito:ital,wght@0,400;0,700;1,400;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Résumé of Prajwal Sainju | Full Stack Developer, Laravel &amp; Vue.js</title>
+  <meta name="description" content="Résumé of Prajwal Sainju, a full stack developer in Kathmandu, Nepal working with Laravel, Vue.js, TypeScript and SCSS. Experience, projects, skills and education." />
+  <link rel="canonical" href="__SITE_URL__/resume.html" />
+  <meta name="author" content="Prajwal Sainju" />
+  <meta name="theme-color" content="#0c0b09" />
+  <meta name="color-scheme" content="dark light" />
+  <meta property="og:type" content="profile" />
+  <meta property="og:site_name" content="Prajwal Sainju" />
+  <meta property="og:title" content="Résumé of Prajwal Sainju | Full Stack Developer" />
+  <meta property="og:description" content="Experience, projects, skills and education of Prajwal Sainju, full stack developer in Kathmandu, Nepal." />
+  <meta property="og:url" content="__SITE_URL__/resume.html" />
+  <meta property="og:image" content="__SITE_URL__/images/og-image.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Prajwal Sainju, frontend and backend developer in Kathmandu, Nepal" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="__SITE_URL__/images/og-image.jpg" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <link rel="preload" href="/fonts/carlito-400.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="/css/fonts.css" />
+  <link rel="stylesheet" href="/css/base.css" />
+  <script src="/js/theme.js"></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      { "@type": "ProfilePage", "url": "__SITE_URL__/resume.html", "name": "Résumé of Prajwal Sainju", "mainEntity": { "@id": "__SITE_URL__/#person" } },
+      { "@type": "BreadcrumbList", "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "__SITE_URL__/" },
+        { "@type": "ListItem", "position": 2, "name": "Résumé", "item": "__SITE_URL__/resume.html" }
+      ] }
+    ]
+  }
+  </script>
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:             #070712;
-      --bg-surface:     #0d0d1e;
+      --bg:             #0c0b09;
+      --bg-surface:     #161512;
       --nav-bg:         rgba(7, 7, 18, 0.85);
       --border-subtle:  rgba(255, 255, 255, 0.08);
       --gold:           #d4a853;
       --gold-hover:     #f0c87a;
-      --text-portfolio: #ededf8;
-      --text-muted:     #8e8ea8;
+      --text-portfolio: #f1ede4;
+      --text-muted:     #9a9486;
       --nav-height:     64px;
 
       /* Resume Paper Palette — extracted directly from PrajwalSainju.pdf */
       --cv-navy:        #1f3a5f;
-      --cv-gold:        #a0752a;
+      --cv-gold:        #855e17;
       --cv-text:        #1a1a2e;
       --cv-text-dark:   #000000;
       --cv-date:        #5a5a7a;
-      --cv-pipe:        #8a8aa0;
+      --cv-pipe:        #6c6c82;
       --cv-paper-bg:    #ffffff;
       --cv-line-navy:   #1f3a5f;
-      --cv-line-gold:   #a0752a;
+      --cv-line-gold:   #855e17;
     }
 
     [data-theme="light"] {
-      --bg:             #f2f1ea;
-      --bg-surface:     #e7e5dc;
+      --bg:             #f3f0e8;
+      --bg-surface:     #fbfaf6;
       --nav-bg:         rgba(242, 241, 234, 0.85);
       --border-subtle:  rgba(0, 0, 0, 0.09);
-      --gold:           #96680a;
-      --gold-hover:     #7a5208;
-      --text-portfolio: #18182e;
-      --text-muted:     #6b6b80;
+      --gold:           #7d5609;
+      --gold-hover:     #5f4107;
+      --text-portfolio: #1b1a17;
+      --text-muted:     #625d53;
     }
 
     /* In Dark Document Mode, the paper canvas adapts to sleek dark mode */
@@ -54,7 +86,7 @@
       --cv-text:        #d6dbdf;
       --cv-text-dark:   #ebedef;
       --cv-date:        #95a5a6;
-      --cv-pipe:        #566573;
+      --cv-pipe:        #7a8794;
       --cv-line-navy:   #2e4053;
       --cv-line-gold:   #7d6608;
     }
@@ -65,64 +97,13 @@
       font-family: 'DM Sans', system-ui, sans-serif;
       min-height: 100vh;
       -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
-      transition: background 0.3s ease;
-    }
-
-    /* ── PORTFOLIO TOP NAV ── */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      height: var(--nav-height);
-      background: var(--nav-bg);
-      backdrop-filter: blur(16px) saturate(180%);
-      border-bottom: 1px solid var(--border-subtle);
-    }
-    .nav-inner {
-      max-width: 1180px;
-      margin: 0 auto;
-      padding: 0 32px;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .nav-logo {
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 700;
-      font-size: 1.15rem;
-      letter-spacing: -0.02em;
-      color: var(--text-portfolio);
-      text-decoration: none;
-    }
-    .nav-logo span { color: var(--gold); }
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      list-style: none;
-    }
-    .nav-links a {
-      font-family: 'Fira Code', monospace;
-      font-size: 0.68rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      text-decoration: none;
-      padding: 8px 14px;
-      border-radius: 4px;
-      transition: color 0.2s, background 0.2s;
-    }
-    .nav-links a:hover,
-    .nav-links a.active {
-      color: var(--gold);
+      overflow-x: clip;
     }
 
     /* ── CONTROL TOOLBAR ── */
     .toolbar-container {
       max-width: 900px;
-      margin: calc(var(--nav-height) + 24px) auto 18px;
+      margin: 24px auto 18px;
       padding: 0 20px;
       display: flex;
       align-items: center;
@@ -147,9 +128,9 @@
       font-family: 'Fira Code', monospace;
       font-size: 0.62rem;
       padding: 3px 8px;
-      background: rgba(31, 58, 95, 0.3);
-      border: 1px solid rgba(93, 173, 226, 0.4);
-      color: #5dade2;
+      background: transparent;
+      border: 1px solid var(--border-mid);
+      color: var(--text-muted);
       border-radius: 3px;
       text-transform: uppercase;
       letter-spacing: 0.08em;
@@ -177,13 +158,11 @@
     }
     .btn-primary-action {
       background: var(--gold);
-      color: #0b0702;
+      color: var(--on-gold);
       border: 1px solid var(--gold);
     }
     .btn-primary-action:hover {
       background: var(--gold-hover);
-      transform: translateY(-1px);
-      box-shadow: 0 4px 16px rgba(212, 168, 83, 0.3);
     }
     .btn-secondary-action {
       background: var(--bg-surface);
@@ -193,7 +172,6 @@
     .btn-secondary-action:hover {
       border-color: var(--gold);
       color: var(--gold);
-      transform: translateY(-1px);
     }
 
     /* ── RESUME PAPER WRAPPER & CONTAINER ── */
@@ -210,7 +188,7 @@
       background: var(--cv-paper-bg);
       color: var(--cv-text);
       font-family: 'Calibri', 'Carlito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(0, 0, 0, 0.08);
+      border: 1px solid var(--border-subtle);
       border-radius: 2px;
       padding: 44px 52px;
       line-height: 1.38;
@@ -484,7 +462,7 @@
       .nav-inner { padding: 0 16px; }
       .nav-links { display: none; }
       .toolbar-container {
-        margin-top: calc(var(--nav-height) + 16px);
+        margin-top: 16px;
         flex-direction: column;
         align-items: stretch;
       }
@@ -514,41 +492,29 @@
 </head>
 <body>
 
-  <!-- PORTFOLIO NAV -->
-  <nav>
-    <div class="nav-inner">
-      <a href="/" class="nav-logo">Prajwal <span>Sainju</span></a>
-      <ul class="nav-links">
-        <li><a href="/#about">About</a></li>
-        <li><a href="/#skills">Skills</a></li>
-        <li><a href="/#experience">Experience</a></li>
-        <li><a href="/#projects">Projects</a></li>
-        <li><a href="/#contact">Contact</a></li>
-        <li><a href="/resume.html" class="active">Résumé</a></li>
-      </ul>
-      <button class="btn-action btn-secondary-action" id="themeToggle" title="Toggle site theme" aria-label="Toggle site theme">☀️ Light</button>
-    </div>
-  </nav>
+  <!-- partial:header -->
 
+  <main id="main" tabindex="-1">
   <!-- ACTIONS TOOLBAR -->
   <div class="toolbar-container">
     <div class="toolbar-left">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><span aria-current="page">Résumé</span></li></ol></nav>
       <div class="toolbar-title">
         <span>Curriculum Vitae</span>
-        <span class="badge-exact">Verified PDF Format</span>
+        <span class="badge-exact">Same content as the PDF</span>
       </div>
     </div>
     <div class="toolbar-right">
-      <button class="btn-action btn-secondary-action" id="sheetModeBtn" title="Toggle paper canvas view">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
+      <button type="button" class="btn-action btn-secondary-action" id="sheetModeBtn" aria-pressed="false">
+        <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
         <span id="sheetModeLabel">Dark Canvas</span>
       </button>
-      <button class="btn-action btn-secondary-action" onclick="window.print()" id="btnPrint">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+      <button type="button" class="btn-action btn-secondary-action" id="btnPrint">
+        <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
         Print / Save PDF
       </button>
-      <a href="/PrajwalSainju.pdf" download="PrajwalSainju.pdf" class="btn-action btn-primary-action" id="btnDownload">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      <a href="/PrajwalSainju.pdf" download="PrajwalSainju.pdf" class="btn-action btn-primary-action" id="btnDownload" data-track="resume_download">
+        <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         Download Official PDF
       </a>
     </div>
@@ -556,11 +522,11 @@
 
   <!-- RESUME SHEET (Exact Replica of PrajwalSainju.pdf) -->
   <div class="resume-wrapper">
-    <main class="resume-sheet" id="resumeSheet">
+    <article class="resume-sheet" id="resumeSheet" aria-label="Résumé">
 
       <!-- HEADER -->
       <header class="cv-header">
-        <h1 class="cv-name">P R A J W A L &nbsp; S A I N J U</h1>
+        <h1 class="cv-name">Prajwal Sainju</h1>
         <div class="cv-subtitle">Full Stack Developer &nbsp;·&nbsp; Laravel + Vue.js + TypeScript</div>
         <div class="cv-contact">
           <span>Kathmandu, Nepal</span>
@@ -569,7 +535,7 @@
           <span class="pipe">|</span>
           <a href="mailto:Sainjoprajol12@gmail.com">Sainjoprajol12@gmail.com</a>
           <span class="pipe">|</span>
-          <a href="https://linkedin.com/in/prajwal-sainju" target="_blank" rel="noopener">linkedin.com/in/prajwal-sainju</a>
+          <a href="https://www.linkedin.com/in/prajwal-sainju/" target="_blank" rel="noopener">linkedin.com/in/prajwal-sainju</a>
           <span class="pipe">|</span>
           <a href="https://github.com/sanjoprajol12" target="_blank" rel="noopener">github.com/sanjoprajol12</a>
         </div>
@@ -579,16 +545,16 @@
 
       <!-- PROFESSIONAL SUMMARY -->
       <section class="cv-section">
-        <h2 class="cv-section-title">P R O F E S S I O N A L &nbsp; S U M M A R Y</h2>
+        <h2 class="cv-section-title">Professional Summary</h2>
         <div class="cv-section-rule"></div>
         <p class="cv-summary-text">
-          Full Stack Developer based in Kathmandu with hands-on internship experience building production web applications. Comfortable across the stack — server-side logic and APIs in PHP/Laravel, reactive client-side UIs in Vue.js with TypeScript and SCSS, and full-stack monoliths combining Laravel + Blade + Vue. Currently shipping a live consultancy admin portal and comfortable with Docker-based deployment workflows. Focused on clean architecture, reusable components, and maintainable code. Multilingual: English, Nepali, Hindi.
+          Full Stack Developer based in Kathmandu with hands-on internship experience building production web applications. Comfortable across the stack: server-side logic and APIs in PHP/Laravel, reactive client-side UIs in Vue.js with TypeScript and SCSS, and full-stack monoliths combining Laravel + Blade + Vue. Currently shipping a live consultancy admin portal and comfortable with Docker-based deployment workflows. Focused on clean architecture, reusable components, and maintainable code. Multilingual: English, Nepali, Hindi.
         </p>
       </section>
 
       <!-- TECHNICAL SKILLS -->
       <section class="cv-section">
-        <h2 class="cv-section-title">T E C H N I C A L &nbsp; S K I L L S</h2>
+        <h2 class="cv-section-title">Technical Skills</h2>
         <div class="cv-section-rule"></div>
         <div class="cv-skills-list">
           <div class="cv-skill-item">
@@ -620,7 +586,7 @@
 
       <!-- EXPERIENCE -->
       <section class="cv-section">
-        <h2 class="cv-section-title">E X P E R I E N C E</h2>
+        <h2 class="cv-section-title">Experience</h2>
         <div class="cv-section-rule"></div>
 
         <div class="cv-entry">
@@ -633,7 +599,7 @@
             <li>Ship features end-to-end across Laravel backends and Vue.js frontends for a live consultancy product.</li>
             <li>Build reactive admin dashboards in Vue + TypeScript + SCSS, focused on reusable components and scalable front-end architecture.</li>
             <li>Develop server-side logic, APIs, and database schemas in Laravel, including authentication, role-based access, and CRUD workflows.</li>
-            <li>Work across both decoupled Vue SPA + Laravel API setups and classic Laravel + Blade + Vue monoliths — choosing the right pattern per project.</li>
+            <li>Work across both decoupled Vue SPA + Laravel API setups and classic Laravel + Blade + Vue monoliths, choosing the right pattern per project.</li>
             <li>Use Docker for consistent local development and deployment; follow professional Git workflows with code review.</li>
           </ul>
         </div>
@@ -641,13 +607,13 @@
 
       <!-- PROJECTS -->
       <section class="cv-section">
-        <h2 class="cv-section-title">P R O J E C T S</h2>
+        <h2 class="cv-section-title">Projects</h2>
         <div class="cv-section-rule"></div>
 
         <!-- Project 1 -->
         <div class="cv-entry">
           <div class="cv-entry-head">
-            <span class="cv-entry-title">Consultancy Web — Full-Stack Website</span>
+            <span class="cv-entry-title">Consultancy Web: Full-Stack Website</span>
             <span class="cv-entry-meta">Live</span>
           </div>
           <div class="cv-entry-tech">Laravel · Blade · Vue.js · MySQL</div>
@@ -661,7 +627,7 @@
         <!-- Project 2 -->
         <div class="cv-entry">
           <div class="cv-entry-head">
-            <span class="cv-entry-title">Consultancy Admin — Admin Dashboard</span>
+            <span class="cv-entry-title">Consultancy Admin Dashboard</span>
             <span class="cv-entry-meta"></span>
           </div>
           <div class="cv-entry-tech">Vue.js · TypeScript · SCSS</div>
@@ -678,7 +644,7 @@
         <!-- Project 3 -->
         <div class="cv-entry print-break-before">
           <div class="cv-entry-head">
-            <span class="cv-entry-title">Futech Project — Backend API</span>
+            <span class="cv-entry-title">Futech Project: Backend API</span>
             <span class="cv-entry-meta"></span>
           </div>
           <div class="cv-entry-tech">PHP · Laravel · MySQL</div>
@@ -692,7 +658,7 @@
         <!-- Project 4 -->
         <div class="cv-entry">
           <div class="cv-entry-head">
-            <span class="cv-entry-title">Futech Project — Frontend SPA</span>
+            <span class="cv-entry-title">Futech Project: Frontend SPA</span>
             <span class="cv-entry-meta"></span>
           </div>
           <div class="cv-entry-tech">Vue.js · TypeScript</div>
@@ -706,7 +672,7 @@
         <!-- Project 5 -->
         <div class="cv-entry">
           <div class="cv-entry-head">
-            <span class="cv-entry-title">CMS Template — Reusable Admin Starter</span>
+            <span class="cv-entry-title">CMS Template: Reusable Admin Starter</span>
             <span class="cv-entry-meta"></span>
           </div>
           <div class="cv-entry-tech">Vue.js · TypeScript · SCSS</div>
@@ -720,7 +686,7 @@
         <!-- Project 6 -->
         <div class="cv-entry">
           <div class="cv-entry-head">
-            <span class="cv-entry-title">Appointment System — Booking Platform</span>
+            <span class="cv-entry-title">Appointment System: Booking Platform</span>
             <span class="cv-entry-meta"></span>
           </div>
           <div class="cv-entry-tech">Laravel · Blade · JavaScript · Docker</div>
@@ -762,13 +728,13 @@
 
       <!-- EDUCATION -->
       <section class="cv-section">
-        <h2 class="cv-section-title">E D U C A T I O N</h2>
+        <h2 class="cv-section-title">Education</h2>
         <div class="cv-section-rule"></div>
 
         <div class="cv-entry">
           <div class="cv-entry-head">
             <span class="cv-entry-title">Bachelor of Computer Applications (BCA)</span>
-            <span class="cv-entry-meta">2022 — Ongoing</span>
+            <span class="cv-entry-meta">2022 to present</span>
           </div>
           <div class="cv-edu-school">Arunima College, Kathmandu, Nepal</div>
           <ul class="cv-bullets">
@@ -780,13 +746,13 @@
 
       <!-- CERTIFICATIONS & ADDITIONAL INFO -->
       <section class="cv-section">
-        <h2 class="cv-section-title">C E R T I F I C A T I O N S &nbsp; &amp; &nbsp; A D D I T I O N A L &nbsp; I N F O</h2>
+        <h2 class="cv-section-title">Certifications &amp; Additional Info</h2>
         <div class="cv-section-rule"></div>
 
         <div class="cv-info-list">
           <div class="cv-info-item">
             <span class="cv-info-label">Certifications:</span>
-            <span>MERN Stack Certification — N9 Solutions (2024)</span>
+            <span>MERN Stack Certification, N9 Solutions (2024)</span>
           </div>
           <div class="cv-info-item">
             <span class="cv-info-label">Strengths:</span>
@@ -803,75 +769,13 @@
         </div>
       </section>
 
-    </main>
+    </article>
   </div>
+  </main>
 
-  <script>
-    // ── Theme Management ──
-    const htmlEl = document.documentElement;
-    const themeBtn = document.getElementById('themeToggle');
-    const sheetModeBtn = document.getElementById('sheetModeBtn');
-    const sheetModeLabel = document.getElementById('sheetModeLabel');
+  <!-- partial:footer -->
 
-    // Load saved preferences
-    const savedTheme = localStorage.getItem('theme') || 'dark';
-    const savedSheetMode = localStorage.getItem('sheetMode') || 'light';
-
-    htmlEl.setAttribute('data-theme', savedTheme);
-    htmlEl.setAttribute('data-sheet-mode', savedSheetMode);
-    updateThemeBtn();
-    updateSheetBtn();
-
-    themeBtn.addEventListener('click', () => {
-      const current = htmlEl.getAttribute('data-theme');
-      const next = current === 'dark' ? 'light' : 'dark';
-      htmlEl.setAttribute('data-theme', next);
-      localStorage.setItem('theme', next);
-      updateThemeBtn();
-    });
-
-    sheetModeBtn.addEventListener('click', () => {
-      const current = htmlEl.getAttribute('data-sheet-mode');
-      const next = current === 'dark' ? 'light' : 'dark';
-      htmlEl.setAttribute('data-sheet-mode', next);
-      localStorage.setItem('sheetMode', next);
-      updateSheetBtn();
-    });
-
-    function updateThemeBtn() {
-      const isDark = htmlEl.getAttribute('data-theme') === 'dark';
-      themeBtn.textContent = isDark ? '☀️ Light' : '🌙 Dark';
-    }
-
-    function updateSheetBtn() {
-      const isDarkSheet = htmlEl.getAttribute('data-sheet-mode') === 'dark';
-      sheetModeLabel.textContent = isDarkSheet ? 'Light Paper' : 'Dark Canvas';
-    }
-
-    // Optional API hydration (updates contact details if modified via admin)
-    const API = window.PORTFOLIO_API || '';
-    if (API) {
-      fetch(`${API}/api/content`)
-        .then(r => r.ok ? r.json() : null)
-        .then(data => {
-          if (!data || !data.site) return;
-          const contact = data.site.contact || {};
-          if (contact.email) {
-            document.querySelectorAll('a[href^="mailto:"]').forEach(el => {
-              el.href = `mailto:${contact.email}`;
-              el.textContent = contact.email;
-            });
-          }
-          if (contact.phone) {
-            document.querySelectorAll('a[href^="tel:"]').forEach(el => {
-              el.href = `tel:${contact.phone.replace(/\\s+/g, '')}`;
-              el.textContent = contact.phone;
-            });
-          }
-        })
-        .catch(() => {});
-    }
-  </script>
-
+  <script src="/js/site.js" defer></script>
+  <script src="/js/resume.js" defer></script>
 </body>
 </html>

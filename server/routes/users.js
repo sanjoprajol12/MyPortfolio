@@ -2,14 +2,18 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 const User = require('../models/User');
-const { auth, requireSuperAdmin } = require('../middleware/auth');
+const { auth, requireMfaEnrolled, requireSuperAdmin } = require('../middleware/auth');
 const wrap = require('../lib/asyncHandler');
 const { createSessionToken } = require('../lib/tokens');
-const { passwordError, cleanUsername, usernameError, isUsernameTaken } = require('../lib/accounts');
+const { setSessionCookie } = require('../lib/security');
+const {
+  passwordError, cleanUsername, usernameError, cleanEmail, emailError, isUsernameTaken, isEmailTaken,
+} = require('../lib/accounts');
+const { sessionHours } = require('../config');
 
 // Admin account management (super admins only)
 const router = express.Router();
-router.use(auth, requireSuperAdmin);
+router.use(auth, requireMfaEnrolled, requireSuperAdmin);
 
 const cleanRole = (role) => (role === 'super_admin' ? 'super_admin' : 'admin');
 
@@ -32,14 +36,19 @@ router.get('/', wrap(async (_req, res) => {
 
 router.post('/', wrap(async (req, res) => {
   const username = cleanUsername(req.body.username);
-  const invalid = usernameError(username) || passwordError(req.body.password);
+  const email = cleanEmail(req.body.email);
+  const invalid = usernameError(username) || emailError(email) || passwordError(req.body.password, username);
   if (invalid) return res.status(400).json({ error: invalid });
   if (await isUsernameTaken(username)) {
     return res.status(400).json({ error: `An admin with username "${username}" already exists.` });
   }
+  if (await isEmailTaken(email)) {
+    return res.status(400).json({ error: 'That email address is used by another admin.' });
+  }
 
   const user = await User.create({
     username,
+    email,
     passwordHash: await bcrypt.hash(req.body.password, 12),
     role: cleanRole(req.body.role),
   });
@@ -61,6 +70,16 @@ router.put('/:id', wrap(async (req, res) => {
     user.username = username;
   }
 
+  if (req.body.email !== undefined) {
+    const email = cleanEmail(req.body.email);
+    const invalid = emailError(email);
+    if (invalid) return res.status(400).json({ error: invalid });
+    if (await isEmailTaken(email, user._id)) {
+      return res.status(400).json({ error: 'That email address is used by another admin.' });
+    }
+    user.email = email;
+  }
+
   if (req.body.role !== undefined) {
     const role = cleanRole(req.body.role);
     if (role !== 'super_admin' && await isLastSuperAdmin(user)) {
@@ -69,18 +88,20 @@ router.put('/:id', wrap(async (req, res) => {
     user.role = role;
   }
 
-  let token;
+  let refreshOwnSession = false;
   if (req.body.password) {
-    const invalid = passwordError(req.body.password);
+    const invalid = passwordError(req.body.password, user.username);
     if (invalid) return res.status(400).json({ error: invalid });
     user.passwordHash = await bcrypt.hash(req.body.password, 12);
+    user.clearPasswordReset();
     // Signs the account out everywhere; keep the editor signed in when they changed their own
     user.tokenVersion = (user.tokenVersion || 0) + 1;
-    if (isSelf) token = createSessionToken(user);
+    refreshOwnSession = isSelf;
   }
 
   await user.save();
-  res.json({ user: user.toPublic(), ...(token && { token }) });
+  if (refreshOwnSession) setSessionCookie(req, res, createSessionToken(user), sessionHours);
+  res.json({ user: user.toPublic() });
 }));
 
 // For an admin who lost their phone and recovery codes

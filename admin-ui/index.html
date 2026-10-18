@@ -22,13 +22,6 @@
       </div>
     </div>
     <script type="module" src="/src/main.ts"></script>
-    <script>
-      // Keys are written by src/core/initConfig.ts via namespaceConfig() ("<app title>-<key>")
-      const loaderColor = localStorage.getItem("prajwal sainju-initial-loader-bg") || "#FFFFFF";
-      const primaryColor = localStorage.getItem("prajwal sainju-initial-loader-color") || "#9A7023";
-
-      document.documentElement.style.setProperty("--initial-loader-bg", loaderColor);
-      document.documentElement.style.setProperty("--initial-loader-color", primaryColor);
-    </script>
+    <script src="/loader.js"></script>
   </body>
 </html>

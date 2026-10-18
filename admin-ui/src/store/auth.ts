@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import JwtService from '@/services/JwtService'
 import AuthService from '@/services/portfolio/AuthService'
 import type { AuthUser, UserCredentials } from '@/types/portfolio'
 
@@ -7,26 +6,26 @@ export const useAuthStore = defineStore('auth', () => {
   const errors = ref<string[]>([])
   const user = ref<AuthUser | null>(null)
 
+  // The session is an httpOnly cookie the page cannot see, so the API is asked once per page
+  // load whether it is still valid (see verifyAuth and the router guard)
+  const isAuthenticated = ref(false)
+  const hasCheckedSession = ref(false)
+
   // Set between a correct password and a correct two-step code; kept in memory only
   const pendingMfaToken = ref<string | null>(null)
 
-  const jwtService = JwtService
   const authService = new AuthService()
-  const isAuthenticated = ref(!!jwtService.getToken())
 
   const isSuperAdmin = computed(() => user.value?.role === 'super_admin')
 
-  const setAuth = (authUser: AuthUser, token?: string) => {
-    isAuthenticated.value = true
-    user.value = authUser
-    errors.value = []
-    if (token)
-      jwtService.saveToken(token)
-  }
+  // The site requires two-step verification and this account has not set it up yet
+  const needsMfaSetup = computed(() => Boolean(user.value?.mfaRequired && !user.value?.mfaEnabled))
 
-  // Swaps in a fresh token after the API signed out older sessions
-  const replaceToken = (token: string) => {
-    jwtService.saveToken(token)
+  const setAuth = (authUser: AuthUser) => {
+    isAuthenticated.value = true
+    hasCheckedSession.value = true
+    user.value = { ...user.value, ...authUser }
+    errors.value = []
   }
 
   const setError = (error: any) => {
@@ -39,7 +38,6 @@ export const useAuthStore = defineStore('auth', () => {
     user.value = null
     errors.value = []
     pendingMfaToken.value = null
-    jwtService.destroyToken()
   }
 
   // Returns 'mfa' when the account needs a two-step code before it is signed in
@@ -47,14 +45,14 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       const response = await authService.login(credentials)
 
-      if ('mfaRequired' in response) {
+      if ('mfaToken' in response) {
         pendingMfaToken.value = response.mfaToken
         errors.value = []
 
         return 'mfa'
       }
 
-      setAuth(response.user, response.token)
+      setAuth({ ...response.user, mfaRequired: response.mfaRequired })
 
       return true
     }
@@ -73,10 +71,10 @@ export const useAuthStore = defineStore('auth', () => {
     }
 
     try {
-      const { token, user: authUser } = await authService.loginMfa(pendingMfaToken.value, code.trim())
+      const response = await authService.loginMfa(pendingMfaToken.value, code.trim())
 
       pendingMfaToken.value = null
-      setAuth(authUser, token)
+      setAuth({ ...response.user, mfaRequired: response.mfaRequired })
 
       return true
     }
@@ -95,8 +93,14 @@ export const useAuthStore = defineStore('auth', () => {
     errors.value = []
   }
 
-  // Sessions are stateless JWTs, so signing out only clears the token
+  // The API clears the session cookie
   const logout = async () => {
+    try {
+      await authService.logout()
+    }
+    catch {
+      // Signed out locally either way; the cookie also expires on its own
+    }
     purgeAuth()
 
     const { router } = await import('@/plugins/2.router')
@@ -105,26 +109,20 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   const verifyAuth = async () => {
-    if (!jwtService.getToken()) {
-      purgeAuth()
-
-      return
-    }
-
     try {
-      setAuth(await authService.me())
-    }
-    catch (error: any) {
-      // Only a rejected token ends the session. A network error or a cold-starting API
-      // keeps the token so the next navigation can verify it again.
-      if (error?.status === 401) {
-        purgeAuth()
+      const { user: current } = await authService.session()
 
-        return
+      if (current) {
+        setAuth(current)
       }
-
-      isAuthenticated.value = false
-      user.value = null
+      else {
+        hasCheckedSession.value = true
+        purgeAuth()
+      }
+    }
+    catch {
+      // A network error or a cold-starting API is retried on the next navigation
+      purgeAuth()
     }
   }
 
@@ -137,14 +135,15 @@ export const useAuthStore = defineStore('auth', () => {
     errors,
     user,
     isAuthenticated,
+    hasCheckedSession,
     isSuperAdmin,
+    needsMfaSetup,
     pendingMfaToken,
     login,
     completeMfaLogin,
     cancelMfaLogin,
     logout,
     setAuth,
-    replaceToken,
     purgeAuth,
     setError,
     verifyAuth,

@@ -4,5 +4,7 @@ uploads/
 *.log
 .DS_Store
 
-# Built from admin-ui/ by `npm run build`
+# Build output: admin/ from admin-ui/, dist/ from `npm run build`
 admin/
+dist/
+backups/

@@ -4,6 +4,9 @@ const props = defineProps<{
   recoveryCodesRemaining: number
   isLoading: boolean
   isSyncing: boolean
+
+  // The site requires two-step verification, so it cannot be turned off
+  isRequired?: boolean
 }>()
 
 defineEmits<{
@@ -34,6 +37,16 @@ defineEmits<{
     />
 
     <VCardText class="pa-5">
+      <VAlert
+        v-if="props.isRequired && !props.isMfaEnabled"
+        type="warning"
+        variant="tonal"
+        density="compact"
+        icon="alert-triangle"
+        class="mb-4"
+      >
+        Two-step verification is required for every admin on this site. Turn it on to start editing.
+      </VAlert>
       <div class="d-flex align-start gap-4 flex-wrap flex-sm-nowrap">
         <VAvatar
           :color="props.isMfaEnabled ? 'success' : 'secondary'"
@@ -89,6 +102,7 @@ defineEmits<{
               New recovery codes
             </VBtn>
             <VBtn
+              v-if="!props.isRequired"
               color="error"
               variant="tonal"
               :loading="props.isLoading"

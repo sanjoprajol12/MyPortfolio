@@ -3,6 +3,7 @@ import AdminUserService from '@/services/portfolio/AdminUserService'
 import { useAuthStore } from '@/store/auth'
 import type { AdminUserPayload as AdminUser, AuthUser as AdminUserView } from '@/types/portfolio'
 import { rules } from '@/composable/validation/useRules'
+import { passwordProblem } from '@/utils/password'
 
 interface Props { isDrawerOpen: boolean }
 interface Emit {
@@ -27,16 +28,20 @@ const roleOptions = [
   { title: 'Super admin: also manages admin accounts', value: 'super_admin' },
 ]
 
-const defaultForm = (): Required<AdminUser> => ({ username: '', password: '', role: 'admin' })
+const defaultForm = (): Required<AdminUser> => ({ username: '', email: '', password: '', role: 'admin' })
 
 const adminUserFormData = reactive<Required<AdminUser>>(defaultForm())
 
 // Password is required for new accounts; when editing, blank keeps the current one
 const formValidationRules = computed(() => ({
   username: { required: rules.required },
+  email: { email: rules.email },
   password: {
     required: rules.requiredIf(!isEditMode.value),
-    minLength: rules.minLength(8),
+    strong: rules.custom(
+      (value: string) => !value || !passwordProblem(value, adminUserFormData.username),
+      'Choose a stronger password (see the hint below)',
+    ),
   },
 }))
 
@@ -63,6 +68,7 @@ const handleSubmitAdminUser = async () => {
 
     const payload: Partial<AdminUser> = {
       username: adminUserFormData.username.trim(),
+      email: adminUserFormData.email.trim().toLowerCase(),
       role: adminUserFormData.role,
     }
 
@@ -70,12 +76,12 @@ const handleSubmitAdminUser = async () => {
       payload.password = adminUserFormData.password
 
     if (isEditMode.value && currentAdminUserId.value) {
-      const { token, user: updated } = await adminUserService.update(currentAdminUserId.value, payload)
+      const { user: updated } = await adminUserService.update(currentAdminUserId.value, payload)
 
       const isSelf = updated.id === authStore.user?.id
 
       if (isSelf)
-        authStore.setAuth(updated, token)
+        authStore.setAuth(updated)
       showSuccess('Admin user updated')
 
       // A super admin who demoted themselves can no longer open this page
@@ -107,6 +113,7 @@ const editAdminUserData = (val: AdminUserView) => {
 
   Object.assign(adminUserFormData, {
     username: val.username ?? '',
+    email: val.email ?? '',
     password: '',
     role: val.role ?? 'admin',
   })
@@ -163,6 +170,19 @@ watch(
 
           <VCol cols="12">
             <VTextField
+              v-model="adminUserFormData.email"
+              label="Email"
+              type="email"
+              autocomplete="off"
+              hint="Optional. Needed to receive password reset links."
+              persistent-hint
+              :error-messages="validationErrors('email')"
+              @input="touchField('email')"
+            />
+          </VCol>
+
+          <VCol cols="12">
+            <VTextField
               v-model="adminUserFormData.password"
               autocomplete="new-password"
               :type="isPasswordVisible ? 'text' : 'password'"
@@ -181,6 +201,11 @@ watch(
                 >*</span>
               </template>
             </VTextField>
+            <PasswordStrength
+              :password="adminUserFormData.password"
+              :username="adminUserFormData.username"
+              class="mt-2"
+            />
           </VCol>
 
           <VCol cols="12">

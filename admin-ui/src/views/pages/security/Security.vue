@@ -143,7 +143,7 @@ const onPasswordConfirmed = async (password: string) => {
 
 const isRevoking = ref(false)
 
-// Every other browser or device is signed out; this one keeps working with a fresh token
+// Every other browser or device is signed out; this one keeps working with a fresh cookie
 const revokeSessions = () => {
   $confirm?.({
     message: 'Sign out of the admin on every other browser and device?',
@@ -152,9 +152,7 @@ const revokeSessions = () => {
       if (!ok) return
       isRevoking.value = true
       try {
-        const { token } = await authService.revokeSessions()
-
-        authStore.replaceToken(token)
+        await authService.revokeSessions()
         showSuccess('Signed out of all other sessions')
       }
       catch (error) {
@@ -182,6 +180,7 @@ onMounted(() => loadSecuritySettings())
           :recovery-codes-remaining="recoveryCodesRemaining"
           :is-loading="isMfaLoading"
           :is-syncing="isSyncing"
+          :is-required="Boolean(authStore.user?.mfaRequired)"
           @open-mfa-setup="openMfaSetup"
           @deactivate-mfa="requestPassword('disable')"
           @regenerate-recovery-codes="requestPassword('recovery-codes')"

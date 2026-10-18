@@ -6,10 +6,14 @@ export type AdminRole = 'super_admin' | 'admin'
 export interface AuthUser {
   id: string
   username: string
+  email?: string
   role: AdminRole
   mfaEnabled: boolean
   lastLoginAt?: string | null
   createdAt?: string
+
+  // The site requires every admin to use two-step verification
+  mfaRequired?: boolean
 }
 
 export interface UserCredentials {
@@ -17,30 +21,46 @@ export interface UserCredentials {
   password: string
 }
 
+// The session itself is an httpOnly cookie set by the API
 export interface SessionResponse {
-  token: string
   user: AuthUser
+  mfaRequired: boolean
 }
 
 // The password was right but the account has two-step verification:
 // exchange mfaToken plus a code for a session at auth/login/mfa
-export interface MfaRequiredResponse {
+export interface MfaChallengeResponse {
   mfaRequired: true
   mfaToken: string
 }
 
-export type LoginResponse = SessionResponse | MfaRequiredResponse
+export type LoginResponse = SessionResponse | MfaChallengeResponse
 
 export interface AccountUpdate {
   currentPassword: string
   username?: string
+  email?: string
   newPassword?: string
 }
 
-// Changing a password signs out older sessions, so the API returns a fresh token for this one
+// Changing a password signs out older sessions; the API gives this browser a fresh cookie
 export interface AccountUpdateResponse {
   user: AuthUser
-  token?: string
+}
+
+export interface MessagePage {
+  items: Message[]
+  total: number
+  unread: number
+  page: number
+  limit: number
+}
+
+export interface MessageQuery {
+  page?: number
+  limit?: number
+  q?: string
+  status?: 'all' | 'unread' | 'read' | 'spam'
 }
 
 export interface MfaStatus {
@@ -58,6 +78,7 @@ export interface MfaSetup {
 
 export interface AdminUserPayload {
   username: string
+  email?: string
   password?: string
   role: AdminRole
 }
@@ -210,5 +231,6 @@ export interface Message {
   email: string
   message: string
   read: boolean
+  spam?: boolean
   createdAt: string
 }

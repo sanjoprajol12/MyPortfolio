@@ -1,0 +1,24 @@
+# Prajwal Sainju
+
+> Prajwal Sainju is a frontend and backend web developer based in Kathmandu, Nepal, building web applications with Laravel and PHP on the server and Vue.js with TypeScript on the client. Prajwal is currently a developer intern at Futech Solution and open to new opportunities.
+
+Key facts:
+
+- Role: Frontend & Backend Developer Intern at Futech Solution, Kathmandu (December 2025 to present)
+- Main stack: Laravel, PHP, Blade, MySQL, PostgreSQL, Vue.js, TypeScript, SCSS
+- Also uses: React, Inertia.js, Tailwind CSS, Node.js, Express, MongoDB, Git
+- Education: BCA, Arunima College
+- Location: Kathmandu, Nepal
+- Contact: sainjoprajol12@gmail.com, +977 9841273490
+- Profiles: https://www.linkedin.com/in/prajwal-sainju/ and https://github.com/sanjoprajol12
+
+## Pages
+
+- [Home](__SITE_URL__/): about, skills, experience, projects and contact form
+- [Projects](__SITE_URL__/projects/): every project with its technology and links
+- [Résumé](__SITE_URL__/resume.html): full résumé, also as a PDF at __SITE_URL__/api/resume.pdf
+
+## Optional
+
+- [Privacy policy](__SITE_URL__/privacy.html)
+- [Accessibility statement](__SITE_URL__/accessibility.html)

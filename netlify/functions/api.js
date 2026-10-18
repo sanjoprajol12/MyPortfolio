@@ -1,48 +1,37 @@
-// netlify/functions/api.js
-// Wraps the existing Express app as a Netlify (AWS Lambda-compatible) Function.
-// All requests to /.netlify/functions/api/* are handled here, and netlify.toml
-// rewrites /api/* → /.netlify/functions/api/* so the frontend URLs stay the same.
-
+// Runs the shared Express app (server/app.js) as a Netlify Function. netlify.toml rewrites
+// /api/*, /projects/* and /sitemap.xml here; Netlify serves everything else from dist/.
 require('dotenv').config();
 const serverless = require('serverless-http');
-const express    = require('express');
-const cors       = require('cors');
+const { connectDb } = require('../../server/db');
+const { seed } = require('../../server/seed');
+const { createApp } = require('../../server/app');
 
-const { connectDb }  = require('../../server/db');
-const { seed }       = require('../../server/seed');
-const authRoutes     = require('../../server/routes/auth');
-const publicRoutes   = require('../../server/routes/public');
-const adminRoutes    = require('../../server/routes/admin');
-const mfaRoutes      = require('../../server/routes/mfa');
-const userRoutes     = require('../../server/routes/users');
+const handler = serverless(createApp());
 
-const app = express();
-
-app.use(cors());
-app.use(express.json({ limit: '2mb' }));
-app.use(express.urlencoded({ extended: true }));
-
-app.use('/api/auth',  authRoutes);
-app.use('/api',       publicRoutes);
-app.use('/api/admin/mfa', mfaRoutes);
-app.use('/api/admin/users', userRoutes);
-app.use('/api/admin', adminRoutes);
-
-// Lazy-connect: reuse the Mongoose connection across warm Lambda invocations.
-let ready = false;
-const ensureDb = async () => {
+// Connect and seed once per warm instance; the connection is reused between invocations
+let ready = null;
+const ensureDb = () => {
   if (!ready) {
-    await connectDb();
-    await seed();          // no-op if data already exists (seed is idempotent)
-    ready = true;
+    ready = connectDb().then(() => seed()).catch((err) => {
+      ready = null;
+      throw err;
+    });
   }
+  return ready;
 };
 
-const handler = serverless(app);
-
 exports.handler = async (event, context) => {
-  // Prevent Lambda from waiting for the event loop to drain (Mongoose keeps it open).
+  // Mongoose keeps the event loop busy; do not wait for it to drain before responding
   context.callbackWaitsForEmptyEventLoop = false;
-  await ensureDb();
+  try {
+    await ensureDb();
+  } catch (err) {
+    console.error(`[api] database unavailable: ${err.message}`);
+    return {
+      statusCode: 503,
+      headers: { 'Content-Type': 'application/json', 'Retry-After': '30' },
+      body: JSON.stringify({ error: 'The service is temporarily unavailable. Please try again shortly.' }),
+    };
+  }
   return handler(event, context);
 };

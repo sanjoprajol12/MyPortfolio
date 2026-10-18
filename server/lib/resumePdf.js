@@ -19,11 +19,14 @@ function slugName(site) {
   return fullName(site).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'resume';
 }
 
+// A local image path inside the project, or an uploaded photo stored as a data: URL
 function resolvePhoto(photoUrl) {
   if (!photoUrl || /^https?:\/\//i.test(photoUrl)) return null;
+  const data = /^data:image\/(?:jpeg|png);base64,(.+)$/.exec(photoUrl);
+  if (data) return Buffer.from(data[1], 'base64');
   const root = path.join(__dirname, '..', '..');
-  const abs = path.join(root, String(photoUrl).replace(/^\//, ''));
-  if (!fs.existsSync(abs)) return null;
+  const abs = path.resolve(root, String(photoUrl).replace(/^\//, ''));
+  if (!abs.startsWith(root + path.sep) || !fs.existsSync(abs)) return null;
   if (!/\.(jpe?g|png)$/i.test(abs)) return null;
   return abs;
 }

@@ -74,12 +74,12 @@ const quickLinks = [
 const getDashboard = async () => {
   isLoading.value = true
   try {
-    const [stats, messages] = await Promise.all([siteService.overview(), messageService.list()])
+    const [stats, messages] = await Promise.all([siteService.overview(), messageService.list({ limit: 5 })])
 
     overview.value = stats
 
     // The API returns messages newest first
-    recentMessages.value = messages.slice(0, 5)
+    recentMessages.value = messages.items
   }
   catch (error) {
     showError(error)

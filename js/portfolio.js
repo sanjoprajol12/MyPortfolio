@@ -1,35 +1,24 @@
+// Home page: refreshes the content with the latest from the admin, and runs the contact form.
+// The page already contains the content from the last build, so it works without this script.
 (function () {
-  const API = window.PORTFOLIO_API || '';
+  const R = window.PortfolioRender;
+  const $ = (id) => document.getElementById(id);
+  const esc = R.esc;
+  const startedAt = Date.now();
 
-  function esc(value) {
-    return String(value == null ? '' : value)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;');
+  function setHtml(id, html) {
+    const el = $(id);
+    if (el && html != null) el.innerHTML = html;
   }
 
-  function rich(text) {
-    return esc(text).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  function setText(id, text) {
+    const el = $(id);
+    if (el && text) el.textContent = text;
   }
 
-  function pad(n) {
-    return String(n).padStart(2, '0');
-  }
-
-  function bindHover() {
-    document.querySelectorAll('a, button, .tag, .project-card, .skill-card').forEach((el) => {
-      if (el.dataset.hoverBound) return;
-      el.dataset.hoverBound = '1';
-      el.addEventListener('mouseenter', () => {
-        document.getElementById('cursorDot')?.classList.add('hover');
-        document.getElementById('cursorRing')?.classList.add('hover');
-      });
-      el.addEventListener('mouseleave', () => {
-        document.getElementById('cursorDot')?.classList.remove('hover');
-        document.getElementById('cursorRing')?.classList.remove('hover');
-      });
-    });
+  function setLink(id, href) {
+    const el = $(id);
+    if (el && href) el.href = href;
   }
 
   function render(data) {
@@ -39,218 +28,194 @@
     const contact = site.contact || {};
     const fullName = [site.firstName, site.lastName].filter(Boolean).join(' ');
 
-    if (site.pageTitle) document.title = site.pageTitle;
-
-    document.querySelectorAll('[data-full-name]').forEach((el) => {
-      el.innerHTML = `${esc(site.firstName || '')} <span>${esc(site.lastName || '')}</span>`;
-    });
-
-    const eyebrow = document.getElementById('hero-eyebrow-text');
-    if (eyebrow) {
-      eyebrow.innerHTML = `${esc(hero.eyebrow || '')} <span class="hi">${esc(hero.eyebrowHighlight || '')}</span>`;
+    if (site.firstName || site.lastName) {
+      document.querySelectorAll('.nav-logo, .footer-logo').forEach((el) => {
+        el.innerHTML = `${esc(site.firstName || '')} <span>${esc(site.lastName || '')}</span>`;
+      });
     }
 
-    const title = document.getElementById('hero-title');
-    if (title) {
-      title.innerHTML = `
-        <span class="word w1"><span class="word-inner">${esc(hero.headlineLine1 || '')}</span></span><br/>
-        <span class="word w2"><span class="word-inner">${esc(hero.headlineLine2 || '')}</span></span><br/>
-        <span class="word w3"><span class="word-inner">${esc(hero.headlineLine3 || '')}</span></span>
-      `;
+    if (hero.eyebrow || hero.eyebrowHighlight) {
+      setHtml('hero-eyebrow-text', `${esc(hero.eyebrow || '')} <span class="hi">${esc(hero.eyebrowHighlight || '')}</span>`);
     }
+    if (hero.headlineLine1) {
+      setHtml('hero-title-visual', [hero.headlineLine1, hero.headlineLine2, hero.headlineLine3]
+        .map((line, i) => (line ? `<span class="word w${i + 1}"><span class="word-inner">${esc(line)}</span></span>` : ''))
+        .filter(Boolean).join('<br />'));
+      setText('hero-title-text', [fullName, hero.photoRole].filter(Boolean).join(', '));
+    }
+    setText('hero-location', hero.locationLabel);
+    setText('hero-desc', hero.description);
+    setText('lbl-name', hero.photoName || fullName);
+    setText('lbl-role', hero.photoRole);
 
-    const loc = document.getElementById('hero-location');
-    if (loc) loc.textContent = hero.locationLabel || '';
-
-    const desc = document.getElementById('hero-desc');
-    if (desc) desc.textContent = hero.description || '';
-
-    const photo = document.getElementById('hero-photo');
-    if (photo && hero.photoUrl) {
+    // A photo uploaded in the admin replaces the built-in responsive images
+    const photo = $('hero-photo');
+    if (photo && hero.photoUrl && !/(^|\/)images\/profile\.jpg$/.test(hero.photoUrl)) {
+      $('hero-picture')?.querySelectorAll('source').forEach((s) => s.remove());
+      photo.removeAttribute('srcset');
       photo.src = hero.photoUrl;
-      photo.alt = fullName;
+    }
+    if (photo && fullName) photo.alt = `Portrait of ${fullName}`;
+
+    setHtml('hero-stats', R.heroStats(hero));
+    if (about.paragraphs?.length) setHtml('about-text', R.aboutText(about));
+    if (about.meta?.length) setHtml('about-sidebar', R.aboutMeta(about));
+    setHtml('skills-grid', R.skills(data.skills));
+    setHtml('timeline', R.experience(data.experience));
+    setHtml('projects-list', R.projects(data.projects));
+
+    setText('contact-intro', contact.intro);
+    if (contact.email) {
+      setLink('contact-email', `mailto:${contact.email}`);
+      setText('contact-email-val', contact.email);
+    }
+    if (contact.phone) {
+      setLink('contact-phone', `tel:${contact.phone.replace(/[^\d+]/g, '')}`);
+      setText('contact-phone-val', contact.phone);
+    }
+    setText('avail-text', contact.availability);
+    if (R.safeUrl(contact.linkedinUrl)) {
+      setLink('social-linkedin', R.safeUrl(contact.linkedinUrl));
+      setText('linkedin-handle', contact.linkedinHandle);
+    }
+    if (R.safeUrl(contact.githubUrl)) {
+      setLink('social-github', R.safeUrl(contact.githubUrl));
+      setText('github-handle', contact.githubHandle);
     }
 
-    const lblName = document.getElementById('lbl-name');
-    if (lblName) lblName.textContent = hero.photoName || fullName;
-    const lblRole = document.getElementById('lbl-role');
-    if (lblRole) lblRole.textContent = hero.photoRole || '';
-
-    const stats = document.getElementById('hero-stats');
-    if (stats) {
-      const statHtml = (hero.stats || []).map((s) => `
-        <div class="hero-stat"${s.fullWidth ? ' style="grid-column:1/-1;"' : ''}>
-          <div class="hero-stat-num">${esc(s.num || '')}</div>
-          <div class="hero-stat-lbl">${esc(s.label || '')}</div>
-        </div>
-      `).join('');
-      const stack = (hero.primaryStack || []).map((t) => `<span class="tag hi">${esc(t)}</span>`).join('');
-      stats.innerHTML = `${statHtml}
-        <div class="hero-stat" style="grid-column:1/-1;">
-          <div class="hero-stat-lbl" style="margin-bottom:10px">Primary Stack</div>
-          <div style="display:flex;gap:7px;flex-wrap:wrap">${stack}</div>
-        </div>`;
+    // Optional extra footer line from the admin; the copyright year is always the current one
+    const note = String(site.footerCopy || '').replace(/^\s*©\s*\d{4}\s*[·|-]?\s*/, '').trim();
+    const footerDetails = document.querySelector('.footer-details');
+    if (note && footerDetails && !footerDetails.querySelector('[data-footer-note]')) {
+      footerDetails.insertAdjacentHTML('beforeend', `<br /><span data-footer-note>${esc(note)}</span>`);
     }
-
-    const aboutText = document.getElementById('about-text');
-    if (aboutText) {
-      aboutText.innerHTML = (about.paragraphs || []).map((p) => `<p>${rich(p)}</p>`).join('');
-    }
-
-    const aboutSide = document.getElementById('about-sidebar');
-    if (aboutSide) {
-      aboutSide.innerHTML = (about.meta || []).map((m) => `
-        <div class="meta-row${m.highlight ? ' meta-row--highlight' : ''}">
-          <div class="meta-key">${esc(m.key || '')}</div>
-          <div class="meta-val">${esc(m.value || '')}</div>
-        </div>
-      `).join('');
-    }
-
-    const skillsGrid = document.getElementById('skills-grid');
-    if (skillsGrid) {
-      skillsGrid.innerHTML = (data.skills || []).map((s, i) => `
-        <div class="skill-card"${s.fullWidth ? ' style="grid-column: 1 / -1;"' : ''}>
-          <div class="skill-num">${esc(s.subtitle || `${pad(i + 1)} / ${s.title}`)}</div>
-          <h3 class="skill-card-title">${esc(s.title || '')}</h3>
-          <div class="tag-cloud">
-            ${(s.tags || []).map((t) => `<span class="tag${t.highlight ? ' hi' : ''}">${esc(t.name || '')}</span>`).join('')}
-          </div>
-        </div>
-      `).join('');
-    }
-
-    const timeline = document.getElementById('timeline');
-    if (timeline) {
-      timeline.innerHTML = (data.experience || []).map((item) => `
-        <div class="timeline-item">
-          <div class="timeline-date">${esc(item.date || '')}</div>
-          <div class="timeline-role">${esc(item.role || '')}</div>
-          <div class="timeline-company">${esc(item.company || '')}</div>
-          <div class="timeline-stack">
-            ${(item.stack || []).map((t) => `<span class="stack-badge">${esc(t)}</span>`).join('')}
-          </div>
-          <ul class="timeline-bullets">
-            ${(item.bullets || []).map((b) => `<li>${esc(b)}</li>`).join('')}
-          </ul>
-        </div>
-      `).join('');
-    }
-
-    const projects = document.getElementById('projects-list');
-    if (projects) {
-      projects.innerHTML = (data.projects || []).map((p, i) => {
-        const click = p.liveUrl ? `onclick="window.open(${JSON.stringify(p.liveUrl)},'_blank')" style="cursor:pointer;"` : '';
-        const status = p.statusKind === 'live'
-          ? `<span class="proj-badge proj-badge-live">${esc(p.statusLabel || '● Live')}</span>`
-          : p.statusKind === 'type' && p.statusLabel
-            ? `<span class="proj-badge proj-badge-type">${esc(p.statusLabel)}</span>`
-            : '';
-        const gh = p.githubUrl ? `
-          <a href="${esc(p.githubUrl)}" target="_blank" rel="noopener noreferrer" class="project-gh-btn" onclick="event.stopPropagation()">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-            GitHub
-          </a>` : '';
-        return `
-          <article class="project-card" ${click}>
-            <div class="project-num">${pad(i + 1)}</div>
-            <div class="project-body">
-              <div class="project-tags-row">
-                ${status}
-                ${(p.techs || []).map((t) => `<span class="proj-badge proj-badge-tech">${esc(t)}</span>`).join('')}
-              </div>
-              <h3 class="project-title">${esc(p.title || '')}</h3>
-              <p class="project-desc">${esc(p.description || '')}</p>
-              <ul class="project-features">
-                ${(p.features || []).map((f) => `<li>${esc(f)}</li>`).join('')}
-              </ul>
-            </div>
-            <div class="project-side">${gh}</div>
-          </article>
-        `;
-      }).join('');
-    }
-
-    const intro = document.getElementById('contact-intro');
-    if (intro) intro.textContent = contact.intro || '';
-
-    const emailLink = document.getElementById('contact-email');
-    if (emailLink && contact.email) {
-      emailLink.href = `mailto:${contact.email}`;
-      document.getElementById('contact-email-val').textContent = contact.email;
-    }
-    const phoneLink = document.getElementById('contact-phone');
-    if (phoneLink && contact.phone) {
-      phoneLink.href = `tel:${contact.phone.replace(/\s+/g, '')}`;
-      document.getElementById('contact-phone-val').textContent = contact.phone;
-    }
-    const avail = document.getElementById('avail-text');
-    if (avail) avail.textContent = contact.availability || '';
-
-    const li = document.getElementById('social-linkedin');
-    if (li && contact.linkedinUrl) {
-      li.href = contact.linkedinUrl;
-      document.getElementById('linkedin-handle').textContent = contact.linkedinHandle || '';
-    }
-    const gh = document.getElementById('social-github');
-    if (gh && contact.githubUrl) {
-      gh.href = contact.githubUrl;
-      document.getElementById('github-handle').textContent = contact.githubHandle || '';
-    }
-
-    const showPdf = (site.resume && site.resume.showDownloadButtons !== false);
-    ['btn-resume', 'btn-cv'].forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) el.style.display = showPdf ? '' : 'none';
-    });
-
-    const footer = document.getElementById('footer-copy');
-    if (footer) footer.textContent = site.footerCopy || '';
-
-    bindHover();
   }
 
-  fetch(`${API}/api/content`)
-    .then((r) => (r.ok ? r.json() : Promise.reject()))
+  const busy = ['skills-grid', 'timeline', 'projects-list'].map($).filter(Boolean);
+  busy.forEach((el) => el.setAttribute('aria-busy', 'true'));
+  fetch('/api/content', { credentials: 'same-origin' })
+    .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
     .then(render)
-    .catch(() => {});
+    .catch(() => { /* keep the content that shipped with the page */ })
+    .finally(() => busy.forEach((el) => el.removeAttribute('aria-busy')));
 
-  const form = document.getElementById('contactForm');
-  const submitBtn = document.getElementById('submitBtn');
-  const formSuccess = document.getElementById('formSuccess');
+  // Hide a broken photo instead of showing the browser's broken-image icon
+  $('hero-photo')?.addEventListener('error', () => {
+    $('hero-picture').hidden = true;
+    $('photo-placeholder').hidden = false;
+  });
 
-  if (form) {
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      submitBtn.disabled = true;
-      submitBtn.querySelector('.submit-text').style.display = 'none';
-      submitBtn.querySelector('.submit-loading').style.display = 'inline';
+  // ── Contact form ───────────────────────────────────────────────────────────────────────────
+  const form = $('contactForm');
+  if (!form) return;
+  const submitBtn = $('submitBtn');
+  const status = $('formStatus');
+  const fields = ['name', 'email', 'message', 'consent'];
+  let turnstileWidget = null;
 
-      const payload = {
-        name: form.name.value,
-        email: form.email.value,
-        message: form.message.value,
-      };
-
-      try {
-        const res = await fetch(`${API}/api/messages`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-        });
-        if (!res.ok) {
-          const body = await res.json().catch(() => ({}));
-          throw new Error(body.error || 'Failed to send');
-        }
-        form.reset();
-        submitBtn.style.display = 'none';
-        formSuccess.style.display = 'flex';
-      } catch (err) {
-        submitBtn.disabled = false;
-        submitBtn.querySelector('.submit-text').style.display = 'flex';
-        submitBtn.querySelector('.submit-loading').style.display = 'none';
-        alert(err.message || 'Something went wrong. Please try emailing me directly.');
-      }
-    });
+  function showStatus(kind, html) {
+    status.className = `form-status form-status--${kind}`;
+    status.setAttribute('role', kind === 'error' ? 'alert' : 'status');
+    status.innerHTML = html;
+    status.hidden = false;
   }
-})();
+
+  function setFieldError(name, message) {
+    const input = form.elements[name];
+    const out = $(`${name}-error`);
+    if (out) out.textContent = message || '';
+    if (input) input.setAttribute('aria-invalid', message ? 'true' : 'false');
+  }
+
+  function validate() {
+    const errors = {};
+    const name = form.elements.name.value.trim();
+    const email = form.elements.email.value.trim();
+    const message = form.elements.message.value.trim();
+    if (!name) errors.name = 'Please enter your name.';
+    if (!email) errors.email = 'Please enter your email address.';
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) errors.email = 'Please enter a valid email address, like name@example.com.';
+    if (!message) errors.message = 'Please write a message.';
+    else if (message.length < 10) errors.message = 'Please write at least a sentence so I know how to help.';
+    if (!form.elements.consent.checked) errors.consent = 'Please agree to the privacy policy so I can store and answer your message.';
+    return errors;
+  }
+
+  function showErrors(errors) {
+    fields.forEach((f) => setFieldError(f, errors[f]));
+    const first = fields.find((f) => errors[f]);
+    if (first) form.elements[first].focus();
+  }
+
+  // Re-check a field once the visitor has moved past it
+  fields.forEach((name) => {
+    const input = form.elements[name];
+    input.addEventListener(name === 'consent' ? 'change' : 'blur', () => {
+      if (input.getAttribute('aria-invalid') === 'true' || input.value) setFieldError(name, validate()[name]);
+    });
+  });
+
+  // Cloudflare Turnstile, only when the site owner configured it
+  window.pfSiteConfig?.().then((config) => {
+    if (!config.turnstileSiteKey) return;
+    window.onTurnstileLoad = () => {
+      turnstileWidget = window.turnstile.render('#turnstile', { sitekey: config.turnstileSiteKey, theme: 'auto' });
+    };
+    const script = document.createElement('script');
+    script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad&render=explicit';
+    script.async = true;
+    document.head.appendChild(script);
+  });
+
+  function setBusy(isBusy) {
+    submitBtn.disabled = isBusy;
+    submitBtn.setAttribute('aria-disabled', String(isBusy));
+    submitBtn.textContent = isBusy ? 'Sending…' : 'Send message';
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    status.hidden = true;
+    const errors = validate();
+    if (Object.keys(errors).length) {
+      showErrors(errors);
+      showStatus('error', 'Please fix the highlighted fields and try again.');
+      return;
+    }
+    showErrors({});
+    setBusy(true);
+
+    const payload = {
+      name: form.elements.name.value.trim(),
+      email: form.elements.email.value.trim(),
+      message: form.elements.message.value.trim(),
+      consent: form.elements.consent.checked,
+      website: form.elements.website.value,
+      elapsedMs: Date.now() - startedAt,
+      turnstileToken: turnstileWidget !== null ? window.turnstile.getResponse(turnstileWidget) : undefined,
+    };
+
+    try {
+      const res = await fetch('/api/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify(payload),
+      });
+      const body = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        if (body.fields) showErrors(body.fields);
+        throw new Error(body.error || 'The message could not be sent.');
+      }
+      window.pfTrack?.('generate_lead', { method: 'contact_form' });
+      showStatus('ok', 'Thank you, your message was sent. Taking you to the confirmation page…');
+      form.reset();
+      window.location.assign('/thank-you.html');
+    } catch (err) {
+      const email = $('contact-email-val')?.textContent || '';
+      showStatus('error', `${esc(err.message === 'Failed to fetch' ? 'You seem to be offline.' : err.message)} You can also email me at <a href="mailto:${esc(email)}">${esc(email)}</a>.`);
+      if (turnstileWidget !== null) window.turnstile.reset(turnstileWidget);
+      setBusy(false);
+    }
+  });
+}());

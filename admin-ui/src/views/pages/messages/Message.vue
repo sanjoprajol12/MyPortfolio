@@ -9,9 +9,11 @@ const route = useRoute()
 
 const isLoading = ref(false)
 const messages = ref<Message[]>([])
+const total = ref(0)
+const unreadCount = ref(0)
 
 const search = ref('')
-const readFilter = ref<'all' | 'unread' | 'read'>('all')
+const readFilter = ref<'all' | 'unread' | 'read' | 'spam'>('all')
 const currentPage = ref(1)
 const itemsPerPage = 10
 
@@ -23,6 +25,7 @@ const filterOptions = [
   { title: 'All messages', value: 'all' },
   { title: 'Unread', value: 'unread' },
   { title: 'Read', value: 'read' },
+  { title: 'Spam', value: 'spam' },
 ]
 
 const tableHeaders = [
@@ -32,50 +35,56 @@ const tableHeaders = [
   { title: 'Actions', label: 'actions', textAlign: 'center' as const },
 ]
 
-const unreadCount = computed(() => messages.value.filter(message => !message.read).length)
-
-const filteredMessages = computed(() => {
-  const term = search.value.trim().toLowerCase()
-
-  return messages.value.filter(message => {
-    if (readFilter.value === 'unread' && message.read) return false
-    if (readFilter.value === 'read' && !message.read) return false
-    if (!term) return true
-
-    return [message.name, message.email, message.message].some(text => text?.toLowerCase().includes(term))
-  })
-})
-
-const pageCount = computed(() => Math.max(1, Math.ceil(filteredMessages.value.length / itemsPerPage)))
-
-const pagedMessages = computed(() =>
-  filteredMessages.value.slice((currentPage.value - 1) * itemsPerPage, currentPage.value * itemsPerPage),
-)
-
-watch([search, readFilter], () => {
-  currentPage.value = 1
-})
-
-// Stay on a page that still exists after deleting its last message
-watch(pageCount, count => {
-  if (currentPage.value > count) currentPage.value = count
-})
+const pageCount = computed(() => Math.max(1, Math.ceil(total.value / itemsPerPage)))
 
 const formatReceived = (value: string) =>
   formatDate(value, { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' })
 
+// Search, filtering and paging happen on the server, so only one page is ever loaded
 const getMessages = async () => {
   isLoading.value = true
   try {
-    messages.value = await messageService.list()
+    const result = await messageService.list({
+      page: currentPage.value,
+      limit: itemsPerPage,
+      q: search.value?.trim() || undefined,
+      status: readFilter.value,
+    })
+
+    messages.value = result.items
+    total.value = result.total
+    unreadCount.value = result.unread
+
+    // Stay on a page that still exists after deleting its last message
+    if (currentPage.value > pageCount.value) {
+      currentPage.value = pageCount.value
+      await getMessages()
+    }
   }
   catch (error) {
     showError(error)
     messages.value = []
+    total.value = 0
   }
   finally {
     isLoading.value = false
   }
+}
+
+// Wait until typing pauses before searching
+watchDebounced(search, () => {
+  currentPage.value = 1
+  getMessages()
+}, { debounce: 350 })
+
+watch(readFilter, () => {
+  currentPage.value = 1
+  getMessages()
+})
+
+const changePage = (page: number) => {
+  currentPage.value = page
+  getMessages()
 }
 
 const openMessage = (message: Message) => {
@@ -91,6 +100,7 @@ const markRead = async (message: Message) => {
     messages.value = messages.value.map(item => (item._id === updated._id ? updated : item))
     if (selectedMessage.value?._id === updated._id)
       selectedMessage.value = updated
+    unreadCount.value = Math.max(0, unreadCount.value - 1)
     showSuccess('Marked as read')
   }
   catch (error) {
@@ -109,16 +119,28 @@ const deleteMessage = (message: Message) => {
       if (!ok) return
       try {
         await messageService.destroy(message._id)
-        messages.value = messages.value.filter(item => item._id !== message._id)
         if (selectedMessage.value?._id === message._id)
           isDialogVisible.value = false
         showSuccess('Message deleted')
+        await getMessages()
       }
       catch (error) {
         showError(error)
       }
     },
   })
+}
+
+const toggleSpam = async (message: Message) => {
+  try {
+    await messageService.markSpam(message._id, !message.spam)
+    isDialogVisible.value = false
+    showSuccess(message.spam ? 'Moved to the inbox' : 'Marked as spam')
+    await getMessages()
+  }
+  catch (error) {
+    showError(error)
+  }
 }
 
 const replyHref = (message: Message) => `mailto:${message.email}`
@@ -179,7 +201,7 @@ onMounted(async () => {
           >
             <VTextField
               v-model="search"
-              placeholder="Search name, email or message"
+              label="Search name, email or message"
               prepend-inner-icon="search"
               clearable
               clear-icon="x"
@@ -193,6 +215,7 @@ onMounted(async () => {
             <VSelect
               v-model="readFilter"
               :items="filterOptions"
+              label="Show"
               density="compact"
             />
           </VCol>
@@ -203,14 +226,14 @@ onMounted(async () => {
 
       <CustomTable
         :header="tableHeaders"
-        :data="pagedMessages"
+        :data="messages"
         :loading="isLoading"
-        :total="filteredMessages.length"
+        :total="total"
         :current-page="currentPage"
         :page-count="pageCount"
         :items-per-page="itemsPerPage"
-        :empty-table-text="messages.length ? 'No messages match your search' : 'No messages yet'"
-        @page-change="(page: number) => currentPage = page"
+        :empty-table-text="search || readFilter !== 'all' ? 'No messages match your search' : 'No messages yet'"
+        @page-change="changePage"
       >
         <template #name="{ row: item }">
           <div
@@ -333,6 +356,13 @@ onMounted(async () => {
             @click="deleteMessage(selectedMessage)"
           >
             Delete
+          </VBtn>
+          <VBtn
+            variant="text"
+            prepend-icon="alert-triangle"
+            @click="toggleSpam(selectedMessage)"
+          >
+            {{ selectedMessage.spam ? 'Not spam' : 'Spam' }}
           </VBtn>
           <VSpacer />
           <VBtn

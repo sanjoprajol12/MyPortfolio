@@ -2,7 +2,6 @@ import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios"
 import axios from "axios"
 import type { App } from "vue"
 import VueAxios from "vue-axios"
-import JwtService from "./JwtService"
 import type { APIErrorResponse } from "@/types/APIResponse"
 
 interface CustomAxiosInstance extends AxiosInstance {
@@ -25,42 +24,42 @@ interface CustomAxiosInstance extends AxiosInstance {
   delete<T = unknown>(url: string, config?: AxiosRequestConfig): Promise<T>;
 }
 
-// The API authenticates with a Bearer token only, so no cookies are sent cross-origin.
+// The session lives in an httpOnly cookie that scripts cannot read. Requests that change data
+// echo the readable pf_csrf cookie in the X-CSRF-Token header, which the API checks.
 const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_URL || "/api",
+  withCredentials: true,
+  xsrfCookieName: "pf_csrf",
+  xsrfHeaderName: "X-CSRF-Token",
   headers: {
     Accept: "application/json",
   },
 }) as CustomAxiosInstance
 
-apiClient.interceptors.request.use(config => {
-  const token = JwtService.getToken()
+const base = import.meta.env.BASE_URL.replace(/\/$/, "")
 
-  if (token) config.headers.Authorization = `Bearer ${token}`
+// Router paths are relative to the /admin base
+const goTo = (path: string, keepCurrent = false) => {
+  if (window.location.pathname === `${base}${path}`) return
+  const current = window.location.pathname.slice(base.length) || "/"
+  const query = keepCurrent ? `?to=${encodeURIComponent(current + window.location.search)}` : ""
 
-  return config
-})
+  window.location.href = `${base}${path}${query}`
+}
 
 apiClient.interceptors.response.use(
   (response: AxiosResponse) => response.data,
   error => {
-    const isLoginRequest = String(error.config?.url || "").endsWith("auth/login")
+    const url = String(error.config?.url || "")
+    const isAuthRequest = /auth\/(login|me|password)/.test(url)
 
-    // A failed login is an expected 401; anything else means the session is gone.
-    if (error.response?.status === 401 && !isLoginRequest) {
-      JwtService.destroyToken()
+    // A failed sign-in or session check is expected; anything else means the session is gone
+    if (error.response?.status === 401 && !isAuthRequest)
+      goTo("/login", true)
 
-      const base = import.meta.env.BASE_URL.replace(/\/$/, "")
-      const loginPath = `${base}/login`
-
-      if (window.location.pathname !== loginPath) {
-        // Router paths are relative to the /admin base
-        const current = window.location.pathname.slice(base.length) || "/"
-        const redirect = encodeURIComponent(current + window.location.search)
-
-        window.location.href = `${loginPath}?to=${redirect}`
-      }
-    }
+    // The site requires two-step verification before any change can be made
+    if (error.response?.data?.code === "mfa_setup_required")
+      goTo("/security")
 
     const errorInfo: APIErrorResponse = {
       message: error.response?.data?.error || error.response?.data?.message || error.message,

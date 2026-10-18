@@ -1,0 +1,9 @@
+# Search engines and AI assistants may read the public site.
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Allow: /api/resume.pdf
+Allow: /api/cv.pdf
+
+Sitemap: __SITE_URL__/sitemap.xml

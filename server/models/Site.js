@@ -1,9 +1,12 @@
 const mongoose = require('mongoose');
+const { httpUrl } = require('../lib/validate');
 
 const siteSchema = new mongoose.Schema({
   firstName: { type: String, default: 'Prajwal' },
   lastName: { type: String, default: 'Sainju' },
-  pageTitle: { type: String, default: 'Prajwal Sainju — Frontend & Backend Developer' },
+  pageTitle: { type: String, default: 'Prajwal Sainju | Laravel & Vue.js Developer in Kathmandu, Nepal' },
+  // Shown in search results and link previews (about 150 characters)
+  metaDescription: { type: String, default: '', maxlength: 300 },
   hero: {
     eyebrow: { type: String, default: '' },
     eyebrowHighlight: { type: String, default: '' },
@@ -35,17 +38,17 @@ const siteSchema = new mongoose.Schema({
     email: { type: String, default: '' },
     phone: { type: String, default: '' },
     availability: { type: String, default: '' },
-    website: { type: String, default: '' },
-    linkedinUrl: { type: String, default: '' },
+    website: { type: String, default: '', trim: true, validate: httpUrl },
+    linkedinUrl: { type: String, default: '', trim: true, validate: httpUrl },
     linkedinHandle: { type: String, default: '' },
-    githubUrl: { type: String, default: '' },
+    githubUrl: { type: String, default: '', trim: true, validate: httpUrl },
     githubHandle: { type: String, default: '' },
   },
   resume: {
     headline: { type: String, default: '' },
     summary: { type: String, default: '' },
     location: { type: String, default: '' },
-    website: { type: String, default: '' },
+    website: { type: String, default: '', trim: true, validate: httpUrl },
     includePhoto: { type: Boolean, default: false },
     showDownloadButtons: { type: Boolean, default: true },
     includeProjectsOnResume: { type: Boolean, default: false },

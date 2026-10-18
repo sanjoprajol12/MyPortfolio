@@ -310,6 +310,18 @@ function toggleRecoveryCode() {
               </VCol>
 
               <VCol
+                cols="12"
+                class="d-flex justify-end py-0"
+              >
+                <RouterLink
+                  :to="{ name: 'forgot-password' }"
+                  class="text-primary text-body-2"
+                >
+                  Forgot password?
+                </RouterLink>
+              </VCol>
+
+              <VCol
                 v-if="errorMessage"
                 cols="12"
               >

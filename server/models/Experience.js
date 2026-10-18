@@ -9,4 +9,6 @@ const experienceSchema = new mongoose.Schema({
   bullets: [String],
 }, { timestamps: true });
 
+experienceSchema.index({ order: 1 });
+
 module.exports = mongoose.model('Experience', experienceSchema);

@@ -2,30 +2,41 @@
   "name": "prajwal-portfolio",
   "version": "1.0.0",
   "private": true,
-  "description": "Portfolio site with MongoDB-backed admin portal",
+  "description": "Portfolio site with a MongoDB-backed admin portal",
   "main": "server/index.js",
   "scripts": {
     "start": "node server/index.js",
-    "dev": "node --watch server/index.js",
+    "dev": "node scripts/build-site.js --watch & node --watch server/index.js",
+    "build": "npm run build:admin && npm run build:site",
+    "build:admin": "npm --prefix admin-ui ci && npm --prefix admin-ui run build",
+    "build:site": "node scripts/build-site.js",
+    "dev:admin": "npm --prefix admin-ui run dev",
     "seed": "node server/seed.js",
-    "build": "npm --prefix admin-ui ci && npm --prefix admin-ui run build",
-    "dev:admin": "npm --prefix admin-ui run dev"
+    "backup": "node scripts/backup.js",
+    "check:links": "node scripts/check-links.js",
+    "reset-admin": "node scripts/reset-admin.js"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20.19"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "compression": "^1.8.2",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "express-rate-limit": "^7.5.0",
+    "helmet": "^8.3.0",
     "jsonwebtoken": "^9.0.2",
-    "mongodb": "^7.6.0",
     "mongoose": "^8.13.0",
     "multer": "^1.4.5-lts.2",
+    "nodemailer": "^10.1.6",
     "pdfkit": "^0.20.2",
     "qrcode": "^1.5.4",
     "serverless-http": "^4.0.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.12"
   }
 }

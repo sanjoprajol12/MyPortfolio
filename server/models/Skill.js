@@ -11,4 +11,6 @@ const skillSchema = new mongoose.Schema({
   }],
 }, { timestamps: true });
 
+skillSchema.index({ order: 1 });
+
 module.exports = mongoose.model('Skill', skillSchema);

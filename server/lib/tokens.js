@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const { sessionHours } = require('../config');
 
 // Sessions are stateless JWTs so they work across serverless instances. The token carries the
 // user's tokenVersion ("tv"); bumping it on the user signs out every token issued before.
@@ -7,13 +8,13 @@ function createSessionToken(user) {
   return jwt.sign(
     { id: String(user._id), username: user.username, tv: user.tokenVersion || 0 },
     process.env.JWT_SECRET,
-    { expiresIn: '7d' }
+    { expiresIn: `${sessionHours}h` }
   );
 }
 
 function verifySessionToken(token) {
   try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    const payload = jwt.verify(token, process.env.JWT_SECRET, { algorithms: ['HS256'] });
     // Short-lived two-step challenge tokens must never work as a session
     if (payload.typ) return null;
     return { id: payload.id, tv: payload.tv || 0 };
@@ -34,7 +35,7 @@ function createMfaChallengeToken(user) {
 
 function verifyMfaChallengeToken(token) {
   try {
-    const payload = jwt.verify(String(token || ''), process.env.JWT_SECRET);
+    const payload = jwt.verify(String(token || ''), process.env.JWT_SECRET, { algorithms: ['HS256'] });
     return payload.typ === 'mfa' ? payload : null;
   } catch {
     return null;
